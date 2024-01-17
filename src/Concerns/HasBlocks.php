@@ -23,7 +23,7 @@ trait HasBlocks
             Blocks\OrderedList::class,
             Blocks\Blockquote::class,
             Blocks\HorizontalRule::class,
-            ...$this->evaluate($this->blocks) ?? []
+            ...$this->evaluate($this->blocks) ?? [],
         ];
     }
 }
