@@ -31,7 +31,7 @@ class Block extends ModalComponent implements HasForms
 
     public static function getName(): string
     {
-        return 'scribble.' . strtolower(substr(strrchr(static::class, "\\"), 1));
+        return 'scribble.' . strtolower(substr(strrchr(static::class, '\\'), 1));
     }
 
     public static function getView(array $attrs): string

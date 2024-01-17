@@ -2,7 +2,9 @@
 
 namespace Awcodes\Scribble;
 
+use Awcodes\Scribble\Commands\ScribbleCommand;
 use Awcodes\Scribble\Livewire\Renderer;
+use Awcodes\Scribble\Testing\TestsScribble;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
@@ -15,8 +17,6 @@ use Livewire\Features\SupportTesting\Testable;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Awcodes\Scribble\Commands\ScribbleCommand;
-use Awcodes\Scribble\Testing\TestsScribble;
 
 class ScribbleServiceProvider extends PackageServiceProvider
 {
@@ -41,7 +41,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
         FilamentView::registerRenderHook(
             'panels::body.end',
-            fn(): string => Blade::render('@livewire(\'scribble.renderer\')')
+            fn (): string => Blade::render('@livewire(\'scribble.renderer\')')
         );
 
         // Asset Registration
@@ -77,8 +77,8 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         return [
             AlpineComponent::make('scribble', __DIR__ . '/../resources/dist/scribble.js'),
-//            Css::make('scribble-styles', __DIR__ . '/../resources/dist/scribble.css'),
-//            Js::make('scribble-scripts', __DIR__ . '/../resources/dist/scribble.js'),
+            //            Css::make('scribble-styles', __DIR__ . '/../resources/dist/scribble.css'),
+            //            Js::make('scribble-scripts', __DIR__ . '/../resources/dist/scribble.js'),
         ];
     }
 

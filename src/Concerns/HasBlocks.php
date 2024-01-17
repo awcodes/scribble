@@ -3,7 +3,6 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Closure;
-use Filament\Support\Concerns\EvaluatesClosures;
 
 trait HasBlocks
 {

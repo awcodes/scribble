@@ -8,9 +8,9 @@ use Filament\Support\Concerns\EvaluatesClosures;
 
 class Group
 {
+    use EvaluatesClosures;
     use HasBlocks;
     use HasLabel;
-    use EvaluatesClosures;
 
     public function __construct(string $label)
     {
