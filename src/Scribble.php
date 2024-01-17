@@ -20,7 +20,7 @@ class Scribble extends Field
             if ($block instanceof Group) {
                 foreach ($block->getBlocks() as $groupBlock) {
                     $blocks[] = [
-                        'name' => $groupBlock::getName(),
+                        'name' => $groupBlock::getBlockName(),
                         'icon' => $groupBlock::getIcon(),
                         'title' => ucfirst($groupBlock::getTitle()),
                         'description' => $groupBlock::getDescription(),
@@ -32,7 +32,7 @@ class Scribble extends Field
 
             if (is_string($block)) {
                 $blocks[] = [
-                    'name' => $block::getName(),
+                    'name' => $block::getBlockName(),
                     'icon' => $block::getIcon(),
                     'title' => ucfirst($block::getTitle()),
                     'description' => $block::getDescription(),

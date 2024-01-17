@@ -1,6 +1,7 @@
 <script>
     export let items
     export let editor
+    export let range
 
     let selectedIndex = 0
     let dropdown
@@ -67,22 +68,22 @@
             }
 
             if (item.type === 'default') {
-                const action = editor.chain().focus()
+                const action = editor.chain().focus().deleteRange(range)
 
                 switch (item.name) {
-                    case 'heading':
+                    case 'scribble.heading':
                         action.setHeading({ level: 1 }).run()
                         break
-                    case 'blockquote':
+                    case 'scribble.blockquote':
                         action.toggleBlockquote().run()
                         break
-                    case 'horizontalRule':
+                    case 'scribble.horizontalRule':
                         action.setHorizontalRule().run()
                         break
-                    case 'orderedList':
+                    case 'scribble.orderedList':
                         action.toggleOrderedList().run()
                         break
-                    case 'bulletList':
+                    case 'scribble.bulletList':
                         action.toggleBulletList().run()
                         break
                     default:
@@ -104,7 +105,7 @@
 </script>
 
 <div
-    class="w-56 max-h-56 overflow-y-auto scrollbar-hide rounded-md bg-white text-gray-900 text-sm  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+    class="w-56 max-h-56 overflow-y-auto scrollbar-hide rounded-md bg-white text-gray-900 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
     bind:this={dropdown}
 >
     <div class="py-1">
@@ -116,14 +117,16 @@
                 {#each groups[group] as item}
                     <button
                         on:click={() => selectItem(item.index)}
-                        class="p-2 space-x-2 flex items-center cursor-pointer select-none { item.index === selectedIndex ? 'bg-gray-100 active-option' : 'hover:bg-gray-50' }"
+                        class="p-2 w-full space-x-2 flex items-center cursor-pointer select-none { item.index === selectedIndex ? 'bg-gray-100 active-option' : 'hover:bg-gray-50' }"
                     >
-                        <span class="w-9 h-9 rounded-md border flex items-center justify-center text-gray-700">
+                        <span class="w-4 h-4 rounded-md border flex items-center justify-center text-gray-700">
                             {@html item.icon}
                         </span>
-                        <span class="flex-1">
-                            <span>{item.title}</span>
-                            <span class="text-gray-500 text-xs">{item.description}</span>
+                        <span class="flex-1 text-left">
+                            <span class="block">{item.title}</span>
+                            {#if item.description}
+                            <span class="block text-gray-500 text-xs">{item.description}</span>
+                            {/if}
                         </span>
                     </button>
                 {/each}

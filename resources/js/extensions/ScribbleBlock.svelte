@@ -3,13 +3,13 @@
     import { onMount } from 'svelte'
 
     export let node;
-    export let editor;
-    export let decoration;
+    // export let editor;
+    // export let decoration;
     export let selected = false;
-    export let extension;
-    export let getPos;
-    export let deleteNode;
-    export let updateAttributes;
+    // export let extension;
+    // export let getPos;
+    // export let deleteNode;
+    // export let updateAttributes;
 
     let view = null;
     let wire = window.Livewire;

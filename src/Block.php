@@ -2,12 +2,13 @@
 
 namespace Awcodes\Scribble;
 
+use Awcodes\Pounce\PounceComponent;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Blade;
 
-class Block extends ModalComponent implements HasForms
+class Block extends PounceComponent implements HasForms
 {
     use InteractsWithForms;
 
@@ -17,21 +18,21 @@ class Block extends ModalComponent implements HasForms
 
     protected static ?string $name = null;
 
-    protected static string $view = 'filament-papyrus::components.block';
+    protected static string $view = 'scribble::components.block';
 
     protected static string $icon = 'heroicon-o-lightning-bolt';
 
     protected static string $title = 'Block';
 
-    protected static string $description = 'Block description';
+    protected static ?string $description = null;
 
     public bool $update = false;
 
     public array $data = [];
 
-    public static function getName(): string
+    public static function getBlockName(): string
     {
-        return 'scribble.' . strtolower(substr(strrchr(static::class, '\\'), 1));
+        return 'scribble.' . lcfirst(substr(strrchr(static::class, '\\'), 1));
     }
 
     public static function getView(array $attrs): string
@@ -49,9 +50,9 @@ class Block extends ModalComponent implements HasForms
         return static::$title;
     }
 
-    public static function getDescription(): string
+    public static function getDescription(): ?string
     {
-        return static::$description ?: 'Block description';
+        return static::$description ?? null;
     }
 
     public static function getType(): string
@@ -75,9 +76,9 @@ class Block extends ModalComponent implements HasForms
 
         $event = $this->update ? 'update' : 'insert';
 
-        $this->dispatchBrowserEvent($event . '-' . static::getName(), $data);
+        $this->dispatch($event . '-' . $this->getName(), $data);
 
-        $this->closeModal();
+        $this->unPounce();
     }
 
     public function mount(array $data = []): void
@@ -89,6 +90,6 @@ class Block extends ModalComponent implements HasForms
 
     public function render(): View
     {
-        return view('papyrus::components.form');
+        return view('scribble::components.form');
     }
 }

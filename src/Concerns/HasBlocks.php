@@ -2,6 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
+use Awcodes\Scribble\Blocks;
 use Closure;
 
 trait HasBlocks
@@ -17,6 +18,12 @@ trait HasBlocks
 
     public function getBlocks(): array
     {
-        return $this->evaluate($this->blocks) ?? [];
+        return [
+            Blocks\BulletList::class,
+            Blocks\OrderedList::class,
+            Blocks\Blockquote::class,
+            Blocks\HorizontalRule::class,
+            ...$this->evaluate($this->blocks) ?? []
+        ];
     }
 }

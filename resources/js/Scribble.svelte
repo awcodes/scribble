@@ -6,10 +6,15 @@
     import cx from 'clsx';
     import { Subscript } from '@tiptap/extension-subscript'
     import { Superscript } from '@tiptap/extension-superscript'
+    import CommandsListExtension from './extensions/CommandsListExtension.js'
+    import CommandsList from './extensions/CommandsList.svelte'
+    import tippy from "tippy.js";
+    import { PluginKey } from '@tiptap/pm/state'
 
     let editor;
+    const CommandsListPluginKey = new PluginKey('commandsList')
 
-    // export let blocks;
+    export let blocks;
     export let content;
     export let statePath;
 
@@ -21,6 +26,80 @@
                 ScribbleBlock,
                 Subscript,
                 Superscript,
+                CommandsListExtension.configure({
+                    suggestion: {
+                        startOfLine: true,
+                        pluginKey: CommandsListPluginKey,
+                        items: ({ query }) => {
+                            return blocks.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))
+                        },
+                        render: () => {
+                            let component
+                            let popup
+
+                            return {
+                                onStart: props => {
+                                    if (!props.clientRect) {
+                                        return
+                                    }
+
+                                    const element = document.createElement('div')
+
+                                    component = new CommandsList({
+                                        target: element,
+                                        props: {
+                                            items: props.items,
+                                            editor: props.editor,
+                                            range: props.range,
+                                        }
+                                    })
+
+                                    popup = tippy('body', {
+                                        getReferenceClientRect: props.clientRect,
+                                        appendTo: () => document.body,
+                                        content: component.$$.root,
+                                        showOnCreate: true,
+                                        interactive: true,
+                                        trigger: 'manual',
+                                        placement: 'bottom-start',
+                                        theme: 'empty',
+                                        arrow: false
+                                    })
+                                },
+                                onUpdate(props) {
+                                    component.$set({
+                                        items: props.items,
+                                        editor: props.editor,
+                                        range: props.range,
+                                    })
+
+                                    component.resetIndex()
+
+                                    if (!props.clientRect) {
+                                        return
+                                    }
+
+                                    popup[0].setProps({
+                                        getReferenceClientRect: props.clientRect
+                                    })
+                                },
+                                onKeyDown(props) {
+                                    if (props.event.key === 'Escape') {
+                                        popup[0].hide()
+
+                                        return true
+                                    }
+
+                                    return component.onKeyDown(props)
+                                },
+                                onExit() {
+                                    popup[0].destroy()
+                                    component.$destroy()
+                                }
+                            }
+                        }
+                    }
+                })
             ],
             onUpdate({editor}) {
                 window.dispatchEvent(new CustomEvent('updatedEditor', {
@@ -33,24 +112,24 @@
         })
     })
 
-    // blocks.forEach(e => {
-    //     window.addEventListener(`insert-${e.name}`, data => {
-    //         $editor.chain().insertScribbleBlock({
-    //             type: e.name,
-    //             values: data.detail
-    //         }).focus().run();
-    //     })
-    //
-    //     window.addEventListener(`update-${e.name}`, data => {
-    //         $editor.chain().updateScribbleBlock({
-    //             values: data.detail
-    //         })
-    //
-    //         window.dispatchEvent(new CustomEvent('updateBlock', {
-    //             detail: e.name
-    //         }));
-    //     })
-    // })
+    blocks.forEach(e => {
+        window.addEventListener(`insert-${e.name}`, data => {
+            $editor.chain().insertScribbleBlock({
+                type: e.name,
+                values: data.detail
+            }).focus().run();
+        })
+
+        window.addEventListener(`update-${e.name}`, data => {
+            $editor.chain().updateScribbleBlock({
+                values: data.detail
+            })
+
+            window.dispatchEvent(new CustomEvent('updateBlock', {
+                detail: e.name
+            }));
+        })
+    })
 
     $: isActive = (name, attrs = {}) => $editor.isActive(name, attrs);
 
@@ -82,7 +161,7 @@
 </script>
 
 <div class="scribble-wrapper">
-    <EditorContent editor={$editor} />
+    <EditorContent editor={$editor}/>
     {#if $editor}
     <BubbleMenu editor={$editor}>
         <div class="flex items-center">

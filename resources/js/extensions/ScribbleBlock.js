@@ -50,7 +50,7 @@ export default Node.create({
 
                 tr.replaceRangeWith(selection.from - selection.$anchor.parentOffset, selection.to, node);
 
-                window.Livewire.emit('openModal', options.type)
+                window.Livewire.emit('pounce', options.type)
 
                 return true
             },

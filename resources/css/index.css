@@ -1,1 +1,17 @@
-@import '../../vendor/filament/filament/resources/css/theme.css';
+.scribble-wrapper {
+    .tiptap {
+        @apply p-4 rounded-lg;
+
+        &:focus-visible {
+            @apply outline-none ring-2 ring-primary-600 dark:ring-primary-500;
+        }
+
+        *:first-child {
+            @apply mt-0;
+        }
+
+        *:last-child {
+            @apply mb-0;
+        }
+    }
+}
