@@ -1,0 +1,23 @@
+<?php
+
+namespace {{namespace}};
+
+use Awcodes\Scribble\Block;
+
+class {{className}} extends Block
+{
+   protected static string $icon = 'heroicon-o-lightning-bolt';
+
+   protected static string $title = '{{className}}';
+
+   protected static string $description = '{{className}} description';
+
+   protected static string $view = '{{view}}';
+
+   protected function getFormSchema(): array
+       {
+           return [
+                //
+           ];
+       }
+}
