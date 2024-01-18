@@ -20,7 +20,7 @@ class ScribbleBlock extends PounceComponent implements HasForms
 
     protected static string $view = 'scribble::components.block';
 
-    protected static string $icon = 'heroicon-o-lightning-bolt';
+    protected static string $icon = 'heroicon-o-cube-transparent';
 
     protected static string $title = 'Block';
 

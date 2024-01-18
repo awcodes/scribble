@@ -63,32 +63,12 @@
         if (item) {
             if (item.type === 'custom') {
                 editor.commands.setScribbleBlock({
-                    type: item.name,
+                    type: item.identifier,
                 })
             }
 
             if (item.type === 'default') {
-                const action = editor.chain().focus().deleteRange(range)
-
-                switch (item.name) {
-                    case 'scribble.heading':
-                        action.setHeading({ level: 1 }).run()
-                        break
-                    case 'scribble.blockquote':
-                        action.toggleBlockquote().run()
-                        break
-                    case 'scribble.horizontalRule':
-                        action.setHorizontalRule().run()
-                        break
-                    case 'scribble.orderedList':
-                        action.toggleOrderedList().run()
-                        break
-                    case 'scribble.bulletList':
-                        action.toggleBulletList().run()
-                        break
-                    default:
-                        console.error(`Block "${item.name}" not implemented`)
-                }
+                editor.chain().focus().deleteRange(range)[item.action](item.actionArguments).run()
             }
         }
     }
@@ -123,7 +103,7 @@
                             {@html item.icon}
                         </span>
                         <span class="flex-1 text-left">
-                            <span class="block">{item.title}</span>
+                            <span class="block">{item.label}</span>
                             {#if item.description}
                             <span class="block text-gray-500 text-xs dark:text-gray-300">{item.description}</span>
                             {/if}

@@ -1,15 +1,14 @@
 <?php
 
-namespace Awcodes\Scribble\Tools;
+namespace Awcodes\Scribble\Actions;
 
-use Illuminate\Support\Js;
-use JsonException;
+use Awcodes\Scribble\ScribbleAction;
 
-class OrderedList extends DefaultTool
+class OrderedList extends ScribbleAction
 {
     protected static string $icon = 'scribble-list-ordered';
 
-    protected static string $title = 'OrderedList';
+    protected static string $label = 'OrderedList';
 
     public static function getAction(): string
     {

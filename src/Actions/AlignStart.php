@@ -1,15 +1,14 @@
 <?php
 
-namespace Awcodes\Scribble\Tools;
+namespace Awcodes\Scribble\Actions;
 
-use Illuminate\Support\Js;
-use JsonException;
+use Awcodes\Scribble\ScribbleAction;
 
-class AlignStart extends DefaultTool
+class AlignStart extends ScribbleAction
 {
     protected static string $icon = 'scribble-align-start';
 
-    protected static string $title = 'Align Start';
+    protected static string $label = 'Align Start';
 
     public static function getAction(): string
     {

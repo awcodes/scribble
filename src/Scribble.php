@@ -16,75 +16,52 @@ class Scribble extends Field
 
     public function getBlocksSchema(): array
     {
-        $blocks = [];
-
-        foreach ($this->getBlocks() as $block) {
-            if ($block instanceof Group) {
-                foreach ($block->getBlocks() as $groupBlock) {
-                    $blocks[] = [
-                        'name' => $groupBlock::getBlockName(),
-                        'icon' => $groupBlock::getIcon(),
-                        'title' => ucfirst($groupBlock::getTitle()),
-                        'description' => $groupBlock::getDescription(),
-                        'type' => $groupBlock::getType(),
-                        'group' => $block->getLabel(),
-                    ];
-                }
-            }
-
-            if (is_string($block)) {
-                $block = app($block);
-
-                $blocks[] = [
-                    'name' => $block::getBlockName(),
-                    'icon' => $block::getIcon(),
-                    'title' => ucfirst($block::getTitle()),
-                    'description' => $block::getDescription(),
-                    'type' => $block::getType(),
-                    'group' => '',
-                ];
-            }
-        }
-
-        return $blocks;
+        return $this->getActionSchema($this->getBlocks());
     }
 
     public function getToolsSchema(): array
     {
-        $tools = [];
+        return $this->getActionSchema($this->getTools());
+    }
 
-        foreach ($this->getTools() as $tool) {
-            if ($tool instanceof Group) {
-                foreach ($tool->getTools() as $groupTool) {
-                    $tools[] = [
-                        'name' => $groupTool::getToolName(),
-                        'icon' => $groupTool::getIcon(),
-                        'title' => ucfirst($groupTool::getTitle()),
-                        'description' => $groupTool::getDescription(),
-                        'type' => $groupTool::getType(),
-                        'action' => $groupTool::getAction(),
-                        'actionArguments' => $groupTool::getActionArguments(),
-                        'group' => $tool->getLabel(),
+    private function formatAction(ScribbleAction $action): array
+    {
+        return [
+            'identifier' => $action::getIdentifier(),
+            'extension' => $action::getExtension(),
+            'icon' => $action::getIcon(),
+            'label' => ucfirst($action::getLabel()),
+            'description' => $action::getDescription(),
+            'type' => $action::getType(),
+            'action' => $action::getAction(),
+            'actionArguments' => $action::getActionArguments(),
+        ];
+    }
+
+    private function getActionSchema(array $actionsSchema): array
+    {
+        $actions = [];
+
+        foreach ($actionsSchema as $action) {
+            if ($action instanceof Group) {
+                foreach ($action->getBlocks() as $groupBlock) {
+                    $actions[] = [
+                        ...$this->formatAction($groupBlock),
+                        'group' => $action->getLabel(),
                     ];
                 }
             }
 
-            if (is_string($tool)) {
-                $tool = app($tool);
+            if (is_string($action)) {
+                $action = app($action);
 
-                $tools[] = [
-                    'name' => $tool::getToolName(),
-                    'icon' => $tool::getIcon(),
-                    'title' => ucfirst($tool::getTitle()),
-                    'description' => $tool::getDescription(),
-                    'type' => $tool::getType(),
-                    'action' => $tool::getAction(),
-                    'actionArguments' => $tool::getActionArguments(),
+                $actions[] = [
+                    ...$this->formatAction($action),
                     'group' => '',
                 ];
             }
         }
 
-        return $tools;
+        return $actions;
     }
 }

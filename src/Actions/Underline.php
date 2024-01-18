@@ -1,15 +1,14 @@
 <?php
 
-namespace Awcodes\Scribble\Tools;
+namespace Awcodes\Scribble\Actions;
 
-use Illuminate\Support\Js;
-use JsonException;
+use Awcodes\Scribble\ScribbleAction;
 
-class Underline extends DefaultTool
+class Underline extends ScribbleAction
 {
     protected static string $icon = 'scribble-underline';
 
-    protected static string $title = 'Underline';
+    protected static string $label = 'Underline';
 
     public static function getAction(): string
     {

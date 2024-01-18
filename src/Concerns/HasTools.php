@@ -2,7 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
-use Awcodes\Scribble\Tools;
+use Awcodes\Scribble\Actions;
 use Closure;
 
 trait HasTools
@@ -19,20 +19,21 @@ trait HasTools
     public function getTools(): array
     {
         return [
-            Tools\Bold::class,
-            Tools\Italic::class,
-            Tools\Underline::class,
-            Tools\Strike::class,
-            Tools\Superscript::class,
-            Tools\Subscript::class,
-            Tools\Paragraph::class,
-            Tools\BulletList::class,
-            Tools\OrderedList::class,
-            Tools\Code::class,
-            Tools\AlignStart::class,
-            Tools\AlignCenter::class,
-            Tools\AlignEnd::class,
-            Tools\AlignJustify::class,
+            Actions\Bold::class,
+            Actions\Italic::class,
+            Actions\Underline::class,
+            Actions\Strike::class,
+            Actions\Superscript::class,
+            Actions\Subscript::class,
+            Actions\Paragraph::class,
+            Actions\BulletList::class,
+            Actions\OrderedList::class,
+            Actions\Code::class,
+            Actions\Link::class,
+            Actions\AlignStart::class,
+            Actions\AlignCenter::class,
+            Actions\AlignEnd::class,
+            Actions\AlignJustify::class,
             ...$this->evaluate($this->tools) ?? [],
         ];
     }

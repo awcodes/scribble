@@ -1,15 +1,14 @@
 <?php
 
-namespace Awcodes\Scribble\Tools;
+namespace Awcodes\Scribble\Actions;
 
-use Illuminate\Support\Js;
-use JsonException;
+use Awcodes\Scribble\ScribbleAction;
 
-class Italic extends DefaultTool
+class Italic extends ScribbleAction
 {
     protected static string $icon = 'scribble-italic';
 
-    protected static string $title = 'Italic';
+    protected static string $label = 'Italic';
 
     public static function getAction(): string
     {

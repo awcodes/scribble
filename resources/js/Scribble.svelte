@@ -11,6 +11,8 @@
     import cx from 'clsx'
 
     let editor;
+    let view = null;
+    let wire = window.Livewire;
 
     export let blocks;
     export let tools;
@@ -66,7 +68,25 @@
     $: isActive = (name, attrs = {}) => $editor.isActive(name, attrs);
 
     const handleToolClick = (tool) => {
-        $editor.chain().focus()[tool.action](tool.actionArguments).run();
+        if (tool.type === 'default') {
+            $editor.chain().focus()[tool.action](tool.actionArguments).run();
+            return null;
+        }
+
+        if (tool.type === 'inline') {
+            const component = document.querySelector('#scribble-renderer').getAttribute('wire:id')
+
+            wire
+                .find(component)
+                .call('getView', node.attrs.type, node.attrs.values)
+                .then(e => view = e)
+            return null;
+        }
+
+        $editor.commands.setScribbleBlock({
+            type: tool.identifier,
+        })
+
         return null;
     }
 
@@ -80,24 +100,36 @@
 <div class="scribble-editor-wrapper w-full">
     <EditorContent editor={$editor}/>
     {#if $editor}
-    <BubbleMenu editor={$editor} tippyOptions={bubbleMenuOptions}>
-        <div class="flex items-center">
-            {#each tools as tool}
+        {#if !isActive('link')}
+            <BubbleMenu editor={$editor} tippyOptions={bubbleMenuOptions}>
+                <div class="flex items-center">
+                    {#each tools as tool}
+                        <button
+                            type="button"
+                            on:click={handleToolClick(tool)}
+                            class="{cx(
+                                'rounded-sm p-1 bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500',
+                                {
+                                    'text-primary-400': isActive(tool.extension),
+                                    'text-white': !isActive(tool.extension)
+                                }
+                            )}"
+                        >
+                            {@html tool.icon}
+                        </button>
+                    {/each}
+                </div>
+            </BubbleMenu>
+        {:else if isActive('link')}
+            <BubbleMenu editor={$editor} tippyOptions={bubbleMenuOptions}>
                 <button
                     type="button"
-                    on:click={handleToolClick(tool)}
-                    class="{cx(
-                        'rounded-sm p-1 bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500',
-                        {
-                            'text-primary-400': isActive(tool.name),
-                            'text-white': !isActive(tool.name)
-                        }
-                    )}"
+                    on:click={() => alert('open link modal')}
+                    class="rounded-sm p-1 bg-transparent text-white hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
-                    {@html tool.icon}
+                    {@html tools.find((item) => item.extension === 'link')?.icon}
                 </button>
-            {/each}
-        </div>
-    </BubbleMenu>
+            </BubbleMenu>
+        {/if}
     {/if}
 </div>

@@ -1,15 +1,14 @@
 <?php
 
-namespace Awcodes\Scribble\Tools;
+namespace Awcodes\Scribble\Actions;
 
-use Illuminate\Support\Js;
-use JsonException;
+use Awcodes\Scribble\ScribbleAction;
 
-class AlignEnd extends DefaultTool
+class AlignEnd extends ScribbleAction
 {
     protected static string $icon = 'scribble-align-end';
 
-    protected static string $title = 'Align End';
+    protected static string $label = 'Align End';
 
     public static function getAction(): string
     {

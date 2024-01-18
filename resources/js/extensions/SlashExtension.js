@@ -26,7 +26,7 @@ export default Extension.create({
                 startOfLine: true,
                 pluginKey: new PluginKey('slashExtension'),
                 items: ({ query }) => {
-                    return this.options.blocks.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))
+                    return this.options.blocks.filter(item => item.label.toLowerCase().includes(query.toLowerCase()))
                 },
                 render: () => {
                     let component

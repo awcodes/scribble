@@ -1,15 +1,14 @@
 <?php
 
-namespace Awcodes\Scribble\Tools;
+namespace Awcodes\Scribble\Actions;
 
-use Illuminate\Support\Js;
-use JsonException;
+use Awcodes\Scribble\ScribbleAction;
 
-class Subscript extends DefaultTool
+class Subscript extends ScribbleAction
 {
     protected static string $icon = 'scribble-subscript';
 
-    protected static string $title = 'Subscript';
+    protected static string $label = 'Subscript';
 
     public static function getAction(): string
     {
