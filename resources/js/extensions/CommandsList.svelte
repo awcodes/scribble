@@ -13,7 +13,7 @@
             return e
         })
 
-        groups = map.reduce(function (r, a) {
+        groups = map.reduce(function(r, a) {
             r[a.group] = r[a.group] || []
             r[a.group].push(a)
             return r
@@ -24,7 +24,7 @@
 
     export const resetIndex = () => selectedIndex = 0
 
-    export const onKeyDown = ({event}) => {
+    export const onKeyDown = ({ event }) => {
         if (event.key === 'ArrowUp') {
             upHandler()
             return true
@@ -63,7 +63,7 @@
         if (item) {
             if (item.type === 'custom') {
                 editor.commands.setScribbleBlock({
-                    type: item.name
+                    type: item.name,
                 })
             }
 
@@ -98,17 +98,17 @@
             dropdown.querySelector('.active-option').scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest',
-                inline: 'end'
+                inline: 'end',
             })
         }, 0)
     }
 </script>
 
 <div
-    class="w-56 max-h-56 overflow-y-auto scrollbar-hide rounded-md bg-white text-gray-900 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+    class="w-56 max-h-56 overflow-y-auto scrollbar-hide text-xs rounded-lg bg-white shadow-lg ring-1 ring-gray-950/5 transition dark:divide-white/5 dark:bg-gray-900 dark:ring-white/10"
     bind:this={dropdown}
 >
-    <div class="py-1">
+    <div>
         {#if items.length}
             {#each Object.keys(groups) as group}
                 {#if group }
@@ -117,15 +117,15 @@
                 {#each groups[group] as item}
                     <button
                         on:click={() => selectItem(item.index)}
-                        class="p-2 w-full space-x-2 flex items-center cursor-pointer select-none { item.index === selectedIndex ? 'bg-gray-100 active-option' : 'hover:bg-gray-50' }"
+                        class="p-2 w-full flex gap-2 items-center cursor-pointer select-none { item.index === selectedIndex ? 'bg-gray-100 dark:bg-gray-700 active-option' : 'hover:bg-gray-50 dark:hover:bg-gray-800' }"
                     >
-                        <span class="w-4 h-4 rounded-md border flex items-center justify-center text-gray-700">
+                        <span class="shrink-0 rounded-md flex items-center justify-center text-gray-700 dark:text-gray-200">
                             {@html item.icon}
                         </span>
                         <span class="flex-1 text-left">
                             <span class="block">{item.title}</span>
                             {#if item.description}
-                            <span class="block text-gray-500 text-xs">{item.description}</span>
+                            <span class="block text-gray-500 text-xs dark:text-gray-300">{item.description}</span>
                             {/if}
                         </span>
                     </button>
@@ -134,7 +134,7 @@
         {/if}
 
         {#if !items.length}
-            <div class="p-2 text-gray-500">No blocks found</div>
+            <div class="p-2 text-gray-700 dark:text-gray-200">No blocks found</div>
         {/if}
     </div>
 </div>

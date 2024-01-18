@@ -1,4 +1,4 @@
-.scribble-wrapper {
+.scribble-editor-wrapper {
     .tiptap {
         @apply p-4 rounded-lg;
 
@@ -13,5 +13,13 @@
         *:last-child {
             @apply mb-0;
         }
+    }
+}
+
+.tippy-box[data-theme="scribble"] {
+    @apply bg-transparent rounded-none;
+
+    .tippy-content {
+        @apply p-0;
     }
 }

@@ -3,16 +3,18 @@
 namespace Awcodes\Scribble;
 
 use Awcodes\Scribble\Concerns\HasBlocks;
+use Awcodes\Scribble\Concerns\HasTools;
 use Awcodes\Scribble\Wrappers\Group;
 use Filament\Forms\Components\Field;
 
 class Scribble extends Field
 {
     use HasBlocks;
+    use HasTools;
 
     protected string $view = 'scribble::scribble';
 
-    public function getSchema(): array
+    public function getBlocksSchema(): array
     {
         $blocks = [];
 
@@ -31,6 +33,8 @@ class Scribble extends Field
             }
 
             if (is_string($block)) {
+                $block = app($block);
+
                 $blocks[] = [
                     'name' => $block::getBlockName(),
                     'icon' => $block::getIcon(),
@@ -43,5 +47,44 @@ class Scribble extends Field
         }
 
         return $blocks;
+    }
+
+    public function getToolsSchema(): array
+    {
+        $tools = [];
+
+        foreach ($this->getTools() as $tool) {
+            if ($tool instanceof Group) {
+                foreach ($tool->getTools() as $groupTool) {
+                    $tools[] = [
+                        'name' => $groupTool::getToolName(),
+                        'icon' => $groupTool::getIcon(),
+                        'title' => ucfirst($groupTool::getTitle()),
+                        'description' => $groupTool::getDescription(),
+                        'type' => $groupTool::getType(),
+                        'action' => $groupTool::getAction(),
+                        'actionArguments' => $groupTool::getActionArguments(),
+                        'group' => $tool->getLabel(),
+                    ];
+                }
+            }
+
+            if (is_string($tool)) {
+                $tool = app($tool);
+
+                $tools[] = [
+                    'name' => $tool::getToolName(),
+                    'icon' => $tool::getIcon(),
+                    'title' => ucfirst($tool::getTitle()),
+                    'description' => $tool::getDescription(),
+                    'type' => $tool::getType(),
+                    'action' => $tool::getAction(),
+                    'actionArguments' => $tool::getActionArguments(),
+                    'group' => '',
+                ];
+            }
+        }
+
+        return $tools;
     }
 }

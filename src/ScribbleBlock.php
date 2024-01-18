@@ -8,7 +8,7 @@ use Filament\Forms\Contracts\HasForms;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Blade;
 
-class Block extends PounceComponent implements HasForms
+class ScribbleBlock extends PounceComponent implements HasForms
 {
     use InteractsWithForms;
 

@@ -5,12 +5,14 @@ namespace Awcodes\Scribble;
 use Awcodes\Scribble\Commands\ScribbleCommand;
 use Awcodes\Scribble\Livewire\Renderer;
 use Awcodes\Scribble\Testing\TestsScribble;
+use BladeUI\Icons\Factory;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentView;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Features\SupportTesting\Testable;
@@ -32,6 +34,13 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/../config/scribble-icons.php', 'scribble-icons');
+
+        $this->callAfterResolving(Factory::class, function (Factory $factory, Container $container) {
+            $config = $container->make('config')->get('scribble-icons', []);
+
+            $factory->add('scribble', array_merge(['path' => __DIR__ . '/../resources/svg'], $config));
+        });
     }
 
     public function packageBooted(): void

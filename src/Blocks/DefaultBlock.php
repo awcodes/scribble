@@ -2,9 +2,9 @@
 
 namespace Awcodes\Scribble\Blocks;
 
-use Awcodes\Scribble\Block;
+use Awcodes\Scribble\ScribbleBlock;
 
-class DefaultBlock extends Block
+class DefaultBlock extends ScribbleBlock
 {
     public static function getType(): string
     {
