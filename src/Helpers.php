@@ -9,9 +9,9 @@ use SplFileInfo;
 
 class Helpers
 {
-    public static function getActionClasses(): Collection
+    public static function getToolClasses(): Collection
     {
-        $corePath = base_path('vendor/awcodes/scribble/src/Actions');
+        $corePath = base_path('vendor/awcodes/scribble/src/Tools');
         $path = base_path(str_replace('\\', '/', config('scribble.classes')));
 
         $filesystem = new Filesystem();
@@ -22,7 +22,7 @@ class Helpers
 
         $coreActions = collect($filesystem->allFiles($corePath))
             ->map(function (SplFileInfo $file): string {
-                return (string) Str::of('Awcodes\\Scribble\\Actions')
+                return (string) Str::of('Awcodes\\Scribble\\Tools')
                     ->append('\\', $file->getRelativePathname())
                     ->replace(['/', '.php'], ['\\', ''], '');
             })->filter(function (string $class): bool {

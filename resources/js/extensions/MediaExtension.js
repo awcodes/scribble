@@ -1,6 +1,10 @@
 import Image from "@tiptap/extension-image";
+import { SvelteNodeViewRenderer } from 'svelte-tiptap'
+import MediaView from '../components/MediaView.svelte'
 
 export const MediaExtension = Image.extend({
+    selectable: true,
+
     addAttributes() {
         return {
             src: {
@@ -18,18 +22,19 @@ export const MediaExtension = Image.extend({
             height: {
                 default: null,
             },
-            lazy: {
+            loading: {
                 default: null,
-                parseHTML: element => element.getAttribute('loading') === 'lazy' ? element.getAttribute('data-lazy') : null,
-                renderHTML: (attributes) => {
-                    if (attributes.lazy) {
-                        return {
-                            "data-lazy": attributes.lazy,
-                            "loading": "lazy",
-                        };
-                    }
-                }
+            },
+            sizes: {
+                default: null,
+            },
+            srcset: {
+                default: null,
             }
         };
     },
+
+    addNodeView() {
+        return SvelteNodeViewRenderer(MediaView)
+    }
 });

@@ -2,33 +2,40 @@
     import {onMount, onDestroy} from "svelte";
     import { writable } from 'svelte/store'
     import { Editor } from '@tiptap/core'
+    import { BubbleMenu } from '@tiptap/extension-bubble-menu'
     import { ClassExtension } from './extensions/ClassExtension.js'
-    import { LinkExtension } from './extensions/LinkExtension.js'
     import { IdExtension } from './extensions/IdExtension.js'
+    import { LinkExtension } from './extensions/LinkExtension.js'
+    import { MediaExtension } from './extensions/MediaExtension.js'
+    import { Placeholder } from '@tiptap/extension-placeholder'
     import StarterKit from '@tiptap/starter-kit';
     import ScribbleBlock from './extensions/ScribbleBlock';
-    import Subscript from '@tiptap/extension-subscript'
-    import Superscript from '@tiptap/extension-superscript'
-    import { TextAlign } from './extensions/TextAlignExtension.js'
-    import TextStyle from "@tiptap/extension-text-style"
     import SlashExtension from './extensions/SlashExtension.js'
-    import { MediaExtension } from './extensions/MediaExtension.js'
-    import {BubbleMenu as BubbleMenuExtension} from '@tiptap/extension-bubble-menu'
-    import { Placeholder } from '@tiptap/extension-placeholder'
+    import { Subscript } from '@tiptap/extension-subscript'
+    import { Superscript } from '@tiptap/extension-superscript'
+    import { TextAlign } from './extensions/TextAlignExtension.js'
+    import { TextStyle } from "@tiptap/extension-text-style"
     import Button from './components/Button.svelte'
+    import { pounce } from './utils/pounce.js'
+    import { getStatePath } from './stores.js'
 
     let editor;
     let element;
-    let wire = window.Livewire;
     let bubbleMenuElement;
+    let bubbleTools;
+    let suggestionTools;
 
-    export let blocks;
     export let tools;
     export let content;
     export let statePath;
     export let placeholder;
 
+    $getStatePath = statePath
+
     const contentStore = writable(content);
+
+    bubbleTools = tools.filter((tool) => tool.bubble === true)
+    suggestionTools = tools.filter((tool) => tool.suggestion === true)
 
     onMount(() => {
         editor = new Editor({
@@ -48,9 +55,9 @@
                 }),
                 TextStyle,
                 SlashExtension.configure({
-                    blocks: blocks
+                    tools: suggestionTools
                 }),
-                BubbleMenuExtension.configure({
+                BubbleMenu.configure({
                     element: bubbleMenuElement,
                     tippyOptions: {
                         maxWidth: 'none',
@@ -63,6 +70,7 @@
                         }
 
                         return from !== to && ! (
+                            editor.isActive('image') ||
                             editor.isActive('scribbleBlock') ||
                             editor.isActive('slashExtension')
                         )
@@ -100,68 +108,55 @@
 
     $: isActive = (name, attrs = {}) => editor.isActive(name, attrs);
 
-    blocks.forEach(e => {
-        window.addEventListener(`insert-block-${e.extension}`, data => {
+    tools.forEach(tool => {
+        window.addEventListener(`insert-${tool.extension}`, data => {
             if (data.detail.statePath !== statePath) {
                 return
             }
 
-            editor.chain().insertScribbleBlock({
-                type: e.identifier,
-                statePath: e.statePath,
-                values: data.detail.data
-            }).focus().run();
-        })
-
-        window.addEventListener(`update-block-${e.extension}`, data => {
-            if (data.detail.statePath !== statePath) {
-                return
-            }
-
-            window.dispatchEvent(new CustomEvent('updatedBlock', {
-                detail: {
-                    type: e.identifier,
-                    statePath: e.statePath,
-                    values: data.detail.data
-                }
-            }));
-        })
-    })
-
-    tools.forEach(e => {
-        window.addEventListener(`insert-${e.extension}`, data => {
-            if (data.detail.statePath !== statePath) {
-                return
-            }
-
-            if (e.extension === 'link') {
+            if (tool.extension === 'link') {
                 editor.chain().focus().extendMarkRange('link').setLink(data.detail.data).selectTextblockEnd().run()
                 return
             }
 
-            if (e.extension === 'media') {
+            if (tool.extension === 'media') {
                 editor.chain().focus().setImage(data.detail.data).run()
                 return
             }
 
-            if (data.type === 'block') {
+            if (tool.type === 'block') {
                 editor.chain().insertScribbleBlock({
-                    type: e.identifier,
+                    type: tool.identifier,
+                    statePath: tool.statePath,
                     values: data.detail.data
                 }).focus().run();
+
+                return
             }
+
+            editor.chain().focus()[tool.command](data.detail.data).run()
         })
 
-        window.addEventListener(`update-${e.extension}`, data => {
+        window.addEventListener(`update-${tool.extension}`, data => {
             if (data.detail.statePath !== statePath) {
                 return
             }
 
-            if (e.type === 'block') {
+            if (tool.extension === 'link') {
+                editor.chain().focus().extendMarkRange('link').setLink(data.detail.data).selectTextblockEnd().run()
+                return
+            }
+
+            if (tool.extension === 'media') {
+                editor.chain().focus().setImage(data.detail.data).run()
+                return
+            }
+
+            if (tool.type === 'block') {
                 window.dispatchEvent(new CustomEvent('updatedBlock', {
                     detail: {
-                        type: e.identifier,
-                        statePath: e.statePath,
+                        type: tool.identifier,
+                        statePath: tool.statePath,
                         values: data.detail.data
                     }
                 }));
@@ -169,18 +164,14 @@
                 return
             }
 
-            editor.chain()[e.action](data.detail.data).focus().run();
+            editor.chain().focus()[tool.command](data.detail.data).run()
         })
     })
 
-    const openModal = (component, args) => {
-        wire.dispatch('pounce', { component: component, arguments: args })
-    }
-
     const handleToolClick = (tool) => {
         switch (tool.type) {
-            case 'command': editor.chain().focus()[tool.action](tool.actionArguments).run(); return
-            case 'modal': openModal(tool.identifier, { statePath: tool.statePath, ...editor.getAttributes(tool.extension) }); return
+            case 'command': editor.chain().focus()[tool.command](tool.commandArguments).run(); return
+            case 'modal': pounce(tool.identifier, { statePath: tool.statePath, ...editor.getAttributes(tool.extension) }); return
             default: editor.commands.setScribbleBlock({
                 type: tool.identifier,
                 statePath: tool.statePath,
@@ -192,7 +183,7 @@
 <div class="scribble-editor-wrapper w-full">
     {#if editor}
         <div class="scribble-controls">
-            <div class="scribble-controls-panel inline-flex px-2 items-center rounded-full ring-1 ring-gray-950/10 dark:ring-white/20 shadow-sm">
+            <div class="scribble-controls-panel inline-flex px-2 items-center rounded-full border border-gray-950/10 dark:border-white/20 shadow-md">
                 <Button {editor} key="undo" on:click={() => editor.chain().focus().undo().run()}>
                     <svg class="size-5" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512">
                         <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" d="M240 424v-96c116.4 0 159.39 33.76 208 96c0-119.23-39.57-240-208-240V88L64 256Z"/>
@@ -226,7 +217,7 @@
         {#if editor}
             <div class="flex items-center">
             {#if !isActive('link')}
-                {#each tools as tool}
+                {#each bubbleTools as tool}
                     <Button {editor} key={tool.extension} on:click={() => handleToolClick(tool)}>
                         {@html tool.icon}
                     </Button>

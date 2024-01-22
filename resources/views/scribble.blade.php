@@ -5,7 +5,6 @@
         ax-load
         ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('scribble', 'awcodes/scribble') }}"
         x-data="scribble(
-            @js($getBlocksSchema()),
             @js($getToolsSchema()),
             $wire.{{ $applyStateBindingModifiers("entangle('{$getStatePath()}')", isOptimisticallyLive: false) }},
             @js($getStatePath()),

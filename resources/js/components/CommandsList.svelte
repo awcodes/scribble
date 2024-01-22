@@ -1,4 +1,6 @@
 <script>
+    import { pounce } from '../utils/pounce.js'
+
     export let items
     export let editor
     export let range
@@ -6,7 +8,6 @@
     let selectedIndex = 0
     let dropdown
     let groups
-    let wire = window.Livewire;
 
     const getGroups = array => {
         let map = array.map((e, i) => {
@@ -58,17 +59,13 @@
         selectItem(selectedIndex)
     }
 
-    const openModal = (component, args) => {
-        wire.dispatch('pounce', { component: component, arguments: args })
-    }
-
     const selectItem = index => {
         const item = items[index]
 
         if (item) {
             switch (item.type) {
-                case 'command': editor.chain().focus().deleteRange(range)[item.action](item.actionArguments).run(); break
-                case 'modal': openModal(item.identifier, { ...editor.getAttributes(item.extension) }); break
+                case 'command': editor.chain().focus().deleteRange(range)[item.command](item.commandArguments).run(); break
+                case 'modal': editor.commands.deleteRange(range); pounce(item.identifier, { statePath: item.statePath, ...editor.getAttributes(item.extension) }); break
                 default: editor.commands.setScribbleBlock({
                     type: item.identifier,
                     statePath: item.statePath,

@@ -142,9 +142,31 @@
   pointer-events: none;
 }
 
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap.ProseMirror-focused .ProseMirror-selectednode {
+  outline-style: dashed;
+  outline-width: 2px;
+  outline-offset: 2px;
+  outline-color: rgba(var(--gray-900), 0.5);
+}
+
+:is(.dark .scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap.ProseMirror-focused .ProseMirror-selectednode) {
+  outline-color: rgb(255 255 255 / 0.8);
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap.ProseMirror-focused .ProseMirror-gapcursor:after {
+  border-top: 1px solid white;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-image {
+  display: inline-block;
+}
+
 .tippy-box[data-theme*="scribble-"] {
   --tw-bg-opacity: 1;
   background-color: rgba(var(--gray-700), var(--tw-bg-opacity));
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .tippy-box[data-theme*="scribble-"] .tippy-arrow {

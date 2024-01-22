@@ -1,10 +1,10 @@
 <?php
 
-namespace Awcodes\Scribble\Actions;
+namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Pounce\Enums\MaxWidth;
-use Awcodes\Scribble\Actions\Concerns\InteractsWithMedia;
-use Awcodes\Scribble\ScribbleAction;
+use Awcodes\Scribble\Tools\Concerns\InteractsWithMedia;
+use Awcodes\Scribble\ScribbleTool;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\BaseFileUpload;
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
-class Media extends ScribbleAction
+class Media extends ScribbleTool
 {
     use InteractsWithMedia;
 
@@ -28,20 +28,20 @@ class Media extends ScribbleAction
 
     protected static string $label = 'Media';
 
+    protected static bool $shouldShowInBubbleMenu = true;
+
+    protected static bool $shouldShowInSuggestionMenu = true;
+
     protected static string $view = 'scribble::actions.media';
 
     public ?string $statePath = null;
 
-    public ?string $disk = null;
-    public ?string $directory = null;
-    public ?array $acceptedFileTypes = null;
-    public ?int $maxFileSize = null;
     public ?string $src = null;
     public ?string $alt = null;
     public ?string $title = null;
     public ?int $width = null;
     public ?int $height = null;
-    public ?bool $lazyLoad = false;
+    public ?bool $loading = null;
     public ?string $linkText = null;
     public ?string $fileType = null;
 
@@ -67,7 +67,7 @@ class Media extends ScribbleAction
             'title' => $this->title,
             'width' => $this->width,
             'height' => $this->height,
-            'lazy' => $this->lazyLoad ?? false,
+            'loading' => $this->loading,
             'link_text' => $this->linkText,
             'type' => $this->fileType,
         ]);
@@ -99,13 +99,10 @@ class Media extends ScribbleAction
                                 ->afterStateUpdated(function (TemporaryUploadedFile $state, Set $set) {
                                     if (Str::contains($state->getMimeType(), 'image')) {
                                         $set('type', 'image');
+                                        $set('width', $state->dimensions()[0]);
+                                        $set('height', $state->dimensions()[1]);
                                     } else {
                                         $set('type', 'document');
-                                    }
-
-                                    if ($dimensions = $state->dimensions()) {
-                                        $set('width', $dimensions[0]);
-                                        $set('height', $dimensions[1]);
                                     }
                                 })
                                 ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file) {
@@ -114,14 +111,15 @@ class Media extends ScribbleAction
                                         : Str::uuid();
                                     $storeMethod = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
                                     $extension = $file->getClientOriginalExtension();
+                                    $storage = Storage::disk($component->getDiskName());
 
-                                    if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $extension, '/'))) {
+                                    if ($storage->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $extension, '/'))) {
                                         $filename = $filename . '-' . time();
                                     }
 
                                     $upload = $file->{$storeMethod}($component->getDirectory(), $filename . '.' . $extension, $component->getDiskName());
 
-                                    return Storage::disk($component->getDiskName())->url($upload);
+                                    return $storage->url($upload);
                                 }),
                         ])->columnSpan(1),
                         Group::make([
@@ -144,8 +142,13 @@ class Media extends ScribbleAction
                                 TextInput::make('width'),
                                 TextInput::make('height'),
                             ])->columns()->hidden(fn (Get $get) => $get('type') == 'document'),
-                            Checkbox::make('lazy')
+                            Checkbox::make('loading')
                                 ->label(trans('scribble::media.labels.lazy'))
+                                ->dehydrateStateUsing(function ($state) {
+                                    if ($state) {
+                                        return 'lazy';
+                                    }
+                                })
                                 ->hidden(fn (Get $get) => $get('type') == 'document'),
                         ])->columnSpan(1),
                     ]),
@@ -160,23 +163,23 @@ class Media extends ScribbleAction
 
         $event = $this->update ? 'update' : 'insert';
 
+        $source = str_starts_with($data['src'], 'http')
+            ? $data['src']
+            : Storage::disk($this->getDisk())->url($data['src']);
+
         if (config('scribble.media.use_relative_paths')) {
-            $source = Str::of($data['src'])
+            $source = (string) Str::of($source)
                 ->replace(config('app.url'), '')
                 ->ltrim('/')
                 ->prepend('/');
-        } else {
-            $source = str_starts_with($data['src'], 'http')
-                ? $data['src']
-                : Storage::disk(config('scribble.media.disk'))->url($data['src']);
         }
 
         $this->dispatch(
             event: $event . '-' . static::getExtension(),
             statePath: $this->statePath,
             data: [
-                'src' => $source,
                 ...$data,
+                'src' => $source,
             ]
         );
 

@@ -1,6 +1,7 @@
 <script>
     import { NodeViewWrapper } from 'svelte-tiptap'
     import { onMount } from 'svelte'
+    import { pounce } from '../utils/pounce.js'
 
     export let editor;
     export let node;
@@ -8,10 +9,9 @@
     export let updateAttributes;
 
     let view = null;
-    let wire = window.Livewire;
 
     const open = () => {
-        wire.dispatch('pounce', { component: node.attrs.type, arguments: { update: true, statePath: node.attrs.statePath, ...node.attrs.values } })
+        pounce(node.attrs.type, { update: true, statePath: node.attrs.statePath, ...node.attrs.values })
     }
 
     const removeBlock = () => {
@@ -21,7 +21,7 @@
     const getView = () => {
         const component = document.querySelector('#scribble-renderer').getAttribute('wire:id')
 
-        wire
+        window.Livewire
             .find(component)
             .call('getView', node.attrs.type, node.attrs.values)
             .then(e => view = e)

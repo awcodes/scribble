@@ -78,13 +78,27 @@
                     height: 0;
                     pointer-events: none;
                 }
+
+                &.ProseMirror-focused {
+                    .ProseMirror-selectednode {
+                        @apply outline-2 outline-offset-2 outline-dashed outline-gray-900/50 dark:outline-white/80;
+                    }
+
+                    .ProseMirror-gapcursor:after {
+                        border-top: 1px solid white;
+                    }
+                }
+
+                .node-image {
+                    display: inline-block;
+                }
             }
         }
     }
 }
 
 .tippy-box[data-theme*="scribble-"] {
-    @apply bg-gray-700;
+    @apply bg-gray-700 shadow-md;
 
     .tippy-arrow {
         @apply text-gray-700;

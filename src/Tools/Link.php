@@ -1,16 +1,18 @@
 <?php
 
-namespace Awcodes\Scribble\Actions;
+namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Pounce\Enums\MaxWidth;
-use Awcodes\Scribble\ScribbleAction;
+use Awcodes\Scribble\ScribbleTool;
 use Filament\Forms;
 
-class Link extends ScribbleAction
+class Link extends ScribbleTool
 {
     protected static string $icon = 'scribble-link';
 
     protected static string $label = 'Link';
+
+    protected static bool $shouldShowInBubbleMenu = true;
 
     public ?string $href = null;
     public ?string $link_id = null;

@@ -3,12 +3,12 @@
 namespace Awcodes\Scribble;
 
 use Awcodes\Pounce\PounceComponent;
-use Awcodes\Scribble\Actions\Concerns;
+use Awcodes\Scribble\Tools\Concerns;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Illuminate\Contracts\View\View;
 
-class ScribbleAction extends PounceComponent implements HasForms
+class ScribbleTool extends PounceComponent implements HasForms
 {
     const COMMAND = 'command';
     const MODAL = 'modal';
@@ -26,6 +26,10 @@ class ScribbleAction extends PounceComponent implements HasForms
 
     public array $data = [];
 
+    protected static bool $shouldShowInBubbleMenu = false;
+
+    protected static bool $shouldShowInSuggestionMenu = false;
+
     public static function getExtension(): string
     {
         return lcfirst(substr(strrchr(static::class, '\\'), 1));
@@ -41,14 +45,24 @@ class ScribbleAction extends PounceComponent implements HasForms
         return static::COMMAND;
     }
 
-    public static function getAction(): string
+    public static function getCommand(): ?string
     {
-        return '';
+        return null;
     }
 
-    public static function getActionArguments(): string | array
+    public static function getCommandArguments(): string | array | null
     {
-        return [];
+        return null;
+    }
+
+    public static function shouldShowInBubbleMenu(): bool
+    {
+        return static::$shouldShowInBubbleMenu;
+    }
+
+    public static function shouldShowInSuggestionMenu(): bool
+    {
+        return static::$shouldShowInSuggestionMenu;
     }
 
     public function save(): void

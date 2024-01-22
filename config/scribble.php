@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'classes' => 'App\\Filament\\Scribble\\Actions',
-    'views' => 'filament.scribble.actions',
+    'classes' => 'App\\Filament\\Scribble\\Tools',
+    'views' => 'filament.scribble.tools',
     'media' => [
         'accepted_file_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'],
         'disk' => env('FILAMENT_FILESYSTEM_DISK', 'public'),

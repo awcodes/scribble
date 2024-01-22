@@ -1,6 +1,6 @@
 <?php
 
-namespace Awcodes\Scribble\Actions\Concerns;
+namespace Awcodes\Scribble\Tools\Concerns;
 
 trait HasView
 {

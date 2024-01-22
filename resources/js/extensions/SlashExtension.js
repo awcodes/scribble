@@ -26,7 +26,7 @@ export default Extension.create({
                 startOfLine: true,
                 pluginKey: new PluginKey('slashExtension'),
                 items: ({ query }) => {
-                    return this.options.blocks.filter(item => item.label.toLowerCase().includes(query.toLowerCase()))
+                    return this.options.tools.filter(item => item.label.toLowerCase().includes(query.toLowerCase()))
                 },
                 render: () => {
                     let component
@@ -58,7 +58,8 @@ export default Extension.create({
                                 trigger: 'manual',
                                 placement: 'bottom-start',
                                 theme: 'scribble-panel',
-                                arrow: false
+                                arrow: false,
+                                zIndex: 40,
                             })
                         },
                         onUpdate(props) {

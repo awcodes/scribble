@@ -1,6 +1,6 @@
 <?php
 
-namespace Awcodes\Scribble\Actions\Concerns;
+namespace Awcodes\Scribble\Tools\Concerns;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
