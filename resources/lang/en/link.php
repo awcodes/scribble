@@ -31,5 +31,5 @@ return [
                 'accent' => 'Accent',
             ],
         ],
-    ]
+    ],
 ];

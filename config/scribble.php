@@ -15,5 +15,5 @@ return [
         'image_resize_target_width' => null,
         'image_resize_target_height' => null,
         'use_relative_paths' => true,
-    ]
+    ],
 ];

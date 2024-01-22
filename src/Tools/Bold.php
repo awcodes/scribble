@@ -3,7 +3,6 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
-use Illuminate\Support\Js;
 
 class Bold extends ScribbleTool
 {

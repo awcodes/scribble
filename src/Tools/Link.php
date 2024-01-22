@@ -15,12 +15,19 @@ class Link extends ScribbleTool
     protected static bool $shouldShowInBubbleMenu = true;
 
     public ?string $href = null;
+
     public ?string $link_id = null;
+
     public ?string $hreflang = null;
+
     public ?string $target = null;
+
     public ?string $rel = null;
+
     public ?string $referrerpolicy = null;
+
     public ?string $as_button = null;
+
     public ?string $button_theme = null;
 
     public static function getType(): string
@@ -88,7 +95,7 @@ class Link extends ScribbleTool
                                 'tertiary' => trans('scribble::link.modal.labels.button_theme.tertiary'),
                                 'accent' => trans('scribble::link.modal.labels.button_theme.accent'),
                             ]),
-                    ])
+                    ]),
             ]);
     }
 

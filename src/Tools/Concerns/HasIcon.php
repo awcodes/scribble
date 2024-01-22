@@ -11,6 +11,6 @@ trait HasIcon
 
     public static function getIcon(): string
     {
-        return Str::of(Blade::render('<x-' . static::$icon . ' class="size-5" stroke-width="1.5"/>'))->replace("\n", "");
+        return Str::of(Blade::render('<x-' . static::$icon . ' class="size-5" stroke-width="1.5"/>'))->replace("\n", '');
     }
 }

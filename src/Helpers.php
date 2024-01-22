@@ -32,7 +32,7 @@ class Helpers
         if ($filesystem->exists($path)) {
             $customActions = collect($filesystem->allFiles($path))
                 ->map(function (SplFileInfo $file): string {
-                    return (string)Str::of(config('scribble.classes'))
+                    return (string) Str::of(config('scribble.classes'))
                         ->append('\\', $file->getRelativePathname())
                         ->replace(['/', '.php'], ['\\', ''], '');
                 })->filter(function (string $class): bool {

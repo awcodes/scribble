@@ -9,8 +9,8 @@ use Filament\Support\Concerns\HasPlaceholder;
 
 class Scribble extends Field
 {
-    use HasTools;
     use HasPlaceholder;
+    use HasTools;
 
     protected string $view = 'scribble::scribble';
 

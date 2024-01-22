@@ -11,14 +11,16 @@ use Illuminate\Contracts\View\View;
 class ScribbleTool extends PounceComponent implements HasForms
 {
     const COMMAND = 'command';
+
     const MODAL = 'modal';
+
     const BLOCK = 'block';
 
-    use InteractsWithForms;
     use Concerns\HasDescription;
     use Concerns\HasIcon;
     use Concerns\HasLabel;
     use Concerns\HasView;
+    use InteractsWithForms;
 
     public bool $update = false;
 

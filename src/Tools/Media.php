@@ -3,8 +3,8 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Pounce\Enums\MaxWidth;
-use Awcodes\Scribble\Tools\Concerns\InteractsWithMedia;
 use Awcodes\Scribble\ScribbleTool;
+use Awcodes\Scribble\Tools\Concerns\InteractsWithMedia;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\BaseFileUpload;
@@ -37,12 +37,19 @@ class Media extends ScribbleTool
     public ?string $statePath = null;
 
     public ?string $src = null;
+
     public ?string $alt = null;
+
     public ?string $title = null;
+
     public ?int $width = null;
+
     public ?int $height = null;
+
     public ?bool $loading = null;
+
     public ?string $linkText = null;
+
     public ?string $fileType = null;
 
     public static function getType(): string
