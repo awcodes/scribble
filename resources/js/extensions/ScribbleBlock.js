@@ -1,6 +1,6 @@
 import { Node } from '@tiptap/core'
 import { SvelteNodeViewRenderer } from 'svelte-tiptap'
-import ScribbleBlockView from "./ScribbleBlock.svelte"
+import ScribbleBlockView from "../components/ScribbleBlock.svelte"
 import { uuid } from "../utils/uuid"
 
 export default Node.create({
@@ -18,6 +18,9 @@ export default Node.create({
                 default: null
             },
             type: {
+                default: null
+            },
+            statePath: {
                 default: null
             },
             values: {
@@ -50,7 +53,7 @@ export default Node.create({
 
                 tr.replaceRangeWith(selection.from - selection.$anchor.parentOffset, selection.to, node);
 
-                window.Livewire.emit('pounce', options.type)
+                window.Livewire.dispatch('pounce', { component: options.type, arguments: { statePath: options.statePath } })
 
                 return true
             },
@@ -67,6 +70,16 @@ export default Node.create({
                     if (dispatch) {
                         tr.replaceRangeWith(selection.from - selection.$anchor.parentOffset, selection.to, node);
                     }
+
+                    return true
+                }
+            },
+
+            updateScribbleBlock: (options) => {
+                return ({ tr, dispatch, state }) => {
+                    const { selection } = tr;
+
+                    this.type.updateAttributes({ values: options.data })
 
                     return true
                 }

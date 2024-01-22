@@ -1,1 +1,161 @@
-.scribble-editor-wrapper .tiptap{border-radius:.5rem;padding:1rem}.scribble-editor-wrapper .tiptap:focus-visible{outline:2px solid #0000;outline-offset:2px;--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000);--tw-ring-opacity:1;--tw-ring-color:rgba(var(--primary-600),var(--tw-ring-opacity))}:is(:where(.dark) .scribble-editor-wrapper .tiptap:focus-visible){--tw-ring-opacity:1;--tw-ring-color:rgba(var(--primary-500),var(--tw-ring-opacity))}.scribble-editor-wrapper .tiptap :first-child{margin-top:0}.scribble-editor-wrapper .tiptap :last-child{margin-bottom:0}.tippy-box[data-theme=scribble]{border-radius:0;background-color:initial}.tippy-box[data-theme=scribble] .tippy-content{padding:0}
+.scribble-wrapper.fullscreen {
+  height: 100%;
+  overflow: hidden;
+}
+
+.scribble-wrapper.fullscreen .scribble-editor-wrapper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+:is(.dark .scribble-wrapper.fullscreen .scribble-editor-wrapper) {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-900), var(--tw-bg-opacity));
+}
+
+.scribble-wrapper.fullscreen .scribble-editor-wrapper .scribble-controls {
+  position: relative;
+  top: 0px;
+  z-index: 0;
+  border-radius: 0px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  opacity: 1;
+}
+
+.scribble-wrapper.fullscreen .scribble-editor-wrapper .scribble-controls .enter-fullscreen {
+  display: none;
+}
+
+.scribble-wrapper.fullscreen .scribble-editor-wrapper .scribble-controls .exit-fullscreen {
+  display: block;
+}
+
+.scribble-wrapper.fullscreen .scribble-editor-wrapper .scribble-editor {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80rem;
+  flex: 1 1 0%;
+  overflow: hidden;
+}
+
+.scribble-wrapper.fullscreen .scribble-editor-wrapper .scribble-editor .tiptap {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.scribble-wrapper.fullscreen .scribble-editor-wrapper .scribble-editor .tiptap:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-controls {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: -1rem;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-controls .scribble-controls-panel {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-700), var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-controls .enter-fullscreen {
+  display: block;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-controls .exit-fullscreen {
+  display: none;
+}
+
+.scribble-wrapper .scribble-editor-wrapper:focus-within .scribble-controls {
+  opacity: 1;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor {
+  width: 100%;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap {
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgba(var(--primary-600), var(--tw-ring-opacity));
+}
+
+:is(.dark .scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap:focus-visible) {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgba(var(--primary-500), var(--tw-ring-opacity));
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap *:first-child {
+  margin-top: 0px;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap *:last-child {
+  margin-bottom: 0px;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap p.is-empty::before {
+  --tw-text-opacity: 1;
+  color: rgba(var(--gray-400), var(--tw-text-opacity));
+}
+
+:is(.dark .scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap p.is-empty)::before {
+  --tw-text-opacity: 1;
+  color: rgba(var(--gray-600), var(--tw-text-opacity));
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap p.is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tippy-box[data-theme*="scribble-"] {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-700), var(--tw-bg-opacity));
+}
+
+.tippy-box[data-theme*="scribble-"] .tippy-arrow {
+  --tw-text-opacity: 1;
+  color: rgba(var(--gray-700), var(--tw-text-opacity));
+}
+
+.tippy-box[data-theme="scribble-panel"] {
+  border-radius: 0.5rem;
+}
+
+.tippy-box[data-theme="scribble-panel"] .tippy-content {
+  padding: 0px;
+}

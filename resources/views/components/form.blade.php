@@ -1,11 +1,9 @@
 <form wire:submit.prevent="save">
     <x-pounce::close-button/>
 
-    <x-pounce::heading>
-        {{ $update ? 'Update' : 'Add' }}  {{ static::getLabel() }}
-    </x-pounce::heading>
-
-    <x-filament::hr/>
+    <x-pounce::header>
+        {{ $update ? trans('scribble::modal.update') : trans('scribble::modal.insert') . ' ' . static::getLabel() }}
+    </x-pounce::header>
 
     <x-pounce::content>
         {{ $this->form }}
@@ -13,10 +11,10 @@
 
     <x-pounce::footer>
         <x-filament::button type="submit">
-            {{ $update ? 'Update' : 'Insert' }} block
+            {{ $update ? trans('scribble::modal.update') : trans('scribble::modal.insert') }}
         </x-filament::button>
-        <x-filament::button color="secondary" wire:click="unPounce">
-            Cancel
+        <x-filament::button color="gray" wire:click="unPounce">
+            {{ trans('scribble::modal.cancel') }}
         </x-filament::button>
     </x-pounce::footer>
 </form>

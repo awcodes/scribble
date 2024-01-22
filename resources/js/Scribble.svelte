@@ -1,6 +1,10 @@
 <script>
     import {onMount, onDestroy} from "svelte";
-    import {createEditor, EditorContent, BubbleMenu} from 'svelte-tiptap';
+    import { writable } from 'svelte/store'
+    import { Editor } from '@tiptap/core'
+    import { ClassExtension } from './extensions/ClassExtension.js'
+    import { LinkExtension } from './extensions/LinkExtension.js'
+    import { IdExtension } from './extensions/IdExtension.js'
     import StarterKit from '@tiptap/starter-kit';
     import ScribbleBlock from './extensions/ScribbleBlock';
     import Subscript from '@tiptap/extension-subscript'
@@ -8,33 +12,70 @@
     import { TextAlign } from './extensions/TextAlignExtension.js'
     import TextStyle from "@tiptap/extension-text-style"
     import SlashExtension from './extensions/SlashExtension.js'
-    import cx from 'clsx'
+    import { MediaExtension } from './extensions/MediaExtension.js'
+    import {BubbleMenu as BubbleMenuExtension} from '@tiptap/extension-bubble-menu'
+    import { Placeholder } from '@tiptap/extension-placeholder'
+    import Button from './components/Button.svelte'
 
     let editor;
-    let view = null;
+    let element;
     let wire = window.Livewire;
+    let bubbleMenuElement;
 
     export let blocks;
     export let tools;
     export let content;
     export let statePath;
+    export let placeholder;
+
+    const contentStore = writable(content);
 
     onMount(() => {
-        editor = createEditor({
-            content,
+        editor = new Editor({
+            content: content,
+            element: element,
             extensions: [
                 StarterKit,
+                ClassExtension,
+                LinkExtension,
+                IdExtension,
                 ScribbleBlock,
                 Subscript,
                 Superscript,
+                MediaExtension,
                 TextAlign.configure({
                     types: ['heading', 'paragraph']
                 }),
                 TextStyle,
                 SlashExtension.configure({
                     blocks: blocks
-                })
+                }),
+                BubbleMenuExtension.configure({
+                    element: bubbleMenuElement,
+                    tippyOptions: {
+                        maxWidth: 'none',
+                        placement: 'top-start',
+                        theme: 'scribble-bubble',
+                    },
+                    shouldShow: ({ editor, from, to }) => {
+                        if (from === to && editor.isActive('link')) {
+                            return true
+                        }
+
+                        return from !== to && ! (
+                            editor.isActive('scribbleBlock') ||
+                            editor.isActive('slashExtension')
+                        )
+                    },
+                }),
+                Placeholder.configure({
+                    placeholder: placeholder,
+                    emptyEditorClass: 'is-editor-empty',
+                }),
             ],
+            onTransaction: () => {
+                editor = editor
+            },
             onUpdate({editor}) {
                 window.dispatchEvent(new CustomEvent('updatedEditor', {
                     detail: {
@@ -42,94 +83,166 @@
                         content: editor.getHTML(),
                     }
                 }));
+
+                contentStore.set(editor.getHTML());
             },
         })
     })
 
+    onDestroy(() => {
+        editor.destroy()
+    })
+
+    const toggleFullscreen = () => {
+        window.dispatchEvent(new CustomEvent('toggle-fullscreen', { detail: { statePath: statePath } }))
+        editor.commands.focus()
+    }
+
+    $: isActive = (name, attrs = {}) => editor.isActive(name, attrs);
+
     blocks.forEach(e => {
-        window.addEventListener(`insert-${e.name}`, data => {
-            $editor.chain().insertScribbleBlock({
-                type: e.name,
-                values: data.detail
+        window.addEventListener(`insert-block-${e.extension}`, data => {
+            if (data.detail.statePath !== statePath) {
+                return
+            }
+
+            editor.chain().insertScribbleBlock({
+                type: e.identifier,
+                statePath: e.statePath,
+                values: data.detail.data
             }).focus().run();
         })
 
-        window.addEventListener(`update-${e.name}`, data => {
-            $editor.chain().updateScribbleBlock({
-                values: data.detail
-            })
+        window.addEventListener(`update-block-${e.extension}`, data => {
+            if (data.detail.statePath !== statePath) {
+                return
+            }
 
-            window.dispatchEvent(new CustomEvent('updateBlock', {
-                detail: e.name
+            window.dispatchEvent(new CustomEvent('updatedBlock', {
+                detail: {
+                    type: e.identifier,
+                    statePath: e.statePath,
+                    values: data.detail.data
+                }
             }));
         })
     })
 
-    $: isActive = (name, attrs = {}) => $editor.isActive(name, attrs);
+    tools.forEach(e => {
+        window.addEventListener(`insert-${e.extension}`, data => {
+            if (data.detail.statePath !== statePath) {
+                return
+            }
 
-    const handleToolClick = (tool) => {
-        if (tool.type === 'default') {
-            $editor.chain().focus()[tool.action](tool.actionArguments).run();
-            return null;
-        }
+            if (e.extension === 'link') {
+                editor.chain().focus().extendMarkRange('link').setLink(data.detail.data).selectTextblockEnd().run()
+                return
+            }
 
-        if (tool.type === 'inline') {
-            const component = document.querySelector('#scribble-renderer').getAttribute('wire:id')
+            if (e.extension === 'media') {
+                editor.chain().focus().setImage(data.detail.data).run()
+                return
+            }
 
-            wire
-                .find(component)
-                .call('getView', node.attrs.type, node.attrs.values)
-                .then(e => view = e)
-            return null;
-        }
-
-        $editor.commands.setScribbleBlock({
-            type: tool.identifier,
+            if (data.type === 'block') {
+                editor.chain().insertScribbleBlock({
+                    type: e.identifier,
+                    values: data.detail.data
+                }).focus().run();
+            }
         })
 
-        return null;
+        window.addEventListener(`update-${e.extension}`, data => {
+            if (data.detail.statePath !== statePath) {
+                return
+            }
+
+            if (e.type === 'block') {
+                window.dispatchEvent(new CustomEvent('updatedBlock', {
+                    detail: {
+                        type: e.identifier,
+                        statePath: e.statePath,
+                        values: data.detail.data
+                    }
+                }));
+
+                return
+            }
+
+            editor.chain()[e.action](data.detail.data).focus().run();
+        })
+    })
+
+    const openModal = (component, args) => {
+        wire.dispatch('pounce', { component: component, arguments: args })
     }
 
-    const bubbleMenuOptions = {
-        maxWidth: 'none',
-        placement: 'top-start',
-        theme: 'scribble-bubble',
+    const handleToolClick = (tool) => {
+        switch (tool.type) {
+            case 'command': editor.chain().focus()[tool.action](tool.actionArguments).run(); return
+            case 'modal': openModal(tool.identifier, { statePath: tool.statePath, ...editor.getAttributes(tool.extension) }); return
+            default: editor.commands.setScribbleBlock({
+                type: tool.identifier,
+                statePath: tool.statePath,
+            })
+        }
     }
 </script>
 
 <div class="scribble-editor-wrapper w-full">
-    <EditorContent editor={$editor}/>
-    {#if $editor}
-        {#if !isActive('link')}
-            <BubbleMenu editor={$editor} tippyOptions={bubbleMenuOptions}>
-                <div class="flex items-center">
-                    {#each tools as tool}
-                        <button
-                            type="button"
-                            on:click={handleToolClick(tool)}
-                            class="{cx(
-                                'rounded-sm p-1 bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500',
-                                {
-                                    'text-primary-400': isActive(tool.extension),
-                                    'text-white': !isActive(tool.extension)
-                                }
-                            )}"
-                        >
-                            {@html tool.icon}
-                        </button>
-                    {/each}
-                </div>
-            </BubbleMenu>
-        {:else if isActive('link')}
-            <BubbleMenu editor={$editor} tippyOptions={bubbleMenuOptions}>
-                <button
-                    type="button"
-                    on:click={() => alert('open link modal')}
-                    class="rounded-sm p-1 bg-transparent text-white hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                >
-                    {@html tools.find((item) => item.extension === 'link')?.icon}
-                </button>
-            </BubbleMenu>
-        {/if}
+    {#if editor}
+        <div class="scribble-controls">
+            <div class="scribble-controls-panel inline-flex px-2 items-center rounded-full ring-1 ring-gray-950/10 dark:ring-white/20 shadow-sm">
+                <Button {editor} key="undo" on:click={() => editor.chain().focus().undo().run()}>
+                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" d="M240 424v-96c116.4 0 159.39 33.76 208 96c0-119.23-39.57-240-208-240V88L64 256Z"/>
+                    </svg>
+                </Button>
+                <Button {editor} key="redo" on:click={() => editor.chain().focus().redo().run()}>
+                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" d="M448 256L272 88v96C103.57 184 64 304.77 64 424c48.61-62.24 91.6-96 208-96v96Z"/>
+                    </svg>
+                </Button>
+                <Button {editor} key="clear" on:click={() => editor.chain().focus().clearContent(true).run()}>
+                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13.9999 18.9967H20.9999V20.9967H11.9999L8.00229 20.9992L1.51457 14.5115C1.12405 14.1209 1.12405 13.4878 1.51457 13.0972L12.1212 2.49065C12.5117 2.10012 13.1449 2.10012 13.5354 2.49065L21.3136 10.2688C21.7041 10.6593 21.7041 11.2925 21.3136 11.683L13.9999 18.9967ZM15.6567 14.5115L19.1922 10.9759L12.8283 4.61197L9.29275 8.1475L15.6567 14.5115Z"/>
+                    </svg>
+                </Button>
+                <Button {editor} key="enter-fullscreen" on:click={toggleFullscreen}>
+                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill="none" d="M0 0h24v24H0z"/><path d="M20 3h2v6h-2V5h-4V3h4zM4 3h4v2H4v4H2V3h2zm16 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"/>
+                    </svg>
+                </Button>
+                <Button {editor} key="exit-fullscreen" on:click={toggleFullscreen}>
+                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill="none" d="M0 0h24v24H0z"/><path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"/>
+                    </svg>
+                </Button>
+            </div>
+        </div>
     {/if}
+    <div class="scribble-editor" bind:this={element} />
+    <div bind:this={bubbleMenuElement}>
+        {#if editor}
+            <div class="flex items-center">
+            {#if !isActive('link')}
+                {#each tools as tool}
+                    <Button {editor} key={tool.extension} on:click={() => handleToolClick(tool)}>
+                        {@html tool.icon}
+                    </Button>
+                {/each}
+            {:else if isActive('link')}
+                <span class="max-w-xs text-sm leading-none truncate overflow-hidden whitespace-nowrap">{editor.getAttributes('link').href}</span>
+                <Button {editor} key="editLink" on:click={() => handleToolClick(tools.find((item) => item.extension === 'link'))}>
+                    {@html tools.find((item) => item.extension === 'link')?.icon}
+                </Button>
+                <Button {editor} key="unsetLink" on:click={() => editor.chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run()}>
+                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17 17H22V19H19V22H17V17ZM7 7H2V5H5V2H7V7ZM18.364 15.5355L16.9497 14.1213L18.364 12.7071C20.3166 10.7545 20.3166 7.58866 18.364 5.63604C16.4113 3.68342 13.2455 3.68342 11.2929 5.63604L9.87868 7.05025L8.46447 5.63604L9.87868 4.22183C12.6123 1.48816 17.0445 1.48816 19.7782 4.22183C22.5118 6.9555 22.5118 11.3877 19.7782 14.1213L18.364 15.5355ZM15.5355 18.364L14.1213 19.7782C11.3877 22.5118 6.9555 22.5118 4.22183 19.7782C1.48816 17.0445 1.48816 12.6123 4.22183 9.87868L5.63604 8.46447L7.05025 9.87868L5.63604 11.2929C3.68342 13.2455 3.68342 16.4113 5.63604 18.364C7.58866 20.3166 10.7545 20.3166 12.7071 18.364L14.1213 16.9497L15.5355 18.364ZM14.8284 7.75736L16.2426 9.17157L9.17157 16.2426L7.75736 14.8284L14.8284 7.75736Z"/>
+                    </svg>
+                </Button>
+            {/if}
+            </div>
+        {/if}
+    </div>
 </div>

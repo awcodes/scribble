@@ -10,8 +10,8 @@ use Illuminate\Contracts\View\View;
 
 class ScribbleAction extends PounceComponent implements HasForms
 {
-    const DEFAULT = 'default';
-    const INLINE = 'inline';
+    const COMMAND = 'command';
+    const MODAL = 'modal';
     const BLOCK = 'block';
 
     use InteractsWithForms;
@@ -21,6 +21,8 @@ class ScribbleAction extends PounceComponent implements HasForms
     use Concerns\HasView;
 
     public bool $update = false;
+
+    public ?string $statePath = null;
 
     public array $data = [];
 
@@ -36,7 +38,7 @@ class ScribbleAction extends PounceComponent implements HasForms
 
     public static function getType(): string
     {
-        return static::DEFAULT;
+        return static::COMMAND;
     }
 
     public static function getAction(): string
@@ -49,18 +51,17 @@ class ScribbleAction extends PounceComponent implements HasForms
         return [];
     }
 
-    protected function getFormStatePath(): string
-    {
-        return 'data';
-    }
-
     public function save(): void
     {
         $data = $this->form->getState();
 
         $event = $this->update ? 'update' : 'insert';
 
-        $this->dispatch($event . '-' . $this->getName(), $data);
+        $this->dispatch(
+            event: $event . '-' . static::getExtension(),
+            statePath: $this->statePath,
+            data: $data
+        );
 
         $this->unPounce();
     }

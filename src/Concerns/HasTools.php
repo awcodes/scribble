@@ -30,6 +30,7 @@ trait HasTools
             Actions\OrderedList::class,
             Actions\Code::class,
             Actions\Link::class,
+            Actions\Media::class,
             Actions\AlignStart::class,
             Actions\AlignCenter::class,
             Actions\AlignEnd::class,

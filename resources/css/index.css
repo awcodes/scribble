@@ -1,23 +1,98 @@
-.scribble-editor-wrapper {
-    .tiptap {
-        @apply p-4 rounded-lg;
+.scribble-wrapper {
+    &.fullscreen {
+        @apply overflow-hidden h-full;
 
-        &:focus-visible {
-            @apply outline-none ring-2 ring-primary-600 dark:ring-primary-500;
+        .scribble-editor-wrapper {
+            @apply flex flex-col h-full overflow-hidden items-center justify-start bg-white dark:bg-gray-900;
+
+            .scribble-controls {
+                @apply relative top-0 rounded-none opacity-100 z-0 py-2 px-4;
+
+                .enter-fullscreen {
+                    @apply hidden;
+                }
+
+                .exit-fullscreen {
+                    @apply block;
+                }
+            }
+
+            .scribble-editor {
+                @apply flex-1 max-w-7xl mx-auto overflow-hidden;
+
+                .tiptap {
+                    @apply h-full overflow-y-auto;
+
+                    &:focus-visible {
+                        @apply outline-none ring-0;
+                    }
+                }
+            }
+        }
+    }
+
+    .scribble-editor-wrapper {
+
+        .scribble-controls {
+            @apply opacity-0 transition-opacity duration-200 absolute -top-4 inset-x-0 flex justify-center z-10;
+
+            .scribble-controls-panel {
+                @apply bg-gray-700 text-white;
+            }
+
+            .enter-fullscreen {
+                @apply block;
+            }
+
+            .exit-fullscreen {
+                @apply hidden;
+            }
         }
 
-        *:first-child {
-            @apply mt-0;
+        &:focus-within .scribble-controls {
+            @apply opacity-100;
         }
 
-        *:last-child {
-            @apply mb-0;
+        .scribble-editor {
+            @apply w-full;
+
+            .tiptap {
+                @apply p-4 rounded-lg;
+
+                &:focus-visible {
+                    @apply outline-none ring-2 ring-primary-600 dark:ring-primary-500;
+                }
+
+                *:first-child {
+                    @apply mt-0;
+                }
+
+                *:last-child {
+                    @apply mb-0;
+                }
+
+                p.is-empty::before {
+                    @apply text-gray-400 dark:text-gray-600;
+                    content: attr(data-placeholder);
+                    float: left;
+                    height: 0;
+                    pointer-events: none;
+                }
+            }
         }
     }
 }
 
-.tippy-box[data-theme="scribble"] {
-    @apply bg-transparent rounded-none;
+.tippy-box[data-theme*="scribble-"] {
+    @apply bg-gray-700;
+
+    .tippy-arrow {
+        @apply text-gray-700;
+    }
+}
+
+.tippy-box[data-theme="scribble-panel"] {
+    @apply rounded-lg;
 
     .tippy-content {
         @apply p-0;

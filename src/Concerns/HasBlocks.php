@@ -19,6 +19,7 @@ trait HasBlocks
     public function getBlocks(): array
     {
         return [
+            Actions\Media::class,
             Actions\BulletList::class,
             Actions\OrderedList::class,
             Actions\Blockquote::class,

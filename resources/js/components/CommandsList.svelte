@@ -6,6 +6,7 @@
     let selectedIndex = 0
     let dropdown
     let groups
+    let wire = window.Livewire;
 
     const getGroups = array => {
         let map = array.map((e, i) => {
@@ -57,18 +58,21 @@
         selectItem(selectedIndex)
     }
 
+    const openModal = (component, args) => {
+        wire.dispatch('pounce', { component: component, arguments: args })
+    }
+
     const selectItem = index => {
         const item = items[index]
 
         if (item) {
-            if (item.type === 'custom') {
-                editor.commands.setScribbleBlock({
+            switch (item.type) {
+                case 'command': editor.chain().focus().deleteRange(range)[item.action](item.actionArguments).run(); break
+                case 'modal': openModal(item.identifier, { ...editor.getAttributes(item.extension) }); break
+                default: editor.commands.setScribbleBlock({
                     type: item.identifier,
+                    statePath: item.statePath,
                 })
-            }
-
-            if (item.type === 'default') {
-                editor.chain().focus().deleteRange(range)[item.action](item.actionArguments).run()
             }
         }
     }
@@ -85,7 +89,7 @@
 </script>
 
 <div
-    class="w-56 max-h-56 overflow-y-auto scrollbar-hide text-xs rounded-lg bg-white shadow-lg ring-1 ring-gray-950/5 transition dark:divide-white/5 dark:bg-gray-900 dark:ring-white/10"
+    class="w-56 max-h-56 overflow-y-auto scrollbar-hide text-xs rounded-lg shadow-lg ring-1 ring-gray-950/5 transition dark:ring-white/10"
     bind:this={dropdown}
 >
     <div>
@@ -97,15 +101,15 @@
                 {#each groups[group] as item}
                     <button
                         on:click={() => selectItem(item.index)}
-                        class="p-2 w-full flex gap-2 items-center cursor-pointer select-none { item.index === selectedIndex ? 'bg-gray-100 dark:bg-gray-700 active-option' : 'hover:bg-gray-50 dark:hover:bg-gray-800' }"
+                        class="p-2 w-full flex gap-2 items-center cursor-pointer select-none { item.index === selectedIndex ? 'bg-gray-800 active-option' : 'hover:bg-gray-800' }"
                     >
-                        <span class="shrink-0 rounded-md flex items-center justify-center text-gray-700 dark:text-gray-200">
+                        <span class="shrink-0 rounded-md flex items-center justify-center text-gray-200">
                             {@html item.icon}
                         </span>
                         <span class="flex-1 text-left">
                             <span class="block">{item.label}</span>
                             {#if item.description}
-                            <span class="block text-gray-500 text-xs dark:text-gray-300">{item.description}</span>
+                            <span class="block text-xs text-gray-300">{item.description}</span>
                             {/if}
                         </span>
                     </button>
@@ -114,7 +118,7 @@
         {/if}
 
         {#if !items.length}
-            <div class="p-2 text-gray-700 dark:text-gray-200">No blocks found</div>
+            <div class="p-2 text-gray-200">No blocks found</div>
         {/if}
     </div>
 </div>

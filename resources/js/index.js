@@ -1,11 +1,13 @@
 import Scribble from './Scribble.svelte'
 
-export default function scribble(blocks, tools, state, statePath) {
+export default function scribble(blocks, tools, state, statePath, placeholder) {
     return {
         blocks,
         tools,
         state,
         statePath,
+        placeholder: placeholder ?? "press '/' for blocks",
+        fullscreen: false,
 
         init() {
             const _this = this
@@ -17,6 +19,7 @@ export default function scribble(blocks, tools, state, statePath) {
                     tools: _this.tools,
                     content: _this.state,
                     statePath: _this.statePath,
+                    placeholder: _this.placeholder
                 }
             });
 
@@ -25,6 +28,11 @@ export default function scribble(blocks, tools, state, statePath) {
                     _this.state = e.detail.content
                 }
             })
+        },
+
+        toggleFullscreen(event) {
+            if (event.detail.statePath !== this.statePath) return
+            this.fullscreen = !this.fullscreen
         }
     }
 }

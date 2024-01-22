@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Actions;
 
 use Awcodes\Scribble\ScribbleAction;
+use Illuminate\Support\Js;
 
 class Bold extends ScribbleAction
 {

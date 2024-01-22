@@ -34,6 +34,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/../config/scribble.php', 'scribble');
         $this->mergeConfigFrom(__DIR__ . '/../config/scribble-icons.php', 'scribble-icons');
 
         $this->callAfterResolving(Factory::class, function (Factory $factory, Container $container) {
@@ -45,6 +46,9 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        foreach (Helpers::getActionClasses() as $block) {
+            Livewire::component($block::getIdentifier(), $block);
+        }
 
         Livewire::component('scribble.renderer', Renderer::class);
 

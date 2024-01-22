@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 import Suggestion from '@tiptap/suggestion'
-import CommandsList from './CommandsList.svelte'
+import CommandsList from '../components/CommandsList.svelte'
 import tippy from 'tippy.js'
 import { PluginKey } from '@tiptap/pm/state'
 
@@ -57,7 +57,7 @@ export default Extension.create({
                                 interactive: true,
                                 trigger: 'manual',
                                 placement: 'bottom-start',
-                                theme: 'scribble',
+                                theme: 'scribble-panel',
                                 arrow: false
                             })
                         },

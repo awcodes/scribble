@@ -6,11 +6,13 @@ use Awcodes\Scribble\Concerns\HasBlocks;
 use Awcodes\Scribble\Concerns\HasTools;
 use Awcodes\Scribble\Wrappers\Group;
 use Filament\Forms\Components\Field;
+use Filament\Support\Concerns\HasPlaceholder;
 
 class Scribble extends Field
 {
     use HasBlocks;
     use HasTools;
+    use HasPlaceholder;
 
     protected string $view = 'scribble::scribble';
 
@@ -27,6 +29,8 @@ class Scribble extends Field
     private function formatAction(ScribbleAction $action): array
     {
         return [
+            'statePath' => $this->getStatePath(),
+            'component' => $action::class,
             'identifier' => $action::getIdentifier(),
             'extension' => $action::getExtension(),
             'icon' => $action::getIcon(),

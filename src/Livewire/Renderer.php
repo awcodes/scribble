@@ -9,7 +9,7 @@ class Renderer extends Component
 {
     public function getView(string $name, array $attrs)
     {
-        foreach (Helpers::getBlockClasses() as $block) {
+        foreach (Helpers::getActionClasses() as $block) {
             if ($block::getIdentifier() === $name) {
                 return $block::getView($attrs);
             }
