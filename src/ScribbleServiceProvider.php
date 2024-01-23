@@ -4,6 +4,7 @@ namespace Awcodes\Scribble;
 
 use Awcodes\Scribble\Commands\ScribbleCommand;
 use Awcodes\Scribble\Livewire\Renderer;
+use Awcodes\Scribble\Livewire\TestForm;
 use Awcodes\Scribble\Testing\TestsScribble;
 use BladeUI\Icons\Factory;
 use Filament\Support\Assets\AlpineComponent;
@@ -51,6 +52,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
         }
 
         Livewire::component('scribble.renderer', Renderer::class);
+        Livewire::component('test-form', TestForm::class);
 
         FilamentView::registerRenderHook(
             'panels::body.end',

@@ -19,6 +19,9 @@ trait HasTools
     public function getTools(): array
     {
         return [
+            Tools\TestFormBlock::class,
+            Tools\BatmanBlock::class,
+            Tools\Hero::class,
             Tools\Bold::class,
             Tools\Italic::class,
             Tools\Underline::class,

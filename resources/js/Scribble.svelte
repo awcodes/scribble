@@ -18,6 +18,7 @@
     import Button from './components/Button.svelte'
     import { pounce } from './utils/pounce.js'
     import { getStatePath } from './stores.js'
+    import { HeroExtension } from './extensions/HeroExtension.js'
 
     let editor;
     let element;
@@ -50,6 +51,7 @@
                 Subscript,
                 Superscript,
                 MediaExtension,
+                HeroExtension,
                 TextAlign.configure({
                     types: ['heading', 'paragraph']
                 }),
@@ -88,7 +90,7 @@
                 window.dispatchEvent(new CustomEvent('updatedEditor', {
                     detail: {
                         statePath: statePath,
-                        content: editor.getHTML(),
+                        content: editor.getJSON(),
                     }
                 }));
 
@@ -169,6 +171,15 @@
     })
 
     const handleToolClick = (tool) => {
+
+        if (tool.type === 'block' && tool.prerender) {
+            editor.chain().insertScribbleBlock({
+                type: tool.identifier,
+                statePath: tool.statePath,
+                values: {}
+            }).focus().run();
+        }
+
         switch (tool.type) {
             case 'command': editor.chain().focus()[tool.command](tool.commandArguments).run(); return
             case 'modal': pounce(tool.identifier, { statePath: tool.statePath, ...editor.getAttributes(tool.extension) }); return

@@ -4,6 +4,7 @@ namespace Awcodes\Scribble;
 
 use Awcodes\Scribble\Concerns\HasTools;
 use Awcodes\Scribble\Wrappers\Group;
+use Exception;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasPlaceholder;
 
@@ -14,6 +15,9 @@ class Scribble extends Field
 
     protected string $view = 'scribble::scribble';
 
+    /**
+     * @throws Exception
+     */
     public function getToolsSchema(): array
     {
         $tools = [];
@@ -41,20 +45,24 @@ class Scribble extends Field
         return $tools;
     }
 
-    private function formatTool(ScribbleTool $action): array
+    /**
+     * @throws Exception
+     */
+    private function formatTool(ScribbleTool $tool): array
     {
         return [
             'statePath' => $this->getStatePath(),
-            'identifier' => $action::getIdentifier(),
-            'extension' => $action::getExtension(),
-            'icon' => $action::getIcon(),
-            'label' => ucfirst($action::getLabel()),
-            'description' => $action::getDescription(),
-            'type' => $action::getType(),
-            'command' => $action::getCommand(),
-            'commandArguments' => $action::getCommandArguments(),
-            'bubble' => $action::shouldShowInBubbleMenu(),
-            'suggestion' => $action::shouldShowInSuggestionMenu(),
+            'identifier' => $tool::getIdentifier(),
+            'extension' => $tool::getExtension(),
+            'icon' => $tool::getIcon(),
+            'label' => ucfirst($tool::getLabel()),
+            'description' => $tool::getDescription(),
+            'type' => $tool::getType(),
+            'command' => $tool::getCommand(),
+            'commandArguments' => $tool::getCommandArguments(),
+            'bubble' => $tool::shouldShowInBubbleMenu(),
+            'suggestion' => $tool::shouldShowInSuggestionMenu(),
+            'prerender' => $tool::shouldRenderFirst(),
         ];
     }
 }

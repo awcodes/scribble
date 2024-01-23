@@ -79,6 +79,14 @@
                     pointer-events: none;
                 }
 
+                .node-hero .gray { @apply bg-gray-500 text-white; }
+                .node-hero .grayLight { @apply bg-gray-500 text-white; }
+                .node-hero .grayDark { @apply bg-gray-500 text-white; }
+                .node-hero .primary { @apply bg-amber-500 text-black; }
+                .node-hero .secondary { @apply bg-yellow-500 text-black; }
+                .node-hero .tertiary { @apply bg-rose-500 text-white; }
+                .node-hero .accent { @apply bg-indigo-500 text-white; }
+
                 &.ProseMirror-focused {
                     .ProseMirror-selectednode {
                         @apply outline-2 outline-offset-2 outline-dashed outline-gray-900/50 dark:outline-white/80;
@@ -87,10 +95,26 @@
                     .ProseMirror-gapcursor:after {
                         border-top: 1px solid white;
                     }
+
+                    .node-scribbleBlock + .ProseMirror-gapcursor {
+                        margin-top: 0.5rem;
+                    }
+
+                    .node-scribbleBlock + .ProseMirror-gapcursor + .node-scribbleBlock {
+                        margin-top: 1rem;
+                    }
                 }
 
                 .node-image {
                     display: inline-block;
+                }
+
+                .node-scribbleBlock {
+                    min-height: 3rem;
+                }
+
+                .node-scribbleBlock + .node-scribbleBlock {
+                    margin-top: 1rem;
                 }
             }
         }

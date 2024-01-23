@@ -63,13 +63,29 @@
         const item = items[index]
 
         if (item) {
-            switch (item.type) {
-                case 'command': editor.chain().focus().deleteRange(range)[item.command](item.commandArguments).run(); break
-                case 'modal': editor.commands.deleteRange(range); pounce(item.identifier, { statePath: item.statePath, ...editor.getAttributes(item.extension) }); break
-                default: editor.commands.setScribbleBlock({
+
+            console.log(item)
+            if (item.type === 'block' && item.prerender) {
+                editor.chain().insertScribbleBlock({
                     type: item.identifier,
                     statePath: item.statePath,
-                })
+                    values: {}
+                }).focus().run();
+            } else {
+                switch (item.type) {
+                    case 'command':
+                        editor.chain().focus().deleteRange(range)[item.command](item.commandArguments).run();
+                        break
+                    case 'modal':
+                        editor.commands.deleteRange(range);
+                        pounce(item.identifier, { statePath: item.statePath, ...editor.getAttributes(item.extension) });
+                        break
+                    default:
+                        editor.commands.setScribbleBlock({
+                            type: item.identifier,
+                            statePath: item.statePath,
+                        })
+                }
             }
         }
     }

@@ -142,6 +142,55 @@
   pointer-events: none;
 }
 
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-hero .gray {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-500), var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-hero .grayLight {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-500), var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-hero .grayDark {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-500), var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-hero .primary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 158 11 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-hero .secondary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(234 179 8 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-hero .tertiary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 63 94 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-hero .accent {
+  --tw-bg-opacity: 1;
+  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
 .scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap.ProseMirror-focused .ProseMirror-selectednode {
   outline-style: dashed;
   outline-width: 2px;
@@ -157,8 +206,24 @@
   border-top: 1px solid white;
 }
 
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap.ProseMirror-focused .node-scribbleBlock + .ProseMirror-gapcursor {
+  margin-top: 0.5rem;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap.ProseMirror-focused .node-scribbleBlock + .ProseMirror-gapcursor + .node-scribbleBlock {
+  margin-top: 1rem;
+}
+
 .scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-image {
   display: inline-block;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-scribbleBlock {
+  min-height: 3rem;
+}
+
+.scribble-wrapper .scribble-editor-wrapper .scribble-editor .tiptap .node-scribbleBlock + .node-scribbleBlock {
+  margin-top: 1rem;
 }
 
 .tippy-box[data-theme*="scribble-"] {

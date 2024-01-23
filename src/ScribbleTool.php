@@ -32,6 +32,8 @@ class ScribbleTool extends PounceComponent implements HasForms
 
     protected static bool $shouldShowInSuggestionMenu = false;
 
+    protected static bool $shouldRenderFirst = false;
+
     public static function getExtension(): string
     {
         return lcfirst(substr(strrchr(static::class, '\\'), 1));
@@ -65,6 +67,15 @@ class ScribbleTool extends PounceComponent implements HasForms
     public static function shouldShowInSuggestionMenu(): bool
     {
         return static::$shouldShowInSuggestionMenu;
+    }
+
+    public static function shouldRenderFirst(): bool
+    {
+//        if (static::getType() !== static::BLOCK) {
+//            throw new \Exception(message: 'Only block types can prerender.');
+//        }
+
+        return static::$shouldRenderFirst;
     }
 
     public function save(): void

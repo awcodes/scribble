@@ -21,9 +21,6 @@ export default Node.create({
             type: {
                 default: null
             },
-            statePath: {
-                default: null
-            },
             values: {
                 default: {}
             },
