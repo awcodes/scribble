@@ -1,8 +1,7 @@
 import { Node } from '@tiptap/core'
 import { SvelteNodeViewRenderer } from 'svelte-tiptap'
 import ScribbleBlockView from "../components/ScribbleBlock.svelte"
-import { uuid } from "../utils/uuid"
-import { pounce } from '../utils/pounce.js'
+import { uuid, pounce } from "../utils.js"
 
 export default Node.create({
     name: 'scribbleBlock',
@@ -19,6 +18,9 @@ export default Node.create({
                 default: null
             },
             type: {
+                default: 'block'
+            },
+            identifier: {
                 default: null
             },
             values: {
@@ -51,7 +53,7 @@ export default Node.create({
 
                 tr.replaceRangeWith(selection.from - selection.$anchor.parentOffset, selection.to, node);
 
-                pounce(options.type, { statePath: options.statePath })
+                pounce(options.identifier, { statePath: options.statePath })
 
                 return true
             },

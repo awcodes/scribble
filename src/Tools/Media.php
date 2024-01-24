@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Pounce\Enums\MaxWidth;
+use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\ScribbleTool;
 use Awcodes\Scribble\Tools\Concerns\InteractsWithMedia;
 use Filament\Forms;
@@ -34,8 +35,6 @@ class Media extends ScribbleTool
 
     protected static string $view = 'scribble::actions.media';
 
-    public ?string $statePath = null;
-
     public ?string $src = null;
 
     public ?string $alt = null;
@@ -52,14 +51,21 @@ class Media extends ScribbleTool
 
     public ?string $fileType = null;
 
-    public static function getType(): string
+    public static function getType(): ToolType
     {
-        return static::MODAL;
+        return ToolType::Modal;
     }
 
     public static function getMaxWidth(): MaxWidth
     {
         return MaxWidth::TwoExtraLarge;
+    }
+
+    public static function getCommands(): array|null
+    {
+        return [
+            ['command' => 'setImage', 'arguments' => null],
+        ];
     }
 
     public function mount(): void
@@ -103,7 +109,7 @@ class Media extends ScribbleTool
                                 ->imageResizeTargetHeight($this->getImageResizeTargetHeight())
                                 ->required()
                                 ->live()
-                                ->afterStateUpdated(function (TemporaryUploadedFile $state, Set $set) {
+                                ->afterStateUpdated(function (TemporaryUploadedFile $state, Set $set): void {
                                     if (Str::contains($state->getMimeType(), 'image')) {
                                         $set('type', 'image');
                                         $set('width', $state->dimensions()[0]);
@@ -112,7 +118,7 @@ class Media extends ScribbleTool
                                         $set('type', 'document');
                                     }
                                 })
-                                ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file) {
+                                ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file): string {
                                     $filename = $component->shouldPreserveFilenames()
                                         ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
                                         : Str::uuid();
@@ -151,10 +157,12 @@ class Media extends ScribbleTool
                             ])->columns()->hidden(fn (Get $get) => $get('type') == 'document'),
                             Checkbox::make('loading')
                                 ->label(trans('scribble::media.labels.lazy'))
-                                ->dehydrateStateUsing(function ($state) {
+                                ->dehydrateStateUsing(function ($state): ?string {
                                     if ($state) {
                                         return 'lazy';
                                     }
+
+                                    return null;
                                 })
                                 ->hidden(fn (Get $get) => $get('type') == 'document'),
                         ])->columnSpan(1),
@@ -184,7 +192,7 @@ class Media extends ScribbleTool
         $this->dispatch(
             event: $event . '-' . static::getExtension(),
             statePath: $this->statePath,
-            data: [
+            values: [
                 ...$data,
                 'src' => $source,
             ]

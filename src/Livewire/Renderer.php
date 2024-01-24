@@ -7,10 +7,10 @@ use Livewire\Component;
 
 class Renderer extends Component
 {
-    public function getView(string $name, array $attrs)
+    public function getView(string $identifier, array $attrs)
     {
         foreach (Helpers::getToolClasses() as $block) {
-            if ($block::getIdentifier() === $name) {
+            if ($block::getIdentifier() === $identifier) {
                 return $block::getView($attrs);
             }
         }

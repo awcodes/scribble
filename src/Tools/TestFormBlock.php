@@ -2,6 +2,7 @@
 
 namespace Awcodes\Scribble\Tools;
 
+use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\ScribbleTool;
 use Awcodes\Scribble\Tools\Concerns\InteractsWithMedia;
 
@@ -15,14 +16,10 @@ class TestFormBlock extends ScribbleTool
 
     protected static bool $shouldShowInSuggestionMenu = true;
 
-    protected static bool $shouldRenderFirst = true;
-
     protected static string $view = 'scribble::actions.test-form-block';
 
-    public ?string $statePath = null;
-
-    public static function getType(): string
+    public static function getType(): ToolType
     {
-        return static::BLOCK;
+        return ToolType::StaticBlock;
     }
 }

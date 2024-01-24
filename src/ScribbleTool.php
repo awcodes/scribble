@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble;
 
 use Awcodes\Pounce\PounceComponent;
+use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\Tools\Concerns;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -10,15 +11,10 @@ use Illuminate\Contracts\View\View;
 
 class ScribbleTool extends PounceComponent implements HasForms
 {
-    const COMMAND = 'command';
-
-    const MODAL = 'modal';
-
-    const BLOCK = 'block';
-
     use Concerns\HasDescription;
     use Concerns\HasIcon;
     use Concerns\HasLabel;
+    use Concerns\HasMenuLocations;
     use Concerns\HasView;
     use InteractsWithForms;
 
@@ -27,12 +23,6 @@ class ScribbleTool extends PounceComponent implements HasForms
     public ?string $statePath = null;
 
     public array $data = [];
-
-    protected static bool $shouldShowInBubbleMenu = false;
-
-    protected static bool $shouldShowInSuggestionMenu = false;
-
-    protected static bool $shouldRenderFirst = false;
 
     public static function getExtension(): string
     {
@@ -44,38 +34,14 @@ class ScribbleTool extends PounceComponent implements HasForms
         return 'scribble-' . lcfirst(substr(strrchr(static::class, '\\'), 1));
     }
 
-    public static function getType(): string
+    public static function getType(): ToolType
     {
-        return static::COMMAND;
+        return ToolType::Command;
     }
 
-    public static function getCommand(): ?string
+    public static function getCommands(): array | null
     {
         return null;
-    }
-
-    public static function getCommandArguments(): string | array | null
-    {
-        return null;
-    }
-
-    public static function shouldShowInBubbleMenu(): bool
-    {
-        return static::$shouldShowInBubbleMenu;
-    }
-
-    public static function shouldShowInSuggestionMenu(): bool
-    {
-        return static::$shouldShowInSuggestionMenu;
-    }
-
-    public static function shouldRenderFirst(): bool
-    {
-//        if (static::getType() !== static::BLOCK) {
-//            throw new \Exception(message: 'Only block types can prerender.');
-//        }
-
-        return static::$shouldRenderFirst;
     }
 
     public function save(): void
@@ -87,7 +53,7 @@ class ScribbleTool extends PounceComponent implements HasForms
         $this->dispatch(
             event: $event . '-' . static::getExtension(),
             statePath: $this->statePath,
-            data: $data
+            values: $data
         );
 
         $this->unPounce();

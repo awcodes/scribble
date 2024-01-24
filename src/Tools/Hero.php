@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Pounce\Enums\MaxWidth;
+use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\ScribbleTool;
 use Awcodes\Scribble\Tools\Concerns\InteractsWithMedia;
 use Filament\Forms;
@@ -30,15 +31,17 @@ class Hero extends ScribbleTool
 
     protected static bool $shouldShowInSuggestionMenu = true;
 
-    public ?string $statePath = null;
+    protected static string $view = 'scribble::actions.hero';
 
-    public static function getType(): string
+    public static function getType(): ToolType
     {
-        return static::COMMAND;
+        return ToolType::StaticBlock;
     }
 
-    public static function getCommand(): ?string
+    public static function getCommands(): array | null
     {
-        return 'toggleHero';
+        return [
+            ['command' => 'toggleHero', 'arguments' => null]
+        ];
     }
 }

@@ -12,13 +12,10 @@ class AlignCenter extends ScribbleTool
 
     protected static bool $shouldShowInBubbleMenu = true;
 
-    public static function getCommand(): ?string
+    public static function getCommands(): array | null
     {
-        return 'setTextAlign';
-    }
-
-    public static function getCommandArguments(): string | array | null
-    {
-        return 'center';
+        return [
+            ['command' => 'setTextAlign', 'arguments' => 'center']
+        ];
     }
 }

@@ -12,8 +12,10 @@ class Superscript extends ScribbleTool
 
     protected static bool $shouldShowInBubbleMenu = true;
 
-    public static function getCommand(): ?string
+    public static function getCommands(): array | null
     {
-        return 'toggleSuperscript';
+        return [
+            ['command' => 'toggleSuperscript', 'arguments' => null]
+        ];
     }
 }

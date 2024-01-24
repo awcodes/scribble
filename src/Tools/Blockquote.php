@@ -12,8 +12,10 @@ class Blockquote extends ScribbleTool
 
     protected static bool $shouldShowInSuggestionMenu = true;
 
-    public static function getCommand(): ?string
+    public static function getCommands(): array | null
     {
-        return 'toggleBlockquote';
+        return [
+            ['command' => 'toggleBlockquote', 'arguments' => null]
+        ];
     }
 }

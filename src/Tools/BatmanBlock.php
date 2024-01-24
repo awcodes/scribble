@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Pounce\Enums\MaxWidth;
+use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\ScribbleTool;
 use Awcodes\Scribble\Tools\Concerns\InteractsWithMedia;
 use Filament\Forms;
@@ -27,9 +28,9 @@ class BatmanBlock extends ScribbleTool
 
     public ?string $side = null;
 
-    public static function getType(): string
+    public static function getType(): ToolType
     {
-        return static::BLOCK;
+        return ToolType::Block;
     }
 
     public static function getMaxWidth(): MaxWidth
@@ -71,7 +72,7 @@ class BatmanBlock extends ScribbleTool
         $this->dispatch(
             event: $event . '-' . static::getExtension(),
             statePath: $this->statePath,
-            data: $data,
+            values: $data,
         );
 
         $this->unPounce();

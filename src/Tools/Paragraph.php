@@ -12,8 +12,10 @@ class Paragraph extends ScribbleTool
 
     protected static bool $shouldShowInBubbleMenu = true;
 
-    public static function getCommand(): ?string
+    public static function getCommands(): array | null
     {
-        return 'setParagraph';
+        return [
+            ['command' => 'setParagraph', 'arguments' => null]
+        ];
     }
 }

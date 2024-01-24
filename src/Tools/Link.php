@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Pounce\Enums\MaxWidth;
+use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\ScribbleTool;
 use Filament\Forms;
 
@@ -30,14 +31,23 @@ class Link extends ScribbleTool
 
     public ?string $button_theme = null;
 
-    public static function getType(): string
+    public static function getType(): ToolType
     {
-        return static::MODAL;
+        return ToolType::Modal;
     }
 
     public static function getMaxWidth(): MaxWidth
     {
         return MaxWidth::Large;
+    }
+
+    public static function getCommands(): array|null
+    {
+        return [
+            ['command' => 'extendMarkRange', 'arguments' => 'link'],
+            ['command' => 'setLink', 'arguments' => null],
+            ['command' => 'selectTextblockEnd', 'arguments' => null],
+        ];
     }
 
     public function mount(): void
@@ -108,7 +118,7 @@ class Link extends ScribbleTool
         $this->dispatch(
             event: $event . '-' . static::getExtension(),
             statePath: $this->statePath,
-            data: $data
+            values: $data
         );
 
         $this->unPounce();

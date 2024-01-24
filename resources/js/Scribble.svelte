@@ -1,9 +1,9 @@
 <script>
     import {onMount, onDestroy} from "svelte";
-    import { writable } from 'svelte/store'
     import { Editor } from '@tiptap/core'
     import { BubbleMenu } from '@tiptap/extension-bubble-menu'
     import { ClassExtension } from './extensions/ClassExtension.js'
+    import { HeroExtension } from './extensions/HeroExtension.js'
     import { IdExtension } from './extensions/IdExtension.js'
     import { LinkExtension } from './extensions/LinkExtension.js'
     import { MediaExtension } from './extensions/MediaExtension.js'
@@ -15,10 +15,9 @@
     import { Superscript } from '@tiptap/extension-superscript'
     import { TextAlign } from './extensions/TextAlignExtension.js'
     import { TextStyle } from "@tiptap/extension-text-style"
-    import Button from './components/Button.svelte'
-    import { pounce } from './utils/pounce.js'
+    import { pounce, commandRunner } from './utils.js'
     import { getStatePath } from './stores.js'
-    import { HeroExtension } from './extensions/HeroExtension.js'
+    import Button from './components/Button.svelte'
 
     let editor;
     let element;
@@ -32,8 +31,6 @@
     export let placeholder;
 
     $getStatePath = statePath
-
-    const contentStore = writable(content);
 
     bubbleTools = tools.filter((tool) => tool.bubble === true)
     suggestionTools = tools.filter((tool) => tool.suggestion === true)
@@ -93,8 +90,6 @@
                         content: editor.getJSON(),
                     }
                 }));
-
-                contentStore.set(editor.getHTML());
             },
         })
     })
@@ -116,27 +111,17 @@
                 return
             }
 
-            if (tool.extension === 'link') {
-                editor.chain().focus().extendMarkRange('link').setLink(data.detail.data).selectTextblockEnd().run()
-                return
-            }
-
-            if (tool.extension === 'media') {
-                editor.chain().focus().setImage(data.detail.data).run()
-                return
-            }
-
-            if (tool.type === 'block') {
+            if (tool.type === 'block' || tool.type === 'static') {
                 editor.chain().insertScribbleBlock({
-                    type: tool.identifier,
-                    statePath: tool.statePath,
-                    values: data.detail.data
+                    identifier: tool.identifier,
+                    type: tool.type,
+                    values: data.detail.values
                 }).focus().run();
 
                 return
             }
 
-            editor.chain().focus()[tool.command](data.detail.data).run()
+            commandRunner(editor, tool.commands, data.detail.values)
         })
 
         window.addEventListener(`update-${tool.extension}`, data => {
@@ -144,48 +129,36 @@
                 return
             }
 
-            if (tool.extension === 'link') {
-                editor.chain().focus().extendMarkRange('link').setLink(data.detail.data).selectTextblockEnd().run()
-                return
-            }
-
-            if (tool.extension === 'media') {
-                editor.chain().focus().setImage(data.detail.data).run()
-                return
-            }
-
-            if (tool.type === 'block') {
+            if (tool.type === 'block' || tool.type === 'static') {
                 window.dispatchEvent(new CustomEvent('updatedBlock', {
                     detail: {
-                        type: tool.identifier,
-                        statePath: tool.statePath,
-                        values: data.detail.data
+                        statePath: statePath,
+                        identifier: tool.identifier,
+                        type: tool.type,
+                        values: data.detail.values
                     }
                 }));
 
                 return
             }
 
-            editor.chain().focus()[tool.command](data.detail.data).run()
+            commandRunner(editor, tool.commands, data.detail.values)
         })
     })
 
     const handleToolClick = (tool) => {
-
-        if (tool.type === 'block' && tool.prerender) {
-            editor.chain().insertScribbleBlock({
-                type: tool.identifier,
-                statePath: tool.statePath,
-                values: {}
-            }).focus().run();
-        }
-
         switch (tool.type) {
-            case 'command': editor.chain().focus()[tool.command](tool.commandArguments).run(); return
+            case 'command': commandRunner(editor, tool.commands); return
             case 'modal': pounce(tool.identifier, { statePath: tool.statePath, ...editor.getAttributes(tool.extension) }); return
+            case 'static': editor.chain().insertScribbleBlock({
+                    identifier: tool.identifier,
+                    type: tool.type,
+                    values: {}
+                }).focus().run(); return
             default: editor.commands.setScribbleBlock({
-                type: tool.identifier,
-                statePath: tool.statePath,
+                statePath: statePath,
+                identifier: tool.identifier,
+                type: tool.type,
             })
         }
     }

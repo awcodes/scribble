@@ -12,8 +12,10 @@ class Bold extends ScribbleTool
 
     protected static bool $shouldShowInBubbleMenu = true;
 
-    public static function getCommand(): ?string
+    public static function getCommands(): array | null
     {
-        return 'toggleBold';
+        return [
+            ['command' => 'toggleBold', 'arguments' => null]
+        ];
     }
 }

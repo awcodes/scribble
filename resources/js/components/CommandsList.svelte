@@ -1,5 +1,5 @@
 <script>
-    import { pounce } from '../utils/pounce.js'
+    import { pounce, commandRunner } from '../utils.js'
 
     export let items
     export let editor
@@ -63,29 +63,27 @@
         const item = items[index]
 
         if (item) {
-
-            console.log(item)
-            if (item.type === 'block' && item.prerender) {
-                editor.chain().insertScribbleBlock({
-                    type: item.identifier,
-                    statePath: item.statePath,
-                    values: {}
-                }).focus().run();
-            } else {
-                switch (item.type) {
-                    case 'command':
-                        editor.chain().focus().deleteRange(range)[item.command](item.commandArguments).run();
-                        break
-                    case 'modal':
-                        editor.commands.deleteRange(range);
-                        pounce(item.identifier, { statePath: item.statePath, ...editor.getAttributes(item.extension) });
-                        break
-                    default:
-                        editor.commands.setScribbleBlock({
-                            type: item.identifier,
-                            statePath: item.statePath,
-                        })
-                }
+            switch (item.type) {
+                case 'command':
+                    editor.commands.deleteRange(range);
+                    commandRunner(editor, item.commands)
+                    break
+                case 'modal':
+                    editor.commands.deleteRange(range);
+                    pounce(item.identifier, { statePath: item.statePath, ...editor.getAttributes(item.extension) });
+                    break
+                case 'static':
+                    editor.chain().insertScribbleBlock({
+                        identifier: item.identifier,
+                        type: item.type,
+                        values: {}
+                    }).focus().run();
+                    break
+                default:
+                    editor.commands.setScribbleBlock({
+                        identifier: item.identifier,
+                        statePath: item.statePath,
+                    })
             }
         }
     }

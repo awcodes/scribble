@@ -57,12 +57,10 @@ class Scribble extends Field
             'icon' => $tool::getIcon(),
             'label' => ucfirst($tool::getLabel()),
             'description' => $tool::getDescription(),
-            'type' => $tool::getType(),
-            'command' => $tool::getCommand(),
-            'commandArguments' => $tool::getCommandArguments(),
+            'type' => $tool::getType()->value,
+            'commands' => $tool::getCommands(),
             'bubble' => $tool::shouldShowInBubbleMenu(),
             'suggestion' => $tool::shouldShowInSuggestionMenu(),
-            'prerender' => $tool::shouldRenderFirst(),
         ];
     }
 }

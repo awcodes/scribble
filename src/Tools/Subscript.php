@@ -12,8 +12,10 @@ class Subscript extends ScribbleTool
 
     protected static bool $shouldShowInBubbleMenu = true;
 
-    public static function getCommand(): ?string
+    public static function getCommands(): array | null
     {
-        return 'toggleSubscript';
+        return [
+            ['command' => 'toggleSubscript', 'arguments' => null]
+        ];
     }
 }
