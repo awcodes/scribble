@@ -1,3 +1,3 @@
-<div class="py-4">
-    <div contenteditable="true"></div>
+<div class="py-4" contenteditable="false">
+    <div class="editable"></div>
 </div>

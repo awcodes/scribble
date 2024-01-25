@@ -87,7 +87,7 @@
                 window.dispatchEvent(new CustomEvent('updatedEditor', {
                     detail: {
                         statePath: statePath,
-                        content: editor.getJSON(),
+                        content: editor.getHTML(),
                     }
                 }));
             },

@@ -1,18 +1,16 @@
 <script>
     import { NodeViewWrapper, NodeViewContent } from 'svelte-tiptap'
-    import { onMount, tick } from 'svelte'
-    import { pounce, replaceTargetByComponent } from '../utils.js'
+    import { onMount } from 'svelte'
+    import { pounce } from '../utils.js'
     import { getStatePath } from '../stores.js'
-    import Injectable from './Injectable.svelte'
 
     export let editor;
     export let node;
     export let selected = false;
     export let updateAttributes;
 
-    $: view = null;
+    let view = null;
     $: wrapper = null;
-    $: renderEditableContent();
 
     const open = () => {
         pounce(node.attrs.identifier, { update: true, statePath: $getStatePath, ...node.attrs.values })
@@ -22,38 +20,21 @@
         editor.commands.deleteSelection()
     }
 
-    async function renderEditableContent() {
-        await tick()
-
-        const editable = wrapper.querySelectorAll('[contenteditable="true"]')
-
-        if (editable.length > 0) {
-            editable.forEach((el) => {
-                replaceTargetByComponent(el, NodeViewContent, {
-                    target: el.parentElement,
-                    props: {
-                        editor: editor
-                    }
-                })
-            })
-        }
-    }
-
-    const getView = () => {
+    $: getView = () => {
         const component = document.querySelector('#scribble-renderer').getAttribute('wire:id')
 
         window.Livewire
             .find(component)
             .call('getView', node.attrs.identifier, node.attrs.values)
-            .then(e => view = e)
+            .then(e => {
+                view = e
+            })
             .then(() => {
                 wrapper.addEventListener('change', (e) => {
                     let name = e.target.getAttribute('id').replace('data.', '')
                     let value = e.target.value
                     updateAttributes({ values: {...node.attrs.values, [name]: value } })
                 })
-
-                // renderEditableContent()
             })
     }
 
@@ -72,12 +53,7 @@
 <NodeViewWrapper>
     <div class="relative group bg-gray-900/5 dark:bg-white/5 rounded-md">
         <div class="transition rounded-md overflow-hidden z-10 relative {selected ? 'ProseMirror-selectednode' : ''}" bind:this={wrapper}>
-            <!--{@html view}-->
-            {#if view}
-            <Injectable html={view} rules={[
-                {regex: RegExp('(<div contenteditable.*?<\/div>)', 'gi'), component: NodeViewContent, props: {}}
-            ]} />
-            {/if}
+            {@html view}
         </div>
         <div class="scribble-block-actions transition opacity-0 absolute z-20 top-0 right-0 p-1 rounded-tr-md rounded-bl-lg flex items-center bg-gray-950 group-hover:opacity-100" contenteditable="false">
             <div data-drag-handle class="cursor-grabbing text-white block rounded p-1 hover:text-primary-500 hover:bg-gray-800">
