@@ -14,10 +14,10 @@ class OrderedList extends ScribbleTool
 
     protected static bool $shouldShowInSuggestionMenu = true;
 
-    public static function getCommands(): array | null
+    public static function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleOrderedList', 'arguments' => null]
+            ['command' => 'toggleOrderedList', 'arguments' => null],
         ];
     }
 }

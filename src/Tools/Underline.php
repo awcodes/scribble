@@ -12,10 +12,10 @@ class Underline extends ScribbleTool
 
     protected static bool $shouldShowInBubbleMenu = true;
 
-    public static function getCommands(): array | null
+    public static function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleUnderline', 'arguments' => null]
+            ['command' => 'toggleUnderline', 'arguments' => null],
         ];
     }
 }

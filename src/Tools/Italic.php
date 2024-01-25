@@ -12,10 +12,10 @@ class Italic extends ScribbleTool
 
     protected static bool $shouldShowInBubbleMenu = true;
 
-    public static function getCommands(): array | null
+    public static function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleItalic', 'arguments' => null]
+            ['command' => 'toggleItalic', 'arguments' => null],
         ];
     }
 }

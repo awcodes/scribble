@@ -61,7 +61,7 @@ class Media extends ScribbleTool
         return MaxWidth::TwoExtraLarge;
     }
 
-    public static function getCommands(): array|null
+    public static function getCommands(): ?array
     {
         return [
             ['command' => 'setImage', 'arguments' => null],

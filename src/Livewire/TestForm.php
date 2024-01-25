@@ -13,10 +13,10 @@ use Filament\Forms\Get;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
-class TestForm extends Component implements HasForms, HasActions
+class TestForm extends Component implements HasActions, HasForms
 {
-    use InteractsWithForms;
     use InteractsWithActions;
+    use InteractsWithForms;
 
     public ?array $data = [];
 
@@ -29,9 +29,9 @@ class TestForm extends Component implements HasForms, HasActions
                 Select::make('type')
                     ->live()
                     ->options([
-                    'foo' => 'Foo',
-                    'bar' => 'Bar',
-                ])->columnSpanFull(),
+                        'foo' => 'Foo',
+                        'bar' => 'Bar',
+                    ])->columnSpanFull(),
                 TextInput::make('email')
                     ->visible(fn (Get $get) => $get('type') === 'foo')
                     ->columnSpanFull(),

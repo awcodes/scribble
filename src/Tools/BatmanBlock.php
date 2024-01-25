@@ -59,7 +59,7 @@ class BatmanBlock extends ScribbleTool
                         'Hero' => 'Hero',
                         'Villain' => 'Villain',
                     ])
-                    ->default('Hero')
+                    ->default('Hero'),
             ]);
     }
 

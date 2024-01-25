@@ -17,5 +17,4 @@ trait HasMenuLocations
     {
         return static::$shouldShowInSuggestionMenu;
     }
-
 }

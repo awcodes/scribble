@@ -12,10 +12,10 @@ class Strike extends ScribbleTool
 
     protected static bool $shouldShowInBubbleMenu = true;
 
-    public static function getCommands(): array | null
+    public static function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleStrike', 'arguments' => null]
+            ['command' => 'toggleStrike', 'arguments' => null],
         ];
     }
 }

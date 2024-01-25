@@ -14,10 +14,10 @@ class BulletList extends ScribbleTool
 
     protected static bool $shouldShowInSuggestionMenu = true;
 
-    public static function getCommands(): array | null
+    public static function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleBulletList', 'arguments' => null]
+            ['command' => 'toggleBulletList', 'arguments' => null],
         ];
     }
 }

@@ -12,10 +12,10 @@ class AlignJustify extends ScribbleTool
 
     protected static bool $shouldShowInBubbleMenu = true;
 
-    public static function getCommands(): array | null
+    public static function getCommands(): ?array
     {
         return [
-            ['command' => 'setTextAlign', 'arguments' => 'justify']
+            ['command' => 'setTextAlign', 'arguments' => 'justify'],
         ];
     }
 }

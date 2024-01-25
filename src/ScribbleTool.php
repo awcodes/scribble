@@ -39,7 +39,7 @@ class ScribbleTool extends PounceComponent implements HasForms
         return ToolType::Command;
     }
 
-    public static function getCommands(): array | null
+    public static function getCommands(): ?array
     {
         return null;
     }

@@ -12,10 +12,10 @@ class HorizontalRule extends ScribbleTool
 
     protected static bool $shouldShowInSuggestionMenu = true;
 
-    public static function getCommands(): array | null
+    public static function getCommands(): ?array
     {
         return [
-            ['command' => 'setHorizontalRule', 'arguments' => null]
+            ['command' => 'setHorizontalRule', 'arguments' => null],
         ];
     }
 }
