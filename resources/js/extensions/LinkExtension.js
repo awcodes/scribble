@@ -1,6 +1,6 @@
 import Link from '@tiptap/extension-link'
 
-export const LinkExtension = Link.extend({
+export default Link.extend({
     inclusive: false,
 
     addOptions() {

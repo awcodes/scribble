@@ -1,6 +1,6 @@
 import {Extension} from '@tiptap/core'
 
-export const IdExtension = Extension.create({
+export default Extension.create({
     name: 'idExtension',
 
     addGlobalAttributes() {

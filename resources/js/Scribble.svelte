@@ -1,20 +1,23 @@
 <script>
     import {onMount, onDestroy} from "svelte";
     import { Editor } from '@tiptap/core'
-    import { BubbleMenu } from '@tiptap/extension-bubble-menu'
-    import { ClassExtension } from './extensions/ClassExtension.js'
-    import { HeroExtension } from './extensions/HeroExtension.js'
-    import { IdExtension } from './extensions/IdExtension.js'
-    import { LinkExtension } from './extensions/LinkExtension.js'
-    import { MediaExtension } from './extensions/MediaExtension.js'
-    import { Placeholder } from '@tiptap/extension-placeholder'
+    import BubbleMenu from '@tiptap/extension-bubble-menu'
+    import ClassExtension from './extensions/ClassExtension.js'
+    import CommandsExtension from './extensions/CommandsExtension.js'
+    import Grid from './extensions/Grid/Grid.js'
+    import GridColumn from './extensions/Grid/GridColumn.js'
+    import HeroExtension from './extensions/HeroExtension.js'
+    import IdExtension from './extensions/IdExtension.js'
+    import LinkExtension from './extensions/LinkExtension.js'
+    import MediaExtension from './extensions/MediaExtension.js'
+    import Placeholder from '@tiptap/extension-placeholder'
     import StarterKit from '@tiptap/starter-kit';
     import ScribbleBlock from './extensions/ScribbleBlock';
     import SlashExtension from './extensions/SlashExtension.js'
-    import { Subscript } from '@tiptap/extension-subscript'
-    import { Superscript } from '@tiptap/extension-superscript'
-    import { TextAlign } from './extensions/TextAlignExtension.js'
-    import { TextStyle } from "@tiptap/extension-text-style"
+    import Subscript from '@tiptap/extension-subscript'
+    import Superscript from '@tiptap/extension-superscript'
+    import TextAlign from './extensions/TextAlignExtension.js'
+    import TextStyle from "@tiptap/extension-text-style"
     import { pounce, commandRunner } from './utils.js'
     import { getStatePath } from './stores.js'
     import Button from './components/Button.svelte'
@@ -42,8 +45,11 @@
             extensions: [
                 StarterKit,
                 ClassExtension,
+                CommandsExtension,
                 LinkExtension,
                 IdExtension,
+                Grid,
+                GridColumn,
                 ScribbleBlock,
                 Subscript,
                 Superscript,
@@ -87,7 +93,7 @@
                 window.dispatchEvent(new CustomEvent('updatedEditor', {
                     detail: {
                         statePath: statePath,
-                        content: editor.getHTML(),
+                        content: editor.getJSON(),
                     }
                 }));
             },
@@ -135,6 +141,7 @@
                         statePath: statePath,
                         identifier: tool.identifier,
                         type: tool.type,
+                        blockId: data.detail.blockId,
                         values: data.detail.values
                     }
                 }));
@@ -146,10 +153,10 @@
         })
     })
 
-    const handleToolClick = (tool) => {
+    const handleToolClick = (tool, update = false) => {
         switch (tool.type) {
             case 'command': commandRunner(editor, tool.commands); return
-            case 'modal': pounce(tool.identifier, { statePath: tool.statePath, ...editor.getAttributes(tool.extension) }); return
+            case 'modal': pounce(tool.identifier, { statePath: tool.statePath, update: update, ...editor.getAttributes(tool.extension) }); return
             case 'static': editor.chain().insertScribbleBlock({
                     identifier: tool.identifier,
                     type: tool.type,
@@ -208,7 +215,7 @@
                 {/each}
             {:else if isActive('link')}
                 <span class="max-w-xs text-sm leading-none truncate overflow-hidden whitespace-nowrap">{editor.getAttributes('link').href}</span>
-                <Button {editor} key="editLink" on:click={() => handleToolClick(tools.find((item) => item.extension === 'link'))}>
+                <Button {editor} key="editLink" on:click={() => handleToolClick(tools.find((item) => item.extension === 'link'), true)}>
                     {@html tools.find((item) => item.extension === 'link')?.icon}
                 </Button>
                 <Button {editor} key="unsetLink" on:click={() => editor.chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run()}>

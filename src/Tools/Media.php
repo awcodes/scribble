@@ -29,11 +29,7 @@ class Media extends ScribbleTool
 
     protected static string $label = 'Media';
 
-    protected static bool $shouldShowInBubbleMenu = true;
-
     protected static bool $shouldShowInSuggestionMenu = true;
-
-    protected static string $view = 'scribble::actions.media';
 
     public ?string $src = null;
 

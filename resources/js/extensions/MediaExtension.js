@@ -2,7 +2,7 @@ import Image from "@tiptap/extension-image";
 import { SvelteNodeViewRenderer } from 'svelte-tiptap'
 import MediaView from '../components/MediaView.svelte'
 
-export const MediaExtension = Image.extend({
+export default Image.extend({
     selectable: true,
 
     addAttributes() {

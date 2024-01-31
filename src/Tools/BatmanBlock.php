@@ -72,6 +72,7 @@ class BatmanBlock extends ScribbleTool
         $this->dispatch(
             event: $event . '-' . static::getExtension(),
             statePath: $this->statePath,
+            blockId: $this->blockId,
             values: $data,
         );
 

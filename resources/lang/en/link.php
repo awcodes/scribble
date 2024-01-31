@@ -1,6 +1,6 @@
 <?php
 
-// translations for Awcodes/Scribble/Actions/Link.php
+// translations for Awcodes/Scribble/Tools/Link.php
 return [
     'modal' => [
         'heading' => [

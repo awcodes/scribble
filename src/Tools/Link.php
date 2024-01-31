@@ -46,7 +46,7 @@ class Link extends ScribbleTool
         return [
             ['command' => 'extendMarkRange', 'arguments' => 'link'],
             ['command' => 'setLink', 'arguments' => null],
-            ['command' => 'selectTextblockEnd', 'arguments' => null],
+            ['command' => 'moveToEnd', 'arguments' => null],
         ];
     }
 

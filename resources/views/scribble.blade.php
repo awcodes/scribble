@@ -17,7 +17,7 @@
             'relative z-0': !fullscreen,
         }"
         @class([
-            'scribble-wrapper w-full rounded-md text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white focus-within:ring focus-within:ring-primary-500 prose max-w-none dark:prose-invert prose-a:text-blue-500',
+            'scribble-wrapper w-full rounded-md text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white focus-within:ring focus-within:ring-primary-500 prose max-w-none dark:prose-invert prose-a:text-blue-500 dark:prose-a:text-blue-400',
             'ring-gray-950/10 dark:ring-white/20' => ! $errors->has($statePath),
             'ring-danger-600 dark:ring-danger-600' => $errors->has($statePath),
         ])

@@ -1,6 +1,6 @@
 <?php
 
-// translations for Awcodes/Scribble/Actions/Media.php
+// translations for Awcodes/Scribble/Tools/Media.php
 return [
     'heading' => [
         'update' => 'Update Media',

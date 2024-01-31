@@ -10,6 +10,6 @@ export const pounce = (component, args) => {
 
 export const commandRunner = (editor, commands, args = null) => {
     commands.forEach(command => {
-        editor.chain().focus()[command.command](args ?? command?.arguments ).run()
+        editor.chain().focus()[command.command](command?.arguments ?? args).run()
     })
 }

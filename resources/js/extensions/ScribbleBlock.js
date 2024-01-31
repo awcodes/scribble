@@ -47,12 +47,6 @@ export default Node.create({
     addCommands() {
         return {
             setScribbleBlock: (options) => ({ tr, state }) => {
-                const { selection } = tr;
-
-                const node = state.schema.nodes['paragraph'].create()
-
-                tr.replaceRangeWith(selection.from - selection.$anchor.parentOffset, selection.to, node);
-
                 pounce(options.identifier, { statePath: options.statePath })
 
                 return true

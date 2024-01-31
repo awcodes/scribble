@@ -63,13 +63,12 @@
         const item = items[index]
 
         if (item) {
+            editor.commands.deleteRange(range);
             switch (item.type) {
                 case 'command':
-                    editor.commands.deleteRange(range);
                     commandRunner(editor, item.commands)
                     break
                 case 'modal':
-                    editor.commands.deleteRange(range);
                     pounce(item.identifier, { statePath: item.statePath, ...editor.getAttributes(item.extension) });
                     break
                 case 'static':
@@ -112,7 +111,8 @@
                 {#each groups[group] as item}
                     <button
                         on:click={() => selectItem(item.index)}
-                        class="p-2 w-full flex gap-2 items-center cursor-pointer select-none { item.index === selectedIndex ? 'bg-gray-800 active-option' : 'hover:bg-gray-800' }"
+                        class="p-2 w-full flex gap-2 items-center cursor-pointer select-none { item.index ===
+                        selectedIndex ? 'bg-gray-800 active-option' : 'hover:bg-gray-800/40' }"
                     >
                         <span class="shrink-0 rounded-md flex items-center justify-center text-gray-200">
                             {@html item.icon}

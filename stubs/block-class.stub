@@ -2,22 +2,22 @@
 
 namespace {{namespace}};
 
-use Awcodes\Scribble\Block;
+use Awcodes\Scribble\ScribbleTool;
 
-class {{className}} extends Block
+class {{className}} extends ScribbleTool
 {
    protected static string $icon = 'heroicon-o-lightning-bolt';
 
-   protected static string $title = '{{className}}';
-
-   protected static string $description = '{{className}} description';
+   protected static string $label = '{{className}}';
 
    protected static string $view = '{{view}}';
 
-   protected function getFormSchema(): array
-       {
-           return [
-                //
-           ];
-       }
+    protected static bool $shouldShowInBubbleMenu = true;
+
+    public static function getCommands(): array | null
+    {
+        return [
+            ['command' => '', 'arguments' => null]
+        ];
+    }
 }

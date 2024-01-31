@@ -93,7 +93,7 @@
                     }
 
                     .ProseMirror-gapcursor:after {
-                        border-top: 1px solid white;
+                        @apply border-gray-900/50 dark:border-white/80;
                     }
 
                     .node-scribbleBlock + .ProseMirror-gapcursor {
@@ -113,8 +113,55 @@
                     min-height: 3rem;
                 }
 
-                .node-scribbleBlock + .node-scribbleBlock {
+                > div + div {
                     margin-top: 1rem;
+                }
+
+                .scribble-grid {
+                    @apply grid gap-4;
+
+                    .scribble-grid-column {
+                        @apply border border-dashed border-gray-400 p-2 rounded-lg dark:border-gray-600;
+
+                        > * + * {
+                            margin-block-start: 1rem;
+                        }
+                    }
+                }
+
+                .filament-tiptap-grid[type^="asymetric"] {
+                    grid-template-columns: 1fr;
+                    grid-template-rows: auto;
+                }
+
+                @media (max-width: theme('screens.sm')) {
+                    .scribble-grid[data-stack-at="sm"] {
+                        grid-template-columns: 1fr !important;
+
+                        .scribble-grid-column {
+                            grid-column: span 1 !important;
+                        }
+                    }
+                }
+
+                @media (max-width: theme('screens.md')) {
+                    .scribble-grid[data-stack-at="md"] {
+                        grid-template-columns: 1fr !important;
+
+                        .scribble-grid-column {
+                            grid-column: span 1 !important;
+                        }
+                    }
+                }
+
+                @media (max-width: theme('screens.lg')) {
+                    .scribble-grid[data-stack-at="lg"] {
+                        grid-template-columns: 1fr !important;
+
+                        .scribble-grid-column {
+                            grid-column: span 1 !important;
+                        }
+                    }
                 }
             }
         }

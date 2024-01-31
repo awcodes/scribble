@@ -2,7 +2,7 @@ import { Node, mergeAttributes } from "@tiptap/core";
 import { SvelteNodeViewRenderer } from 'svelte-tiptap'
 import HeroView from '../components/HeroView.svelte'
 
-export const HeroExtension = Node.create({
+export default Node.create({
     name: "hero",
 
     group: "block",

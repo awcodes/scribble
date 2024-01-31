@@ -22,6 +22,8 @@ class ScribbleTool extends PounceComponent implements HasForms
 
     public ?string $statePath = null;
 
+    public ?string $blockId = null;
+
     public array $data = [];
 
     public static function getExtension(): string
@@ -53,6 +55,7 @@ class ScribbleTool extends PounceComponent implements HasForms
         $this->dispatch(
             event: $event . '-' . static::getExtension(),
             statePath: $this->statePath,
+            blockId: $this->blockId,
             values: $data
         );
 

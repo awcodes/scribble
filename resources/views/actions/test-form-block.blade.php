@@ -1,3 +1,3 @@
-<div class="p-4">
+<div contenteditable="false" class="p-4">
     @livewire('test-form')
 </div>

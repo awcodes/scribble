@@ -25,7 +25,7 @@ class TestForm extends Component implements HasForms, HasActions
         return $form
             ->statePath('data')
             ->schema([
-                TextInput::make('name')->required()->columnSpanFull(),
+                TextInput::make('name')->columnSpanFull(),
                 Select::make('type')
                     ->live()
                     ->options([

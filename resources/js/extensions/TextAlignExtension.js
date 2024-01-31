@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 
-export const TextAlign = Extension.create({
+export default Extension.create({
     name: 'textAlign',
 
     addOptions() {
