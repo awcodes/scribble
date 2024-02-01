@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Tools;
+use Awcodes\Scribble\Wrappers\Group;
 use Closure;
 
 trait HasTools
@@ -19,29 +20,32 @@ trait HasTools
     public function getTools(): array
     {
         return [
-            Tools\TestFormBlock::class,
-            Tools\BatmanBlock::class,
-            Tools\Hero::class,
-            Tools\Grid::class,
-            Tools\Media::class,
+            ...$this->evaluate($this->tools) ?? [],
             Tools\Bold::class,
             Tools\Italic::class,
-            Tools\Underline::class,
-            Tools\Strike::class,
-            Tools\Superscript::class,
-            Tools\Subscript::class,
-            Tools\Paragraph::class,
             Tools\BulletList::class,
             Tools\OrderedList::class,
             Tools\Code::class,
             Tools\Link::class,
-            Tools\AlignStart::class,
-            Tools\AlignCenter::class,
-            Tools\AlignEnd::class,
-            Tools\AlignJustify::class,
+            Group::make('Text')
+                ->tools([
+                    Tools\Underline::class,
+                    Tools\Strike::class,
+                    Tools\Superscript::class,
+                    Tools\Subscript::class,
+                    Tools\Paragraph::class,
+                ]),
+            Group::make('Alignment')
+                ->tools([
+                    Tools\AlignStart::class,
+                    Tools\AlignCenter::class,
+                    Tools\AlignEnd::class,
+                    Tools\AlignJustify::class,
+            ]),
+            Tools\Grid::class,
+            Tools\Media::class,
             Tools\Blockquote::class,
             Tools\HorizontalRule::class,
-            ...$this->evaluate($this->tools) ?? [],
         ];
     }
 }

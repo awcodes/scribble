@@ -14,7 +14,7 @@
         x-on:keydown.esc.window="fullscreen = false"
         x-bind:class="{
             'fixed inset-0 z-50 fullscreen': fullscreen,
-            'relative z-0': !fullscreen,
+            'relative': !fullscreen,
         }"
         @class([
             'scribble-wrapper w-full rounded-md text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white focus-within:ring focus-within:ring-primary-500 prose max-w-none dark:prose-invert prose-a:text-blue-500 dark:prose-a:text-blue-400',

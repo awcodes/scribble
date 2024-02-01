@@ -35,7 +35,7 @@ class Hero extends ScribbleTool
 
     public static function getType(): ToolType
     {
-        return ToolType::StaticBlock;
+        return ToolType::Command;
     }
 
     public static function getCommands(): array | null

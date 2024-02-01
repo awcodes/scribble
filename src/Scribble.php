@@ -28,16 +28,14 @@ class Scribble extends Field
                     $tools[] = [
                         ...$this->formatTool($groupBlock),
                         'group' => $tool->getLabel(),
+                        'groupLabel' => str($tool->getLabel())->title(),
                     ];
                 }
-            }
-
-            if (is_string($tool)) {
-                $tool = app($tool);
-
+            } else {
                 $tools[] = [
                     ...$this->formatTool($tool),
                     'group' => '',
+                    'groupLabel' => '',
                 ];
             }
         }
@@ -48,8 +46,12 @@ class Scribble extends Field
     /**
      * @throws Exception
      */
-    private function formatTool(ScribbleTool $tool): array
+    private function formatTool(ScribbleTool | string $tool): array
     {
+        if (is_string($tool)) {
+            $tool = app($tool);
+        }
+
         return [
             'statePath' => $this->getStatePath(),
             'identifier' => $tool::getIdentifier(),

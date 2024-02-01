@@ -49,6 +49,8 @@
         "clsx": "^2.1.0",
         "esbuild": "^0.19.2",
         "esbuild-svelte": "^0.8.0",
+        "flowbite": "^2.2.1",
+        "flowbite-svelte": "^0.44.22",
         "lucide-svelte": "^0.312.0",
         "npm-run-all": "^4.1.5",
         "postcss": "^8.4.26",

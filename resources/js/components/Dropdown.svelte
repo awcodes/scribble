@@ -1,6 +1,8 @@
 <script>
     import { pounce, commandRunner } from '../utils.js'
     import { getStatePath } from '../stores.js'
+    import tippy from 'tippy.js'
+    import Button from './Button.svelte'
 
     export let items
     export let editor
@@ -8,22 +10,30 @@
 
     let selectedIndex = 0
     let dropdown
-    let groups
+    let trigger
 
-    const getGroups = array => {
-        let map = array.map((e, i) => {
-            e.index = i
-            return e
-        })
-
-        groups = map.reduce(function(r, a) {
-            r[a.group] = r[a.group] || []
-            r[a.group].push(a)
-            return r
-        }, Object.create(null))
+    function tooltip(node, params) {
+        let tip = tippy(node, {
+            appendTo: () => document.body,
+            content: dropdown,
+            showOnCreate: false,
+            interactive: true,
+            triggerTarget: trigger,
+            trigger: 'manual',
+            placement: 'bottom-start',
+            theme: 'scribble-panel',
+            arrow: false,
+            zIndex: 40,
+        });
+        return {
+            update: (newParams) => {
+                tip.setProps(newParams);
+            },
+            destroy: () => {
+                tip.destroy();
+            }
+        }
     }
-
-    $: getGroups(items)
 
     export const resetIndex = () => selectedIndex = 0
 
@@ -64,7 +74,7 @@
         const item = items[index]
 
         if (item) {
-            editor.commands.deleteRange(range);
+            // editor.commands.deleteRange(range);
             switch (item.type) {
                 case 'command':
                     commandRunner(editor, item.commands)
@@ -99,38 +109,30 @@
     }
 </script>
 
-<div
-    class="w-56 max-h-56 overflow-y-auto scrollbar-hide text-xs rounded-lg shadow-lg ring-1 ring-gray-950/5 transition dark:ring-white/10"
-    bind:this={dropdown}
->
-    <div>
-        {#if items.length}
-            {#each Object.keys(groups) as group}
-                {#if group }
-                    <div class="text-xs my-1 px-2 font-bold">{group}</div>
-                {/if}
-                {#each groups[group] as item}
-                    <button
-                        on:click={() => selectItem(item.index)}
-                        class="p-2 w-full flex gap-2 items-center cursor-pointer select-none { item.index ===
-                        selectedIndex ? 'bg-gray-800 active-option' : 'hover:bg-gray-800/40' }"
-                    >
-                        <span class="shrink-0 rounded-md flex items-center justify-center text-gray-200">
-                            {@html item.icon}
-                        </span>
-                        <span class="flex-1 text-left">
-                            <span class="block">{item.label}</span>
-                            {#if item.description}
-                            <span class="block text-xs text-gray-300">{item.description}</span>
-                            {/if}
-                        </span>
-                    </button>
-                {/each}
-            {/each}
-        {/if}
-
-        {#if !items.length}
-            <div class="p-2 text-gray-200">No blocks found</div>
-        {/if}
+<div class="dropdown">
+    <div class="flex-1">
+        <button type="button" bind:this={trigger} {editor} use:tooltip
+                class="rounded-sm p-1 bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+        </button>
     </div>
+    {#if dropdown}
+    <div
+        class="w-56 max-h-56 overflow-y-auto scrollbar-hide text-xs rounded-lg shadow-lg ring-1 ring-gray-950/5 transition dark:ring-white/10 hidden"
+        bind:this={dropdown}
+    >
+        <div>
+            {#if items.length}
+                {#each items as item, index}
+                    <Button {editor} key={item.extension} on:click={() => selectItem(index)}>
+                        {@html item.icon}
+                    </Button>
+                {/each}
+            {/if}
+        </div>
+    </div>
+        {/if}
 </div>

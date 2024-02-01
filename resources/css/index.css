@@ -34,10 +34,10 @@
     .scribble-editor-wrapper {
 
         .scribble-controls {
-            @apply opacity-0 transition-opacity duration-200 absolute -top-4 inset-x-0 flex justify-center z-10;
+            @apply opacity-0 transition-opacity duration-200 absolute -top-6 inset-x-0 flex justify-center z-10;
 
             .scribble-controls-panel {
-                @apply bg-gray-700 text-white;
+                @apply inline-flex px-2 items-center rounded-full border border-gray-950/10 dark:border-white/20 shadow-md bg-gray-700 text-white;
             }
 
             .enter-fullscreen {
@@ -49,8 +49,16 @@
             }
         }
 
+        [data-tippy-root] {
+            @apply !z-30;
+        }
+
         &:focus-within .scribble-controls {
-            @apply opacity-100;
+            @apply opacity-70;
+
+            &:hover {
+                @apply opacity-100;
+            }
         }
 
         .scribble-editor {
@@ -127,11 +135,6 @@
                             margin-block-start: 1rem;
                         }
                     }
-                }
-
-                .filament-tiptap-grid[type^="asymetric"] {
-                    grid-template-columns: 1fr;
-                    grid-template-rows: auto;
                 }
 
                 @media (max-width: theme('screens.sm')) {

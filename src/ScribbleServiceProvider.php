@@ -52,7 +52,6 @@ class ScribbleServiceProvider extends PackageServiceProvider
         }
 
         Livewire::component('scribble.renderer', Renderer::class);
-        Livewire::component('test-form', TestForm::class);
 
         FilamentView::registerRenderHook(
             'panels::body.end',

@@ -18,15 +18,18 @@
     import Superscript from '@tiptap/extension-superscript'
     import TextAlign from './extensions/TextAlignExtension.js'
     import TextStyle from "@tiptap/extension-text-style"
-    import { pounce, commandRunner } from './utils.js'
+    import { pounce, commandRunner, tooltip } from './utils.js'
     import { getStatePath } from './stores.js'
     import Button from './components/Button.svelte'
+    import { Button as FlowbiteButton, Dropdown, DropdownItem } from 'flowbite-svelte';
+    import { hideAll } from 'tippy.js'
 
     let editor;
     let element;
     let bubbleMenuElement;
     let bubbleTools;
     let suggestionTools;
+    let groups;
 
     export let tools;
     export let content;
@@ -37,6 +40,21 @@
 
     bubbleTools = tools.filter((tool) => tool.bubble === true)
     suggestionTools = tools.filter((tool) => tool.suggestion === true)
+
+    const getGroups = array => {
+        let map = array.map((e, i) => {
+            e.index = i
+            return e
+        })
+
+        groups = map.reduce(function(r, a) {
+            r[a.group] = r[a.group] || []
+            r[a.group].push(a)
+            return r
+        }, Object.create(null))
+    }
+
+    $: getGroups(bubbleTools)
 
     onMount(() => {
         editor = new Editor({
@@ -102,6 +120,7 @@
 
     onDestroy(() => {
         editor.destroy()
+        hideAll({ duration: 0 })
     })
 
     const toggleFullscreen = () => {
@@ -174,7 +193,7 @@
 <div class="scribble-editor-wrapper w-full">
     {#if editor}
         <div class="scribble-controls">
-            <div class="scribble-controls-panel inline-flex px-2 items-center rounded-full border border-gray-950/10 dark:border-white/20 shadow-md">
+            <div class="scribble-controls-panel">
                 <Button {editor} key="undo" on:click={() => editor.chain().focus().undo().run()}>
                     <svg class="size-5" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512">
                         <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" d="M240 424v-96c116.4 0 159.39 33.76 208 96c0-119.23-39.57-240-208-240V88L64 256Z"/>
@@ -206,24 +225,65 @@
     <div class="scribble-editor" bind:this={element} />
     <div bind:this={bubbleMenuElement}>
         {#if editor}
-            <div class="flex items-center">
-            {#if !isActive('link')}
-                {#each bubbleTools as tool}
-                    <Button {editor} key={tool.extension} on:click={() => handleToolClick(tool)}>
-                        {@html tool.icon}
+            <div class="bubble-menu flex items-center relative">
+                {#if !isActive('link')}
+                    {#if bubbleTools.length}
+                        {#each Object.keys(groups) as group}
+                            {#if group !== ''}
+                                <FlowbiteButton
+                                    class="shrink-0 flex items-center gap-1 rounded-sm p-1 !bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+<!--                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--                                         stroke="currentColor" class="w-5 h-5">-->
+<!--                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />-->
+<!--                                    </svg>-->
+                                    {group} <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-2 h-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
+
+                                </FlowbiteButton>
+                                <Dropdown
+                                    containerClass="w-56 max-h-56 overflow-y-auto scrollbar-hide text-xs rounded-lg shadow-lg ring-1 ring-gray-950/5 transition dark:ring-white/10 opacity-100"
+                                    class="not-prose"
+                                >
+                                    {#each groups[group] as groupTool}
+                                        <DropdownItem
+                                            on:click={() => handleToolClick(groupTool)}
+                                            class="p-2 w-full flex gap-2 items-center cursor-pointer select-none"
+                                            activeClass="bg-gray-800"
+                                        >
+                                            <span class="shrink-0 rounded-md flex items-center justify-center text-gray-200">
+                                                {@html groupTool.icon}
+                                            </span>
+                                            <span class="flex-1 text-left">
+                                                <span class="block">{groupTool.label}</span>
+                                                {#if groupTool.description}
+                                                <span class="block text-xs text-gray-300">{groupTool.description}</span>
+                                                {/if}
+                                            </span>
+                                        </DropdownItem>
+                                    {/each}
+                                </Dropdown>
+                            {:else}
+                                {#each groups[group] as groupTool}
+                                    <Button {editor} key={groupTool.extension} on:click={() => handleToolClick(groupTool)}>
+                                        {@html groupTool.icon}
+                                    </Button>
+                                {/each}
+                            {/if}
+                        {/each}
+                    {/if}
+                {:else if isActive('link')}
+                    <span class="max-w-xs text-sm leading-none truncate overflow-hidden whitespace-nowrap">{editor.getAttributes('link').href}</span>
+                    <Button {editor} key="editLink" on:click={() => handleToolClick(tools.find((item) => item.extension === 'link'), true)}>
+                        {@html tools.find((item) => item.extension === 'link')?.icon}
                     </Button>
-                {/each}
-            {:else if isActive('link')}
-                <span class="max-w-xs text-sm leading-none truncate overflow-hidden whitespace-nowrap">{editor.getAttributes('link').href}</span>
-                <Button {editor} key="editLink" on:click={() => handleToolClick(tools.find((item) => item.extension === 'link'), true)}>
-                    {@html tools.find((item) => item.extension === 'link')?.icon}
-                </Button>
-                <Button {editor} key="unsetLink" on:click={() => editor.chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run()}>
-                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17 17H22V19H19V22H17V17ZM7 7H2V5H5V2H7V7ZM18.364 15.5355L16.9497 14.1213L18.364 12.7071C20.3166 10.7545 20.3166 7.58866 18.364 5.63604C16.4113 3.68342 13.2455 3.68342 11.2929 5.63604L9.87868 7.05025L8.46447 5.63604L9.87868 4.22183C12.6123 1.48816 17.0445 1.48816 19.7782 4.22183C22.5118 6.9555 22.5118 11.3877 19.7782 14.1213L18.364 15.5355ZM15.5355 18.364L14.1213 19.7782C11.3877 22.5118 6.9555 22.5118 4.22183 19.7782C1.48816 17.0445 1.48816 12.6123 4.22183 9.87868L5.63604 8.46447L7.05025 9.87868L5.63604 11.2929C3.68342 13.2455 3.68342 16.4113 5.63604 18.364C7.58866 20.3166 10.7545 20.3166 12.7071 18.364L14.1213 16.9497L15.5355 18.364ZM14.8284 7.75736L16.2426 9.17157L9.17157 16.2426L7.75736 14.8284L14.8284 7.75736Z"/>
-                    </svg>
-                </Button>
-            {/if}
+                    <Button {editor} key="unsetLink" on:click={() => editor.chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run()}>
+                        <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 17H22V19H19V22H17V17ZM7 7H2V5H5V2H7V7ZM18.364 15.5355L16.9497 14.1213L18.364 12.7071C20.3166 10.7545 20.3166 7.58866 18.364 5.63604C16.4113 3.68342 13.2455 3.68342 11.2929 5.63604L9.87868 7.05025L8.46447 5.63604L9.87868 4.22183C12.6123 1.48816 17.0445 1.48816 19.7782 4.22183C22.5118 6.9555 22.5118 11.3877 19.7782 14.1213L18.364 15.5355ZM15.5355 18.364L14.1213 19.7782C11.3877 22.5118 6.9555 22.5118 4.22183 19.7782C1.48816 17.0445 1.48816 12.6123 4.22183 9.87868L5.63604 8.46447L7.05025 9.87868L5.63604 11.2929C3.68342 13.2455 3.68342 16.4113 5.63604 18.364C7.58866 20.3166 10.7545 20.3166 12.7071 18.364L14.1213 16.9497L15.5355 18.364ZM14.8284 7.75736L16.2426 9.17157L9.17157 16.2426L7.75736 14.8284L14.8284 7.75736Z"/>
+                        </svg>
+                    </Button>
+                {/if}
             </div>
         {/if}
     </div>
