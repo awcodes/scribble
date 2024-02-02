@@ -31,6 +31,6 @@ export default function scribble(tools, state, statePath, placeholder) {
         toggleFullscreen(event) {
             if (event.detail.statePath !== this.statePath) return
             this.fullscreen = !this.fullscreen
-        }
+        },
     }
 }

@@ -40,7 +40,7 @@
         "@tiptap/extension-superscript": "^2.2.0",
         "@tiptap/extension-text": "^2.2.0",
         "@tiptap/extension-text-style": "^2.2.0",
-        "@tiptap/extension-underline": "2.2.0",
+        "@tiptap/extension-underline": "^2.2.0",
         "@tiptap/html": "2.2.0",
         "@tiptap/pm": "^2.2.0",
         "@tiptap/starter-kit": "^2.2.0",

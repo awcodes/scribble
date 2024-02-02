@@ -17,8 +17,9 @@
     import Subscript from '@tiptap/extension-subscript'
     import Superscript from '@tiptap/extension-superscript'
     import TextAlign from './extensions/TextAlignExtension.js'
-    import TextStyle from "@tiptap/extension-text-style"
-    import { pounce, commandRunner, tooltip } from './utils.js'
+    import TextStyle from '@tiptap/extension-text-style'
+    import { Underline } from '@tiptap/extension-underline'
+    import { pounce, commandRunner } from './utils.js'
     import { getStatePath } from './stores.js'
     import Button from './components/Button.svelte'
     import { Button as FlowbiteButton, Dropdown, DropdownItem } from 'flowbite-svelte';
@@ -73,6 +74,7 @@
                 Superscript,
                 MediaExtension,
                 HeroExtension,
+                Underline,
                 TextAlign.configure({
                     types: ['heading', 'paragraph']
                 }),
@@ -173,6 +175,7 @@
     })
 
     const handleToolClick = (tool, update = false) => {
+        console.log(tool.commands)
         switch (tool.type) {
             case 'command': commandRunner(editor, tool.commands); return
             case 'modal': pounce(tool.identifier, { statePath: tool.statePath, update: update, ...editor.getAttributes(tool.extension) }); return
@@ -232,10 +235,6 @@
                             {#if group !== ''}
                                 <FlowbiteButton
                                     class="shrink-0 flex items-center gap-1 rounded-sm p-1 !bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-<!--                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
-<!--                                         stroke="currentColor" class="w-5 h-5">-->
-<!--                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />-->
-<!--                                    </svg>-->
                                     {group} <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="1.5" stroke="currentColor" class="w-2 h-2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
