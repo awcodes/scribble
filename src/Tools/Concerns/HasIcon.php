@@ -7,10 +7,12 @@ use Illuminate\Support\Str;
 
 trait HasIcon
 {
-    protected static string $icon = 'heroicon-o-cube-transparent';
+    protected string $icon = 'heroicon-o-cube-transparent';
 
-    public static function getIcon(): string
+    public function getIcon(): string
     {
-        return Str::of(Blade::render('<x-' . static::$icon . ' class="size-5" stroke-width="1.5"/>'))->replace("\n", '');
+        return (string) Str::of(Blade::render('<x-' . $this->icon . ' stroke-width="1.5"/>'))
+            ->replace("\n", '')
+            ->squish();
     }
 }

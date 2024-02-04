@@ -16,13 +16,17 @@
     let view = null;
     $: wrapper = null;
 
-    const open = () => {
+    const handleOpen = () => {
         pounce(node.attrs.identifier, {
             update: true,
             statePath: $getStatePath,
             blockId: node.attrs.id,
             ...node.attrs.values
         })
+    }
+
+    const handleRemove = () => {
+        editor.commands.deleteSelection()
     }
 
     $: getView = () => {
@@ -64,16 +68,16 @@
 </script>
 
 <NodeViewWrapper>
-    <div class="relative group bg-gray-900/5 dark:bg-white/5 rounded-md">
-        <div class="transition rounded-md overflow-hidden z-10 relative {selected ? 'ProseMirror-selectednode' : ''}" bind:this={wrapper}>
+    <div class="scribble-block">
+        <div class="scribble-block-content {selected ? 'ProseMirror-selectednode' : ''}" bind:this={wrapper}>
             {@html view}
         </div>
         <BlockActions>
             <DragHandle />
             {#if node.attrs.type !== 'static'}
-            <BlockSettings {open} />
+            <BlockSettings {handleOpen} />
             {/if}
-            <RemoveBlock {editor} />
+            <RemoveBlock {handleRemove} />
         </BlockActions>
     </div>
 </NodeViewWrapper>

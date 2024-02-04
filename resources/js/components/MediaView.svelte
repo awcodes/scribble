@@ -13,12 +13,16 @@
     export let selected = false;
     export let updateAttributes;
 
-    const open = () => {
+    const handleOpen = () => {
         pounce('scribble-media', {
             update: true,
             statePath: $getStatePath,
             ...node.attrs
         })
+    }
+
+    const handleRemove = () => {
+        editor.commands.deleteSelection()
     }
 
     onMount(() => {
@@ -31,8 +35,8 @@
 </script>
 
 <NodeViewWrapper>
-    <div class="relative group bg-gray-900/5 dark:bg-white/5 rounded-md" style="min-height: 3rem;">
-        <div class="transition rounded-md overflow-hidden z-10 relative {selected ? 'ProseMirror-selectednode' : ''}">
+    <div class="scribble-block">
+        <div class="scribble-block-content {selected ? 'ProseMirror-selectednode' : ''}">
             <img
                 src={node.attrs.src}
                 alt={node.attrs.alt}
@@ -44,8 +48,8 @@
         </div>
         <BlockActions>
             <DragHandle />
-            <BlockSettings {open} />
-            <RemoveBlock {editor} />
+            <BlockSettings {handleOpen} />
+            <RemoveBlock {handleRemove} />
         </BlockActions>
     </div>
 </NodeViewWrapper>

@@ -6,13 +6,11 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Code extends ScribbleTool
 {
-    protected static string $icon = 'scribble-code';
+    protected string $icon = 'scribble-code';
 
-    protected static string $label = 'Code';
+    protected string $label = 'Code';
 
-    protected static bool $shouldShowInBubbleMenu = true;
-
-    public static function getCommands(): array | null
+    public function getCommands(): array | null
     {
         return [
             ['command' => 'toggleCode', 'arguments' => null]

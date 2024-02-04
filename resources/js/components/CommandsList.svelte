@@ -100,28 +100,28 @@
 </script>
 
 <div
-    class="w-56 max-h-56 overflow-y-auto scrollbar-hide text-xs rounded-lg shadow-lg ring-1 ring-gray-950/5 transition dark:ring-white/10"
+    class="scribble-suggestions"
     bind:this={dropdown}
 >
-    <div>
+    <div class="group">
         {#if items.length}
             {#each Object.keys(groups) as group}
                 {#if group }
-                    <div class="text-xs my-1 px-2 font-bold">{group}</div>
+                    <div class="group-title">{group}</div>
                 {/if}
                 {#each groups[group] as item}
                     <button
                         on:click={() => selectItem(item.index)}
-                        class="p-2 w-full flex gap-2 items-center cursor-pointer select-none { item.index ===
-                        selectedIndex ? 'bg-gray-800 active-option' : 'hover:bg-gray-800/40' }"
+                        class=" { item.index ===
+                        selectedIndex ? 'active-option' : '' }"
                     >
-                        <span class="shrink-0 rounded-md flex items-center justify-center text-gray-200">
+                        <span class="icon">
                             {@html item.icon}
                         </span>
-                        <span class="flex-1 text-left">
-                            <span class="block">{item.label}</span>
+                        <span class="text">
+                            <span class="label">{item.label}</span>
                             {#if item.description}
-                            <span class="block text-xs text-gray-300">{item.description}</span>
+                            <span class="description">{item.description}</span>
                             {/if}
                         </span>
                     </button>
@@ -130,7 +130,7 @@
         {/if}
 
         {#if !items.length}
-            <div class="p-2 text-gray-200">No blocks found</div>
+            <div class="no-blocks">No blocks found</div>
         {/if}
     </div>
 </div>

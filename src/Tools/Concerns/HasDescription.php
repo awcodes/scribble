@@ -4,10 +4,10 @@ namespace Awcodes\Scribble\Tools\Concerns;
 
 trait HasDescription
 {
-    protected static ?string $description = null;
+    protected ?string $description = null;
 
-    public static function getDescription(): ?string
+    public function getDescription(): ?string
     {
-        return static::$description ?? null;
+        return $this->description ?? null;
     }
 }

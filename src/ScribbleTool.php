@@ -5,16 +5,18 @@ namespace Awcodes\Scribble;
 use Awcodes\Pounce\PounceComponent;
 use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\Tools\Concerns;
+use Closure;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Contracts\View\View;
 
 class ScribbleTool extends PounceComponent implements HasForms
 {
+    use EvaluatesClosures;
     use Concerns\HasDescription;
     use Concerns\HasIcon;
     use Concerns\HasLabel;
-    use Concerns\HasMenuLocations;
     use Concerns\HasView;
     use InteractsWithForms;
 
@@ -26,24 +28,43 @@ class ScribbleTool extends PounceComponent implements HasForms
 
     public array $data = [];
 
-    public static function getExtension(): string
+    public bool | Closure | null $isHidden = null;
+
+    public function hidden(bool | Closure | null $hidden = true): static
+    {
+        $this->isHidden = $hidden;
+
+        return $this;
+    }
+
+    public function isHidden(): bool
+    {
+        return $this->evaluate($this->isHidden) ?? false;
+    }
+
+    public function getExtension(): string
     {
         return lcfirst(substr(strrchr(static::class, '\\'), 1));
     }
 
-    public static function getIdentifier(): string
+    public function getIdentifier(): string
     {
         return 'scribble-' . lcfirst(substr(strrchr(static::class, '\\'), 1));
     }
 
-    public static function getType(): ToolType
+    public function getType(): ToolType
     {
         return ToolType::Command;
     }
 
-    public static function getCommands(): array | null
+    public function getCommands(): array | null
     {
         return null;
+    }
+
+    public function getActiveAttributes(): string | array
+    {
+        return [];
     }
 
     public function save(): void

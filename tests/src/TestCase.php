@@ -2,7 +2,6 @@
 
 namespace Awcodes\Scribble\Tests;
 
-use Awcodes\Scribble\ScribbleServiceProvider;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
 use Filament\Actions\ActionsServiceProvider;
@@ -10,28 +9,20 @@ use Filament\FilamentServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Infolists\InfolistsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
-use Filament\SpatieLaravelSettingsPluginServiceProvider;
-use Filament\SpatieLaravelTranslatablePluginServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Awcodes\Scribble\ScribbleServiceProvider;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
+    use LazilyRefreshDatabase;
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Awcodes\\Scribble\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
-        );
-    }
-
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             ActionsServiceProvider::class,
@@ -43,21 +34,29 @@ class TestCase extends Orchestra
             InfolistsServiceProvider::class,
             LivewireServiceProvider::class,
             NotificationsServiceProvider::class,
-            SpatieLaravelSettingsPluginServiceProvider::class,
-            SpatieLaravelTranslatablePluginServiceProvider::class,
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
+            AdminPanelProvider::class,
             ScribbleServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function defineDatabaseMigrations(): void
     {
-        config()->set('database.default', 'testing');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+    }
+
+    public function getEnvironmentSetUp($app): void
+    {
+        $app['config']->set('database.default', 'testing');
+        $app['config']->set('view.paths', [
+            ...$app['config']->get('view.paths'),
+            __DIR__ . '/../resources/views',
+        ]);
 
         /*
-        $migration = include __DIR__.'/../database/migrations/create_scribble_table.php.stub';
+        $migration = include __DIR__.'/../database/migrations/create_filament-extras_table.php.stub';
         $migration->up();
         */
     }

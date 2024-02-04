@@ -6,13 +6,11 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Subscript extends ScribbleTool
 {
-    protected static string $icon = 'scribble-subscript';
+    protected string $icon = 'scribble-subscript';
 
-    protected static string $label = 'Subscript';
+    protected string $label = 'Subscript';
 
-    protected static bool $shouldShowInBubbleMenu = true;
-
-    public static function getCommands(): array | null
+    public function getCommands(): array | null
     {
         return [
             ['command' => 'toggleSubscript', 'arguments' => null]

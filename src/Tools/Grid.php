@@ -10,11 +10,9 @@ use Illuminate\Contracts\View\View;
 
 class Grid extends ScribbleTool
 {
-    protected static string $icon = 'scribble-grid';
+    protected string $icon = 'scribble-grid';
 
-    protected static string $label = 'Grid';
-
-    protected static bool $shouldShowInSuggestionMenu = true;
+    protected string $label = 'Grid';
 
     public ?string $columns = '2';
 
@@ -26,7 +24,7 @@ class Grid extends ScribbleTool
 
     public ?int $right_span = null;
 
-    public static function getType(): ToolType
+    public function getType(): ToolType
     {
         return ToolType::Modal;
     }
@@ -36,7 +34,7 @@ class Grid extends ScribbleTool
         return MaxWidth::ExtraLarge;
     }
 
-    public static function getCommands(): array|null
+    public function getCommands(): array|null
     {
         return [
             ['command' => 'insertGrid', 'arguments' => null],

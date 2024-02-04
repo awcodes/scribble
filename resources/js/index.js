@@ -1,8 +1,10 @@
 import Scribble from './Scribble.svelte'
 
-export default function scribble(tools, state, statePath, placeholder) {
+export default function scribble(bubbleTools, suggestionTools, toolbarTools, state, statePath, placeholder) {
     return {
-        tools,
+        bubbleTools,
+        suggestionTools,
+        toolbarTools,
         state,
         statePath,
         placeholder: placeholder ?? "press '/' for blocks",
@@ -14,7 +16,9 @@ export default function scribble(tools, state, statePath, placeholder) {
             new Scribble({
                 target: _this.$root,
                 props: {
-                    tools: _this.tools,
+                    bubbleTools: _this.bubbleTools,
+                    suggestionTools: _this.suggestionTools,
+                    toolbarTools: _this.toolbarTools,
                     content: _this.state,
                     statePath: _this.statePath,
                     placeholder: _this.placeholder

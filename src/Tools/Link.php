@@ -9,11 +9,9 @@ use Filament\Forms;
 
 class Link extends ScribbleTool
 {
-    protected static string $icon = 'scribble-link';
+    protected string $icon = 'scribble-link';
 
-    protected static string $label = 'Link';
-
-    protected static bool $shouldShowInBubbleMenu = true;
+    protected string $label = 'Link';
 
     public ?string $href = null;
 
@@ -31,7 +29,7 @@ class Link extends ScribbleTool
 
     public ?string $button_theme = null;
 
-    public static function getType(): ToolType
+    public function getType(): ToolType
     {
         return ToolType::Modal;
     }
@@ -41,7 +39,7 @@ class Link extends ScribbleTool
         return MaxWidth::Large;
     }
 
-    public static function getCommands(): array|null
+    public function getCommands(): array|null
     {
         return [
             ['command' => 'extendMarkRange', 'arguments' => 'link'],

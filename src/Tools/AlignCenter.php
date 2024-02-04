@@ -6,13 +6,11 @@ use Awcodes\Scribble\ScribbleTool;
 
 class AlignCenter extends ScribbleTool
 {
-    protected static string $icon = 'scribble-align-center';
+    protected string $icon = 'scribble-align-center';
 
-    protected static string $label = 'Align Center';
+    protected string $label = 'Align Center';
 
-    protected static bool $shouldShowInBubbleMenu = true;
-
-    public static function getCommands(): array | null
+    public function getCommands(): array | null
     {
         return [
             ['command' => 'setTextAlign', 'arguments' => 'center']

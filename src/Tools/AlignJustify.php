@@ -6,13 +6,11 @@ use Awcodes\Scribble\ScribbleTool;
 
 class AlignJustify extends ScribbleTool
 {
-    protected static string $icon = 'scribble-align-justify';
+    protected string $icon = 'scribble-align-justify';
 
-    protected static string $label = 'Align Justify';
+    protected string $label = 'Align Justify';
 
-    protected static bool $shouldShowInBubbleMenu = true;
-
-    public static function getCommands(): array | null
+    public function getCommands(): array | null
     {
         return [
             ['command' => 'setTextAlign', 'arguments' => 'justify']

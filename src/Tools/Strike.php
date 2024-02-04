@@ -6,13 +6,11 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Strike extends ScribbleTool
 {
-    protected static string $icon = 'scribble-strike';
+    protected string $icon = 'scribble-strike';
 
-    protected static string $label = 'Strike';
+    protected string $label = 'Strike';
 
-    protected static bool $shouldShowInBubbleMenu = true;
-
-    public static function getCommands(): array | null
+    public function getCommands(): array | null
     {
         return [
             ['command' => 'toggleStrike', 'arguments' => null]

@@ -6,13 +6,11 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Paragraph extends ScribbleTool
 {
-    protected static string $icon = 'scribble-paragraph';
+    protected string $icon = 'scribble-paragraph';
 
-    protected static string $label = 'Paragraph';
+    protected string $label = 'Paragraph';
 
-    protected static bool $shouldShowInBubbleMenu = true;
-
-    public static function getCommands(): array | null
+    public function getCommands(): array | null
     {
         return [
             ['command' => 'setParagraph', 'arguments' => null]

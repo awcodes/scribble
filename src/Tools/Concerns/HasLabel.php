@@ -4,10 +4,10 @@ namespace Awcodes\Scribble\Tools\Concerns;
 
 trait HasLabel
 {
-    protected static string $label = 'Action';
+    protected string $label = 'Action';
 
-    public static function getLabel(): string
+    public function getLabel(): string
     {
-        return static::$label;
+        return $this->label;
     }
 }

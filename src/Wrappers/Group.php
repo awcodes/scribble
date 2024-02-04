@@ -9,7 +9,9 @@ use Filament\Support\Concerns\EvaluatesClosures;
 class Group
 {
     use EvaluatesClosures;
-    use HasLabel;protected array | Closure | null $tools = null;
+    use HasLabel;
+
+    protected array | Closure | null $tools = null;
 
     public function __construct(string $label)
     {

@@ -3,18 +3,19 @@
 
     export let editor
     export let key
+    export let active = false
+    export let hidden;
 </script>
 
-{#if editor}
+{#if editor && !hidden}
 <button
     type="button"
-    class:active={editor.isActive(key)}
+    class:active={active}
     on:click
     class={cx(
-        `rounded-sm p-1 bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 ${key}`,
+        `scribble-button ${key}`,
         {
-            'text-inherit': !editor.isActive(key),
-            'text-primary-500': editor.isActive(key)
+            'active': active
         }
     )}
 >

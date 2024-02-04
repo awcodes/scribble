@@ -48,7 +48,9 @@ class ScribbleServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         foreach (Helpers::getToolClasses() as $block) {
-            Livewire::component($block::getIdentifier(), $block);
+            $block = new $block();
+
+            Livewire::component($block->getIdentifier(), $block);
         }
 
         Livewire::component('scribble.renderer', Renderer::class);
@@ -90,8 +92,9 @@ class ScribbleServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            AlpineComponent::make('scribble', __DIR__ . '/../resources/dist/scribble.js'),
-            //            Css::make('scribble-styles', __DIR__ . '/../resources/dist/scribble.css'),
+            AlpineComponent::make('scribble-component', __DIR__ . '/../resources/dist/scribble.js'),
+            Css::make('scribble-styles', __DIR__ . '/../resources/dist/scribble.css')
+                ->loadedOnRequest(),
             //            Js::make('scribble-scripts', __DIR__ . '/../resources/dist/scribble.js'),
         ];
     }

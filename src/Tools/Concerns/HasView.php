@@ -6,10 +6,12 @@ use Illuminate\Support\Str;
 
 trait HasView
 {
-    protected static string $view = 'scribble::components.action';
+    protected string $view = 'scribble::components.action';
 
-    public static function getView(array $attrs): string
+    public function getView(array $attrs): string
     {
-        return Str::of(view(static::$view, $attrs)->render())->replace("\n", '')->squish();
+        return (string) Str::of(view($this->view, $attrs)->render())
+            ->replace("\n", '')
+            ->squish();
     }
 }

@@ -6,13 +6,11 @@ use Awcodes\Scribble\ScribbleTool;
 
 class HorizontalRule extends ScribbleTool
 {
-    protected static string $icon = 'scribble-hr';
+    protected string $icon = 'scribble-hr';
 
-    protected static string $label = 'Horizontal Rule';
+    protected string $label = 'Horizontal Rule';
 
-    protected static bool $shouldShowInSuggestionMenu = true;
-
-    public static function getCommands(): array | null
+    public function getCommands(): array | null
     {
         return [
             ['command' => 'setHorizontalRule', 'arguments' => null]

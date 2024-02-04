@@ -10,8 +10,10 @@ class Renderer extends Component
     public function getView(string $identifier, array $attrs)
     {
         foreach (Helpers::getToolClasses() as $block) {
-            if ($block::getIdentifier() === $identifier) {
-                return $block::getView($attrs);
+            $block = new $block();
+
+            if ($block->getIdentifier() === $identifier) {
+                return $block->getView($attrs);
             }
         }
     }

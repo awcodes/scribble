@@ -6,15 +6,11 @@ use Awcodes\Scribble\ScribbleTool;
 
 class BulletList extends ScribbleTool
 {
-    protected static string $icon = 'scribble-list-ordered';
+    protected string $icon = 'scribble-list-ordered';
 
-    protected static string $label = 'BulletList';
+    protected string $label = 'BulletList';
 
-    protected static bool $shouldShowInBubbleMenu = true;
-
-    protected static bool $shouldShowInSuggestionMenu = true;
-
-    public static function getCommands(): array | null
+    public function getCommands(): array | null
     {
         return [
             ['command' => 'toggleBulletList', 'arguments' => null]

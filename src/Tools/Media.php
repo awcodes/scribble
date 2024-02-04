@@ -25,11 +25,9 @@ class Media extends ScribbleTool
 {
     use InteractsWithMedia;
 
-    protected static string $icon = 'scribble-media';
+    protected string $icon = 'scribble-media';
 
-    protected static string $label = 'Media';
-
-    protected static bool $shouldShowInSuggestionMenu = true;
+    protected string $label = 'Media';
 
     public ?string $src = null;
 
@@ -47,7 +45,7 @@ class Media extends ScribbleTool
 
     public ?string $fileType = null;
 
-    public static function getType(): ToolType
+    public function getType(): ToolType
     {
         return ToolType::Modal;
     }
@@ -57,7 +55,7 @@ class Media extends ScribbleTool
         return MaxWidth::TwoExtraLarge;
     }
 
-    public static function getCommands(): array|null
+    public function getCommands(): array|null
     {
         return [
             ['command' => 'setImage', 'arguments' => null],
