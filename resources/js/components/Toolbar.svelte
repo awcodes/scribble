@@ -27,33 +27,18 @@
 {#if editor && tools && tools.length > 0}
     <div class="scribble-toolbar">
         {#if tools.length}
-            {#each Object.keys(groups) as group}
-                {#if group !== ''}
-                    <div
-                        class="toolbar-group"
-                    >
-                        {#each groups[group] as tool}
-                            <Button {editor}
-                                key={tool.extension}
-                                active={isActive(tool.extension, tool.activeAttributes)}
-                                on:click={() => handleToolClick(tool)}
-                                hidden={tool.isHidden}
-                            >
-                                {@html tool.icon}
-                            </Button>
-                        {/each}
-                    </div>
+            {#each tools as tool}
+                {#if tool.type === 'divider'}
+                    <div class="divider" />
                 {:else}
-                    {#each groups[group] as tool}
-                        <Button {editor}
+                    <Button {editor}
                             key={tool.extension}
                             active={isActive(tool.extension, tool.activeAttributes)}
                             on:click={() => handleToolClick(tool)}
                             hidden={tool.isHidden}
-                        >
-                            {@html tool.icon}
-                        </Button>
-                    {/each}
+                    >
+                        {@html tool.icon}
+                    </Button>
                 {/if}
             {/each}
         {/if}

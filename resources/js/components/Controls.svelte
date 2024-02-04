@@ -1,11 +1,11 @@
 <script>
     import Button from './Button.svelte'
-    import { getStatePath } from '../stores.js'
 
     export let editor
+    export let statePath
 
     const toggleFullscreen = () => {
-        window.dispatchEvent(new CustomEvent('toggle-fullscreen', { detail: { statePath: $getStatePath } }))
+        window.dispatchEvent(new CustomEvent('toggle-fullscreen', { detail: { statePath: statePath } }))
         editor.commands.focus()
     }
 </script>

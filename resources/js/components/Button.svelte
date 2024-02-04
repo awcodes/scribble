@@ -4,7 +4,7 @@
     export let editor
     export let key
     export let active = false
-    export let hidden;
+    export let hidden
 </script>
 
 {#if editor && !hidden}

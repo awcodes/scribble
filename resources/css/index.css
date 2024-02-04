@@ -1,18 +1,18 @@
 .scribble-wrapper {
-    @apply relative w-full rounded-md text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white focus-within:ring focus-within:ring-primary-500 prose max-w-none dark:prose-invert prose-a:text-blue-500 dark:prose-a:text-blue-400 ring-gray-950/10 dark:ring-white/20;
+    @apply relative w-full rounded-md text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white focus-within:ring focus-within:ring-primary-600 prose max-w-none dark:prose-invert prose-a:text-blue-500 dark:prose-a:text-blue-400 ring-gray-950/10 dark:ring-white/20 dark:focus-within:ring-primary-500;
 
     &.invalid {
         @apply ring-danger-600 dark:ring-danger-600;
     }
 
     &.fullscreen {
-        @apply overflow-hidden h-full fixed inset-0 z-50;
+        @apply overflow-hidden h-full fixed inset-0 z-50 ring-0;
 
         .scribble-editor-wrapper {
             @apply flex flex-col h-full overflow-hidden items-center justify-start bg-white dark:bg-gray-900;
 
             .scribble-controls {
-                @apply relative !top-0 transition-none rounded-none opacity-100 z-0 py-2 px-4;
+                @apply relative !top-0 pointer-events-auto transition-none rounded-none opacity-100 z-0 py-2 px-4;
 
                 .enter-fullscreen {
                     @apply hidden;
@@ -79,7 +79,7 @@
                 @apply p-4 rounded-lg;
 
                 &:focus-visible {
-                    @apply outline-none ring-2 ring-primary-600 dark:ring-primary-500;
+                    @apply outline-none ;
                 }
 
                 *:first-child {
@@ -214,7 +214,7 @@
 .scribble-button {
     @apply flex items-center justify-center rounded-sm p-1 bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500;
 
-    .active {
+    &.active {
         @apply text-primary-500;
     }
 }
@@ -222,17 +222,25 @@
 .scribble-bubble-menu {
     @apply flex items-center relative;
 
+    .divider {
+        @apply self-stretch w-0 mx-1 border-r border-gray-500;
+    }
+
     .bubble-group {
         @apply flex items-center mx-1 px-1 border-s border-e first:border-s-0 first:ms-0 first:ps-0 last:border-e-0 last:me-0 last:pe-0 border-gray-500;
     }
 
     .link-preview {
-        @apply max-w-xs text-sm leading-none truncate overflow-hidden whitespace-nowrap;
+        @apply max-w-xs text-sm px-1 leading-none truncate overflow-hidden whitespace-nowrap;
     }
 }
 
 .scribble-toolbar {
     @apply flex items-center relative rounded-t-md bg-gray-100 dark:bg-gray-950 border-b border-gray-950/10 dark:border-white/20 px-1;
+
+    .divider {
+        @apply self-stretch w-0 mx-1 border-r border-gray-950/10 dark:border-white/20;
+    }
 
     .toolbar-group {
         @apply flex items-center mx-1 px-1 py-1 border-s border-e first:border-s-0 first:ms-0 first:ps-0 last:border-e-0 last:me-0 last:pe-0 border-gray-950/10 dark:border-white/20;

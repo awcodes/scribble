@@ -75,7 +75,12 @@
                             return true
                         }
 
+                        if (from !== to && editor.isActive('link')) {
+                            return true
+                        }
+
                         return from !== to && ! (
+                            bubbleTools.filter(tool => ! tool.isHidden).length === 0 ||
                             editor.isActive('image') ||
                             editor.isActive('scribbleBlock') ||
                             editor.isActive('slashExtension')
@@ -105,11 +110,15 @@
         editor.destroy()
     })
 
-    tools = [
+    tools = Array.from(new Set([
         ...bubbleTools.flat(),
         ...suggestionTools.flat(),
         ...toolbarTools.flat()
-    ]
+    ]))
+
+    let jsonObject = tools.map(JSON.stringify);
+    let uniqueSet = new Set(jsonObject);
+    tools = Array.from(uniqueSet).map(JSON.parse);
 
     $: isActive = (name, attrs = {}) => editor.isActive(name, attrs);
 
@@ -174,7 +183,7 @@
 </script>
 
 <div class="scribble-editor-wrapper">
-    <Controls {editor} />
+    <Controls {editor} {statePath} />
 
     <Toolbar {editor} tools={toolbarTools} {handleToolClick} {isActive} />
 

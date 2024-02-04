@@ -24,7 +24,7 @@ trait HasBubbleTools
     {
         $tools = [...$this->evaluate($this->bubbleTools) ?? []];
 
-        if ($this->withBubbleDefaults) {
+        if ($this->shouldIncludeBubbleDefaults()) {
             $tools = array_merge($tools, $this->getDefaultBubbleTools());
         }
 
@@ -34,39 +34,36 @@ trait HasBubbleTools
         );
     }
 
+    public function shouldIncludeBubbleDefaults()
+    {
+        return $this->evaluate($this->withBubbleDefaults) ?? true;
+    }
+
     public function getDefaultBubbleTools(): array
     {
         return [
-            Group::make('Headings')
-                ->tools([
-                    Tools\HeadingOne::class,
-                    Tools\HeadingTwo::class,
-                    Tools\HeadingThree::class,
-                ]),
-            Group::make('Text')
-                ->tools([
-                    Tools\Bold::class,
-                    Tools\Italic::class,
-                    Tools\Underline::class,
-                    Tools\Strike::class,
-                    Tools\Superscript::class,
-                    Tools\Subscript::class,
-                    Tools\Paragraph::class,
-                ]),
-            Group::make('Blocks')
-                ->tools([
-                    Tools\BulletList::class,
-                    Tools\OrderedList::class,
-                    Tools\Code::class,
-                    Tools\Link::class,
-                ]),
-            Group::make('Alignment')
-                ->tools([
-                    Tools\AlignStart::class,
-                    Tools\AlignCenter::class,
-                    Tools\AlignEnd::class,
-                    Tools\AlignJustify::class,
-                ]),
+            Tools\HeadingOne::class,
+            Tools\HeadingTwo::class,
+            Tools\HeadingThree::class,
+            Tools\Divider::class,
+            Tools\Bold::class,
+            Tools\Italic::class,
+            Tools\Underline::class,
+            Tools\Strike::class,
+            Tools\Superscript::class,
+            Tools\Subscript::class,
+            Tools\Paragraph::class,
+            Tools\Divider::class,
+            Tools\BulletList::class,
+            Tools\OrderedList::class,
+            Tools\Code::class,
+            Tools\Link::class,
+            Tools\Grid::class,
+            Tools\Divider::class,
+            Tools\AlignStart::class,
+            Tools\AlignCenter::class,
+            Tools\AlignEnd::class,
+            Tools\AlignJustify::class,
         ];
     }
 }

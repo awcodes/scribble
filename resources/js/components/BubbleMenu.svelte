@@ -23,45 +23,24 @@
     }
 
     $: getGroups(tools)
-
-    onMount(() => {
-        tools = tools.filter(tool => {
-            return ! tool.isHidden
-        })
-    })
 </script>
 
 {#if editor}
     <div class="scribble-bubble-menu">
         {#if !isActive('link')}
             {#if tools.length}
-                {#each Object.keys(groups) as group}
-                    {#if group !== ''}
-                        <div
-                            class="bubble-group"
-                        >
-                            {#each groups[group] as tool}
-                                <Button {editor}
-                                    key={tool.extension}
-                                    active={isActive(tool.extension, tool.activeAttributes)}
-                                    on:click={() => handleToolClick(tool)}
-                                    hidden={tool.isHidden}
-                                >
-                                    {@html tool.icon}
-                                </Button>
-                            {/each}
-                        </div>
+                {#each tools as tool}
+                    {#if tool.type === 'divider'}
+                        <div class="divider" />
                     {:else}
-                        {#each groups[group] as tool}
-                            <Button {editor}
-                                key={tool.extension}
-                                active={isActive(tool.extension, tool.activeAttributes)}
-                                on:click={() => handleToolClick(tool)}
-                                hidden={tool.isHidden}
-                            >
-                                {@html tool.icon}
-                            </Button>
-                        {/each}
+                        <Button {editor}
+                            key={tool.extension}
+                            active={isActive(tool.extension, tool.activeAttributes)}
+                            on:click={() => handleToolClick(tool)}
+                            hidden={tool.isHidden}
+                        >
+                            {@html tool.icon}
+                        </Button>
                     {/if}
                 {/each}
             {/if}
