@@ -3,14 +3,14 @@
 namespace Awcodes\Scribble\Tests\Resources;
 
 use Awcodes\Scribble\Enums\ContentType;
-use Awcodes\Scribble\Tests\Resources\PageResource\Pages;
+use Awcodes\Scribble\Scribble;
 use Awcodes\Scribble\Tests\Models\Page;
+use Awcodes\Scribble\Tests\Resources\PageResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Awcodes\Scribble\Scribble;
 
 class PageResource extends Resource
 {

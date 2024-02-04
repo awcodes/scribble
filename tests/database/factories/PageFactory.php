@@ -2,8 +2,8 @@
 
 namespace Awcodes\Scribble\Tests\Database\Factories;
 
-use Awcodes\Scribble\Utils\Faker;
 use Awcodes\Scribble\Tests\Models\Page;
+use Awcodes\Scribble\Utils\Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PageFactory extends Factory
@@ -16,7 +16,7 @@ class PageFactory extends Factory
             ->heading()
             ->paragraphs(withRandomLinks: true)
             ->heading(3)
-            ->paragraphs(withRandomLinks: true);;
+            ->paragraphs(withRandomLinks: true);
 
         return [
             'title' => $this->faker->sentence(),

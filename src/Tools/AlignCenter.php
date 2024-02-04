@@ -10,10 +10,10 @@ class AlignCenter extends ScribbleTool
 
     protected string $label = 'Align Center';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'setTextAlign', 'arguments' => 'center']
+            ['command' => 'setTextAlign', 'arguments' => 'center'],
         ];
     }
 }

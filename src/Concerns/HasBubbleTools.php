@@ -3,14 +3,13 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Tools;
-use Awcodes\Scribble\Wrappers\Group;
 use Closure;
 
 trait HasBubbleTools
 {
     protected array | Closure | null $bubbleTools = null;
 
-    protected bool | null $withBubbleDefaults = null;
+    protected ?bool $withBubbleDefaults = null;
 
     public function bubbleTools(array | Closure | null $tools, bool $withDefaults = true): static
     {

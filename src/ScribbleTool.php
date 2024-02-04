@@ -12,12 +12,12 @@ use Illuminate\Contracts\View\View;
 
 class ScribbleTool extends PounceComponent implements HasForms
 {
-    use EvaluatesClosures;
     use Concerns\CanBeHidden;
     use Concerns\HasDescription;
     use Concerns\HasIcon;
     use Concerns\HasLabel;
     use Concerns\HasView;
+    use EvaluatesClosures;
     use InteractsWithForms;
 
     public bool $update = false;
@@ -43,7 +43,7 @@ class ScribbleTool extends PounceComponent implements HasForms
         return ToolType::Command;
     }
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return null;
     }

@@ -12,8 +12,8 @@ use Filament\Support\Concerns\HasPlaceholder;
 
 class Scribble extends Field
 {
-    use HasPlaceholder;
     use HasBubbleTools;
+    use HasPlaceholder;
     use HasSuggestionTools;
     use HasToolbarTools;
 

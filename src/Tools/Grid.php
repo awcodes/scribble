@@ -34,7 +34,7 @@ class Grid extends ScribbleTool
         return MaxWidth::ExtraLarge;
     }
 
-    public function getCommands(): array|null
+    public function getCommands(): ?array
     {
         return [
             ['command' => 'insertGrid', 'arguments' => null],

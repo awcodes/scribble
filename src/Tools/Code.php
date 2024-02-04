@@ -10,10 +10,10 @@ class Code extends ScribbleTool
 
     protected string $label = 'Code';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleCode', 'arguments' => null]
+            ['command' => 'toggleCode', 'arguments' => null],
         ];
     }
 }

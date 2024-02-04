@@ -10,10 +10,10 @@ class Paragraph extends ScribbleTool
 
     protected string $label = 'Paragraph';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'setParagraph', 'arguments' => null]
+            ['command' => 'setParagraph', 'arguments' => null],
         ];
     }
 }

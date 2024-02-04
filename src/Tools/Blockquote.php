@@ -10,10 +10,10 @@ class Blockquote extends ScribbleTool
 
     protected string $label = 'Blockquote';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleBlockquote', 'arguments' => null]
+            ['command' => 'toggleBlockquote', 'arguments' => null],
         ];
     }
 }

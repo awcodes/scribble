@@ -2,7 +2,6 @@
 
 namespace Awcodes\Scribble\Tiptap\Nodes;
 
-use Awcodes\Scribble\Components\LexicInput;
 use Awcodes\Scribble\Utils\BlockManager;
 use Tiptap\Core\Node;
 use Tiptap\Utils\HTML;

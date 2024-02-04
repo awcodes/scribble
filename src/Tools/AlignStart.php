@@ -10,10 +10,10 @@ class AlignStart extends ScribbleTool
 
     protected string $label = 'Align Start';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'setTextAlign', 'arguments' => 'start']
+            ['command' => 'setTextAlign', 'arguments' => 'start'],
         ];
     }
 }

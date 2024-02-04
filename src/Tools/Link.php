@@ -39,7 +39,7 @@ class Link extends ScribbleTool
         return MaxWidth::Large;
     }
 
-    public function getCommands(): array|null
+    public function getCommands(): ?array
     {
         return [
             ['command' => 'extendMarkRange', 'arguments' => 'link'],

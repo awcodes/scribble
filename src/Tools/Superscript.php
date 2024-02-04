@@ -10,10 +10,10 @@ class Superscript extends ScribbleTool
 
     protected string $label = 'Superscript';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleSuperscript', 'arguments' => null]
+            ['command' => 'toggleSuperscript', 'arguments' => null],
         ];
     }
 }

@@ -10,10 +10,10 @@ class OrderedList extends ScribbleTool
 
     protected string $label = 'OrderedList';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleOrderedList', 'arguments' => null]
+            ['command' => 'toggleOrderedList', 'arguments' => null],
         ];
     }
 }

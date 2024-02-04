@@ -10,10 +10,10 @@ class AlignJustify extends ScribbleTool
 
     protected string $label = 'Align Justify';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'setTextAlign', 'arguments' => 'justify']
+            ['command' => 'setTextAlign', 'arguments' => 'justify'],
         ];
     }
 }

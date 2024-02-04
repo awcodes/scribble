@@ -10,10 +10,10 @@ class Italic extends ScribbleTool
 
     protected string $label = 'Italic';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleItalic', 'arguments' => null]
+            ['command' => 'toggleItalic', 'arguments' => null],
         ];
     }
 }

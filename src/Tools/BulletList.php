@@ -10,10 +10,10 @@ class BulletList extends ScribbleTool
 
     protected string $label = 'BulletList';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleBulletList', 'arguments' => null]
+            ['command' => 'toggleBulletList', 'arguments' => null],
         ];
     }
 }

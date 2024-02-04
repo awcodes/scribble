@@ -3,7 +3,6 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Tools;
-use Awcodes\Scribble\Wrappers\Group;
 use Closure;
 
 trait HasToolbarTools

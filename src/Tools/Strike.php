@@ -10,10 +10,10 @@ class Strike extends ScribbleTool
 
     protected string $label = 'Strike';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleStrike', 'arguments' => null]
+            ['command' => 'toggleStrike', 'arguments' => null],
         ];
     }
 }

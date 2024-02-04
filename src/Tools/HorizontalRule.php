@@ -10,10 +10,10 @@ class HorizontalRule extends ScribbleTool
 
     protected string $label = 'Horizontal Rule';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'setHorizontalRule', 'arguments' => null]
+            ['command' => 'setHorizontalRule', 'arguments' => null],
         ];
     }
 }

@@ -15,17 +15,17 @@ class HeadingThree extends ScribbleTool
         return 'heading';
     }
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleHeading', 'arguments' => ['level' => 3]]
+            ['command' => 'toggleHeading', 'arguments' => ['level' => 3]],
         ];
     }
 
     public function getActiveAttributes(): array
     {
         return [
-            'level' => 3
+            'level' => 3,
         ];
     }
 }

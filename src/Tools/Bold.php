@@ -10,10 +10,10 @@ class Bold extends ScribbleTool
 
     protected string $label = 'Bold';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleBold', 'arguments' => null]
+            ['command' => 'toggleBold', 'arguments' => null],
         ];
     }
 }

@@ -10,10 +10,10 @@ class Subscript extends ScribbleTool
 
     protected string $label = 'Subscript';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleSubscript', 'arguments' => null]
+            ['command' => 'toggleSubscript', 'arguments' => null],
         ];
     }
 }

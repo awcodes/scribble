@@ -112,7 +112,7 @@ class Faker
 
     public function code(?string $className = null): static
     {
-        $this->output .= "<code class=\"{$className}\">" . $this->faker->words(mt_rand(3,5), true) . "</code>";
+        $this->output .= "<code class=\"{$className}\">" . $this->faker->words(mt_rand(3, 5), true) . '</code>';
 
         return $this;
     }

@@ -10,10 +10,10 @@ class Underline extends ScribbleTool
 
     protected string $label = 'Underline';
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleUnderline', 'arguments' => null]
+            ['command' => 'toggleUnderline', 'arguments' => null],
         ];
     }
 }

@@ -15,17 +15,17 @@ class HeadingTwo extends ScribbleTool
         return 'heading';
     }
 
-    public function getCommands(): array | null
+    public function getCommands(): ?array
     {
         return [
-            ['command' => 'toggleHeading', 'arguments' => ['level' => 2]]
+            ['command' => 'toggleHeading', 'arguments' => ['level' => 2]],
         ];
     }
 
     public function getActiveAttributes(): array
     {
         return [
-            'level' => 2
+            'level' => 2,
         ];
     }
 }
