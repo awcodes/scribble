@@ -180,7 +180,7 @@ class Faker
             ],
         ];
 
-        $this->output .= '<scribble-block>' . json_encode($attrs). '</scribble-block>';
+        $this->output .= '<scribble-block>' . json_encode($attrs) . '</scribble-block>';
 
         return $this;
     }

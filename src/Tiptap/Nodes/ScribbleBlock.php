@@ -3,7 +3,6 @@
 namespace Awcodes\Scribble\Tiptap\Nodes;
 
 use Tiptap\Core\Node;
-use Tiptap\Utils\HTML;
 
 class ScribbleBlock extends Node
 {
