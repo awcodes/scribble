@@ -3,7 +3,9 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Tools;
+use Awcodes\Scribble\Wrappers\Group;
 use Closure;
+use Exception;
 
 trait HasToolbarTools
 {
@@ -57,5 +59,36 @@ trait HasToolbarTools
     public function shouldRenderToolbar(): bool
     {
         return $this->evaluate($this->renderToolbar);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getToolbarToolsSchema(): array
+    {
+        $tools = [];
+
+        if ($this->shouldRenderToolbar()) {
+
+            foreach ($this->getToolbarTools() as $tool) {
+                if ($tool instanceof Group) {
+                    foreach ($tool->getTools() as $groupBlock) {
+                        $tools[] = [
+                            ...$this->formatTool($groupBlock),
+                            'group' => $tool->getLabel(),
+                            'groupLabel' => str($tool->getLabel())->title(),
+                        ];
+                    }
+                } else {
+                    $tools[] = [
+                        ...$this->formatTool($tool),
+                        'group' => '',
+                        'groupLabel' => '',
+                    ];
+                }
+            }
+        }
+
+        return $tools;
     }
 }

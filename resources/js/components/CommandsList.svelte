@@ -1,10 +1,10 @@
 <script>
     import { pounce, commandRunner } from '../utils.js'
-    import { getStatePath } from '../stores.js'
 
     export let items
     export let editor
     export let range
+    export let statePath
 
     let selectedIndex = 0
     let dropdown
@@ -70,7 +70,7 @@
                     commandRunner(editor, item.commands)
                     break
                 case 'modal':
-                    pounce(item.identifier, { statePath: $getStatePath, ...editor.getAttributes(item.extension) });
+                    pounce(item.identifier, { statePath: statePath, ...editor.getAttributes(item.extension) });
                     break
                 case 'static':
                     editor.chain().insertScribbleBlock({

@@ -3,7 +3,9 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Tools;
+use Awcodes\Scribble\Wrappers\Group;
 use Closure;
+use Exception;
 
 trait HasBubbleTools
 {
@@ -64,5 +66,33 @@ trait HasBubbleTools
             Tools\AlignEnd::class,
             Tools\AlignJustify::class,
         ];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getBubbleToolsSchema(): array
+    {
+        $tools = [];
+
+        foreach ($this->getBubbleTools() as $tool) {
+            if ($tool instanceof Group) {
+                foreach ($tool->getTools() as $groupBlock) {
+                    $tools[] = [
+                        ...$this->formatTool($groupBlock),
+                        'group' => $tool->getLabel(),
+                        'groupLabel' => str($tool->getLabel())->title(),
+                    ];
+                }
+            } else {
+                $tools[] = [
+                    ...$this->formatTool($tool),
+                    'group' => '',
+                    'groupLabel' => '',
+                ];
+            }
+        }
+
+        return $tools;
     }
 }

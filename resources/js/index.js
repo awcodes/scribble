@@ -25,6 +25,17 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, sta
                 }
             });
 
+            this.$watch('state', (newState, oldState) => {
+                if (newState !== oldState) {
+                    window.dispatchEvent(new CustomEvent('updateContent', {
+                        detail: {
+                            statePath: statePath,
+                            newContent: newState,
+                        }
+                    }));
+                }
+            });
+
             window.addEventListener('updatedEditor', e => {
                 if (e.detail.statePath === _this.statePath) {
                     _this.state = e.detail.content

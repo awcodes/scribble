@@ -12,9 +12,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('title');
-            $table->longText('html_content')->nullable();
-            $table->longText('json_content')->nullable();
-            $table->longText('text_content')->nullable();
+            $table->longText('content')->nullable();
 
             $table->timestamps();
         });

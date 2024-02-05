@@ -18,6 +18,6 @@ class Page extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'json_content' => 'array',
+        'content' => 'array',
     ];
 }

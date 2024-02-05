@@ -44,8 +44,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Awcodes\\Scribble\\Tests\\": "tests/src",
-            "Awcodes\\Scribble\\Tests\\Database\\Factories\\": "tests/database/factories"
+            "Awcodes\\Scribble\\Tests\\": "tests/src/",
+            "Awcodes\\Scribble\\Tests\\Database\\Factories\\": "tests/database/factories/"
         }
     },
     "scripts": {

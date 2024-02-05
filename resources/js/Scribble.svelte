@@ -60,7 +60,8 @@
                 }),
                 TextStyle,
                 SlashExtension.configure({
-                    tools: suggestionTools
+                    tools: suggestionTools,
+                    statePath: statePath,
                 }),
                 TiptapBubbleMenu.configure({
                     element: bubbleMenuElement,
@@ -123,40 +124,31 @@
     $: isActive = (name, attrs = {}) => editor.isActive(name, attrs);
 
     tools.forEach(tool => {
-        window.addEventListener(`insert-${tool.extension}`, data => {
+        window.addEventListener(`handle-${tool.extension}`, data => {
             if (data.detail.statePath !== statePath) {
                 return
             }
 
-            if (tool.type === 'block' || tool.type === 'static') {
-                editor.chain().insertScribbleBlock({
-                    identifier: tool.identifier,
-                    type: tool.type,
-                    values: data.detail.values
-                }).focus().run();
-
-                return
-            }
-
-            commandRunner(editor, tool.commands, data.detail.values)
-        })
-
-        window.addEventListener(`update-${tool.extension}`, data => {
-            if (data.detail.statePath !== statePath) {
-                return
-            }
+            console.log(data.detail)
 
             if (tool.type === 'block' || tool.type === 'static') {
-                window.dispatchEvent(new CustomEvent('updatedBlock', {
-                    detail: {
-                        statePath: statePath,
+                if (data.detail.context === 'insert') {
+                    editor.chain().insertScribbleBlock({
                         identifier: tool.identifier,
                         type: tool.type,
-                        blockId: data.detail.blockId,
                         values: data.detail.values
-                    }
-                }));
-
+                    }).focus().run();
+                } else {
+                    window.dispatchEvent(new CustomEvent('updatedBlock', {
+                        detail: {
+                            statePath: statePath,
+                            identifier: tool.identifier,
+                            type: tool.type,
+                            blockId: data.detail.blockId,
+                            values: data.detail.values
+                        }
+                    }));
+                }
                 return
             }
 
@@ -166,20 +158,36 @@
 
     const handleToolClick = (tool, update = false) => {
         switch (tool.type) {
-            case 'command': commandRunner(editor, tool.commands); return
-            case 'modal': pounce(tool.identifier, { statePath: tool.statePath, update: update, ...editor.getAttributes(tool.extension) }); return
-            case 'static': editor.chain().insertScribbleBlock({
+            case 'command':
+                commandRunner(editor, tool.commands);
+                return
+            case 'modal':
+                pounce(tool.identifier, {
+                    statePath: statePath,
+                    update: update, ...editor.getAttributes(tool.extension)
+                });
+                return
+            case 'static':
+                editor.chain().insertScribbleBlock({
                     identifier: tool.identifier,
                     type: tool.type,
                     values: {}
-                }).focus().run(); return
-            default: editor.commands.setScribbleBlock({
-                statePath: statePath,
-                identifier: tool.identifier,
-                type: tool.type,
-            })
+                }).focus().run();
+                return
+            default:
+                editor.commands.setScribbleBlock({
+                    statePath: statePath,
+                    identifier: tool.identifier,
+                    type: tool.type,
+                })
         }
     }
+
+    window.addEventListener('updateContent', e => {
+        if (e.detail.statePath === statePath) {
+            editor.chain().setContent(e.detail.newContent).run()
+        }
+    })
 </script>
 
 <div class="scribble-editor-wrapper">

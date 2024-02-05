@@ -3,6 +3,8 @@
 namespace Awcodes\Scribble\Utils;
 
 use Awcodes\Scribble\Enums\ContentType;
+use Awcodes\Scribble\Enums\ToolType;
+use Awcodes\Scribble\Helpers;
 use League\HTMLToMarkdown\HtmlConverter;
 use Tiptap\Editor;
 
@@ -13,7 +15,6 @@ class Converter
     public function __construct(
         public string | array | null $content = null,
         public ?ExtensionManager $extensions = null,
-        public ?BlockManager $blocks = null,
     ) {
     }
 
@@ -39,13 +40,6 @@ class Converter
         return $this;
     }
 
-    public function blocks(BlockManager $manager): static
-    {
-        $this->blocks = $manager;
-
-        return $this;
-    }
-
     public function extensions(ExtensionManager $manager): static
     {
         $this->extensions = $manager;
@@ -55,9 +49,11 @@ class Converter
 
     public function getBlocks(): array
     {
-        return $this->blocks
-            ? $this->blocks::make()->getBlocks()
-            : BlockManager::make()->getBlocks();
+        return Helpers::getToolClasses()->filter(function ($tool) {
+            $type = (new $tool())->getType();
+
+            return $type === ToolType::Block || $type === ToolType::StaticBlock;
+        });
     }
 
     public function getEditor(): Editor

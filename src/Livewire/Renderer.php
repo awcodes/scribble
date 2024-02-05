@@ -3,10 +3,12 @@
 namespace Awcodes\Scribble\Livewire;
 
 use Awcodes\Scribble\Helpers;
+use Livewire\Attributes\Isolate;
 use Livewire\Component;
 
 class Renderer extends Component
 {
+    #[Isolate]
     public function getView(string $identifier, array $attrs)
     {
         foreach (Helpers::getToolClasses() as $block) {

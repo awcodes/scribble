@@ -13,7 +13,7 @@ class Grid extends Node
     {
         return [
             'HTMLAttributes' => [
-                'class' => 'lexic-grid',
+                'class' => 'scribble-grid',
             ],
         ];
     }
@@ -27,16 +27,16 @@ class Grid extends Node
                     return $DOMNode->getAttribute('data-type');
                 },
             ],
-            'data-cols' => [
+            'data-columns' => [
                 'default' => '2',
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute('data-cols');
+                    return $DOMNode->getAttribute('data-columns');
                 },
                 'renderHTML' => function ($attributes) {
                     $attributes = (array) $attributes;
 
                     return [
-                        'data-cols' => $attributes['data-cols'],
+                        'data-columns' => $attributes['data-columns'],
                         'style' => 'grid-template-columns: repeat(' . $attributes['data-cols'] . ', 1fr);',
                     ];
                 },
@@ -56,8 +56,8 @@ class Grid extends Node
             [
                 'tag' => 'div',
                 'getAttrs' => function ($DOMNode) {
-                    return str_contains($DOMNode->getAttribute('class'), 'lexic-grid')
-                        && ! str_contains($DOMNode->getAttribute('class'), '__column');
+                    return str_contains($DOMNode->getAttribute('class'), 'scribble-grid')
+                        && ! str_contains($DOMNode->getAttribute('class'), '-column');
                 },
             ],
         ];

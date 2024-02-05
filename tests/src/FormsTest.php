@@ -1,6 +1,5 @@
 <?php
 
-use Awcodes\Scribble\Enums\ContentType;
 use Awcodes\Scribble\Scribble;
 use Awcodes\Scribble\Tests\Fixtures\Livewire as LivewireFixture;
 use Awcodes\Scribble\Tests\Models\Page;
@@ -13,9 +12,7 @@ use Livewire\Livewire;
 
 it('has editor field', function () {
     Livewire::test(TestComponentWithForm::class)
-        ->assertFormFieldExists('html_content')
-        ->assertFormFieldExists('json_content')
-        ->assertFormFieldExists('text_content');
+        ->assertFormFieldExists('content');
 });
 
 it('creates record', function () {
@@ -24,8 +21,7 @@ it('creates record', function () {
     Livewire::test(CreatePage::class)
         ->fillForm([
             'title' => $page->title,
-            'html_content' => $page->html_content,
-            'json_content' => $page->json_content,
+            'content' => $page->content,
         ])
         ->call('create')
         ->assertHasNoFormErrors();
@@ -37,8 +33,7 @@ it('creates record', function () {
     $storedPage = Page::query()->where('title', $page->title)->first();
 
     expect($storedPage)
-        ->html_content->toBe($page->html_content)
-        ->json_content->toBe($page->json_content);
+        ->content->toBe($page->content);
 });
 
 it('updates record', function () {
@@ -50,8 +45,7 @@ it('updates record', function () {
     ])
         ->fillForm([
             'title' => $newData->title,
-            'html_content' => $newData->html_content,
-            'json_content' => $newData->json_content,
+            'content' => $newData->content,
         ])
         ->call('save')
         ->assertHasNoFormErrors();
@@ -63,8 +57,7 @@ it('updates record', function () {
     $storedPage = Page::query()->where('id', $page->id)->first();
 
     expect($storedPage)
-        ->html_content->toBe($newData->html_content)
-        ->json_content->toBe($newData->json_content);
+        ->content->toBe($newData->content);
 });
 
 it('can create null record', function () {
@@ -73,9 +66,7 @@ it('can create null record', function () {
     Livewire::test(CreatePage::class)
         ->fillForm([
             'title' => $page->title,
-            'html_content' => null,
-            'json_content' => null,
-            'text_content' => null,
+            'content' => null,
         ])
         ->call('create')
         ->assertHasNoFormErrors();
@@ -87,8 +78,7 @@ it('can create null record', function () {
     $storedPage = Page::query()->where('title', $page->title)->first();
 
     expect($storedPage)
-        ->html_content->toBeNull()
-        ->json_content->toBeNull();
+        ->content->toBeNull();
 });
 
 class TestComponentWithForm extends LivewireFixture
@@ -100,12 +90,7 @@ class TestComponentWithForm extends LivewireFixture
             ->model(Page::class)
             ->schema([
                 TextInput::make('title'),
-                Scribble::make('html_content')
-                    ->output(ContentType::Html),
-                Scribble::make('json_content')
-                    ->output(ContentType::Json),
-                Scribble::make('text_content')
-                    ->output(ContentType::Text),
+                Scribble::make('content'),
             ]);
     }
 

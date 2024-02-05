@@ -10,7 +10,7 @@ class Livewire extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $data;
+    public ?array $data = [];
 
     public static function make(): static
     {

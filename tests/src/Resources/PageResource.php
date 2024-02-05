@@ -2,7 +2,6 @@
 
 namespace Awcodes\Scribble\Tests\Resources;
 
-use Awcodes\Scribble\Enums\ContentType;
 use Awcodes\Scribble\Scribble;
 use Awcodes\Scribble\Tests\Models\Page;
 use Awcodes\Scribble\Tests\Resources\PageResource\Pages;
@@ -23,12 +22,7 @@ class PageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title'),
-                Scribble::make('html_content')
-                    ->output(ContentType::Html),
-                Scribble::make('json_content')
-                    ->output(ContentType::Json),
-                Scribble::make('text_content')
-                    ->output(ContentType::Text),
+                Scribble::make('content'),
             ])->columns(1);
     }
 

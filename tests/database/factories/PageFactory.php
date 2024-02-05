@@ -12,16 +12,9 @@ class PageFactory extends Factory
 
     public function definition(): array
     {
-        $content = Faker::make()
-            ->heading()
-            ->paragraphs(withRandomLinks: true)
-            ->heading(3)
-            ->paragraphs(withRandomLinks: true);
-
         return [
             'title' => $this->faker->sentence(),
-            'html_content' => $content->asHTML(),
-            'json_content' => $content->asJSON(),
+            'content' => Faker::make()->sink()->asJson(),
         ];
     }
 }

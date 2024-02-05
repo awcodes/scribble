@@ -44,7 +44,7 @@ class GridColumn extends Node
             [
                 'tag' => 'div',
                 'getAttrs' => function ($DOMNode) {
-                    return str_contains($DOMNode->getAttribute('class'), 'lexic-grid__column');
+                    return str_contains($DOMNode->getAttribute('class'), 'scribble-grid-column');
                 },
             ],
         ];

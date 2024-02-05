@@ -9,9 +9,12 @@ export default Extension.create({
 
     addOptions() {
         return {
-            blocks: {
+            tools: {
                 default: [],
             },
+            statePath: {
+                default: null,
+            }
         }
     },
 
@@ -46,6 +49,7 @@ export default Extension.create({
                                     items: props.items,
                                     editor: props.editor,
                                     range: props.range,
+                                    statePath: this.options.statePath,
                                 }
                             })
 

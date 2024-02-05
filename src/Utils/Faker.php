@@ -156,13 +156,31 @@ class Faker
 
     public function grid(array $cols = [1, 1, 1]): static
     {
-        $this->output .= '<div class="lexic-grid" data-type="responsive" data-cols="' . count($cols) . '" style="grid-template-columns: repeat(3, 1fr);" data-stack-at="md">';
+        $this->output .= '<div class="scribble-grid" data-type="responsive" data-columns="' . count($cols) . '" style="grid-template-columns: repeat(' . count($cols) . ', 1fr);" data-stack-at="md">';
 
         foreach ($cols as $col) {
-            $this->output .= '<div class="lexic-grid__column" data-col-span="' . $col . '" style="grid-column: span 1;"><h2>' . Str::title($this->faker->words(rand(3, 8), true)) . '</h2><p>' . $this->faker->paragraph() . '</p></div>';
+            $this->output .= '<div class="scribble-grid-column" data-col-span="' . $col . '" style="grid-column: span 1;"><h2>' . Str::title($this->faker->words(rand(3, 8), true)) . '</h2><p>' . $this->faker->paragraph() . '</p></div>';
         }
 
         $this->output .= '</div>';
+
+        return $this;
+    }
+
+    public function block(string $type = 'block', string $identifier = 'scribble-batmanBlock', ?array $values = null): static
+    {
+        $attrs = [
+            'id' => Str::uuid(),
+            'type' => $type,
+            'identifier' => $identifier,
+            'values' => $values ?? [
+                'name' => 'Batman',
+                'color' => 'Black',
+                'side' => 'Hero',
+            ],
+        ];
+
+        $this->output .= '<scribble-block>' . json_encode($attrs). '</scribble-block>';
 
         return $this;
     }
@@ -173,17 +191,14 @@ class Faker
             ->emptyParagraph()
             ->heading()
             ->paragraphs(2, true)
+            ->block()
+            ->block(values: ['name' => 'Ivy', 'color' => 'Green', 'side' => 'Villain'])
             ->unorderedList(3)
             ->orderedList(3)
-            ->checkedList(3)
+            ->hr()
             ->grid()
             ->image()
-            ->video()
-            ->details()
-            ->code()
-            ->blockquote()
-            ->hr()
-            ->table();
+            ->blockquote();
 
         return $this;
     }

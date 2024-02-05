@@ -111,11 +111,11 @@ class Link extends ScribbleTool
     {
         $data = $this->form->getState();
 
-        $event = $this->update ? 'update' : 'insert';
-
         $this->dispatch(
-            event: $event . '-' . static::getExtension(),
+            event: 'handle-' . $this->getExtension(),
             statePath: $this->statePath,
+            blockId: $this->blockId,
+            context: $this->update ? 'update' : 'insert',
             values: $data
         );
 

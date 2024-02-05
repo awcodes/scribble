@@ -120,6 +120,22 @@
                     @apply relative bg-gray-900/5 dark:bg-white/5 rounded-md;
                     min-height: 2rem;
 
+                    .loading-block {
+                        @apply p-4 flex items-center justify-center gap-3;
+
+                        svg {
+                            @apply animate-spin h-5 w-5;
+
+                            circle {
+                                @apply opacity-25;
+                            }
+
+                            path {
+                                @apply opacity-75;
+                            }
+                        }
+                    }
+
                     .scribble-block-content {
                         @apply transition rounded-md overflow-hidden z-10 relative;
                     }
