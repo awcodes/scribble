@@ -3,7 +3,6 @@
 namespace Awcodes\Scribble;
 
 use Awcodes\Scribble\Commands\ScribbleCommand;
-use Awcodes\Scribble\Facades\ConverterFacade;
 use Awcodes\Scribble\Livewire\Renderer;
 use Awcodes\Scribble\Testing\TestsScribble;
 use BladeUI\Icons\Factory;

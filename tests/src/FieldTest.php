@@ -7,4 +7,3 @@ it('has editor field', function () {
     Livewire::test(LivewireForm::class)
         ->assertFormFieldExists('content');
 });
-

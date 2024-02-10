@@ -8,7 +8,7 @@ trait HasView
 {
     protected string $view = 'scribble::components.action';
 
-    protected string | null $renderedView = null;
+    protected ?string $renderedView = null;
 
     public function getView(array $attrs): string
     {

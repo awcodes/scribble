@@ -152,7 +152,7 @@ class Converter
                                 ],
                             ],
                         ],
-                        'text' => $text
+                        'text' => $text,
                     ],
                 ];
             } else {
