@@ -129,8 +129,6 @@
                 return
             }
 
-            console.log(data.detail)
-
             if (tool.type === 'block' || tool.type === 'static') {
                 if (data.detail.context === 'insert') {
                     editor.chain().insertScribbleBlock({

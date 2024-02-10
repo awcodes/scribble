@@ -1,8 +1,22 @@
+@php
+    $statePath = $getStatePath();
+
+    $stylesheets = [
+      Illuminate\Support\Js::from(\Filament\Support\Facades\FilamentAsset::getStyleHref('scribble-styles', 'awcodes/scribble'))
+    ];
+
+    if ($getCustomStyles()) {
+        $stylesheets[] = Illuminate\Support\Js::from($getCustomStyles());
+    }
+
+    $stylesheets = implode(',', $stylesheets);
+
+@endphp
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
     <div
         wire:ignore
         x-data="{}"
-        x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('scribble-styles', 'awcodes/scribble'))]"
+        x-load-css="[{{ $stylesheets }}]"
     ></div>
     <div
         wire:ignore
@@ -13,14 +27,14 @@
             @js($getBubbleToolsSchema()),
             @js($getSuggestionToolsSchema()),
             @js($getToolbarToolsSchema()),
-            $wire.{{ $applyStateBindingModifiers("entangle('{$getStatePath()}')", isOptimisticallyLive: false) }},
-            @js($getStatePath()),
+            $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')", isOptimisticallyLive: false) }},
+            @js($statePath),
             @js($getPlaceholder()),
         )"
         x-on:toggle-fullscreen.window="toggleFullscreen($event)"
         x-on:keydown.esc.window="fullscreen = false"
         x-bind:class="{'fullscreen': fullscreen}"
-        id="{{ 'scribble-wrapper-' . $getStatePath() }}"
+        id="{{ 'scribble-wrapper-' . $statePath }}"
         @class([
             'scribble-wrapper',
             'invalid' => $errors->has($statePath),

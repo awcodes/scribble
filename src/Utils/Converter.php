@@ -6,6 +6,7 @@ use Awcodes\Scribble\Enums\ContentType;
 use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\Helpers;
 use League\HTMLToMarkdown\HtmlConverter;
+use stdClass;
 use Tiptap\Editor;
 
 class Converter
@@ -13,12 +14,15 @@ class Converter
     protected Editor $editor;
 
     public function __construct(
-        public string | array | null $content = null,
+        public string | array | stdClass | null $content = null,
         public ?ExtensionManager $extensions = null,
     ) {
+        if ($this->content instanceof stdClass) {
+            $this->content = json_decode(json_encode($this->content), true);
+        }
     }
 
-    public static function from(string | array | null $content = null): static
+    public static function from(string | array | stdClass | null $content = null): static
     {
         return new static($content);
     }
@@ -70,12 +74,12 @@ class Converter
             : ExtensionManager::make()->getExtensions();
     }
 
-    public function toHtml(bool $toc = false, int $maxDepth = 3): string
+    public function toHtml(bool $toc = false, int $maxDepth = 3, bool $wrapHeadings = false): string
     {
         $editor = $this->getEditor()->setContent($this->content);
 
         if ($toc) {
-            $this->parseHeadings($editor, $maxDepth);
+            $this->parseHeadings($editor, $maxDepth, $wrapHeadings);
         }
 
         return $editor->getHTML();
@@ -114,9 +118,9 @@ class Converter
         return $this->generateNestedTOC($headings, $headings[0]['level']);
     }
 
-    public function parseHeadings(Editor $editor, int $maxDepth = 3): Editor
+    public function parseHeadings(Editor $editor, int $maxDepth = 3, bool $wrapHeadings = false): Editor
     {
-        $editor->descendants(function (&$node) use ($maxDepth) {
+        $editor->descendants(function (&$node) use ($maxDepth, $wrapHeadings) {
             if ($node->type !== 'heading') {
                 return;
             }
@@ -131,18 +135,41 @@ class Converter
                 })->implode(' '))->kebab()->toString();
             }
 
-            array_unshift($node->content, (object) [
-                'type' => 'text',
-                'text' => '#',
-                'marks' => [
-                    [
-                        'type' => 'link',
-                        'attrs' => [
-                            'href' => '#' . $node->attrs->id,
+            if ($wrapHeadings) {
+                $text = str(collect($node->content)->map(function ($node) {
+                    return $node?->text ?? null;
+                })->implode(' '))->toString();
+
+                $node->content = [
+                    (object) [
+                        'type' => 'text',
+                        'marks' => [
+                            [
+                                'type' => 'link',
+                                'attrs' => [
+                                    'href' => '#' . $node->attrs->id,
+                                    'class' => 'toc-link',
+                                ],
+                            ],
+                        ],
+                        'text' => $text
+                    ],
+                ];
+            } else {
+                array_unshift($node->content, (object) [
+                    'type' => 'text',
+                    'text' => '#',
+                    'marks' => [
+                        [
+                            'type' => 'link',
+                            'attrs' => [
+                                'href' => '#' . $node->attrs->id,
+                                'class' => 'toc-link',
+                            ],
                         ],
                     ],
-                ],
-            ]);
+                ]);
+            }
         });
 
         return $editor;

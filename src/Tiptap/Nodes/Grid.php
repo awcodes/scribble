@@ -37,7 +37,7 @@ class Grid extends Node
 
                     return [
                         'data-columns' => $attributes['data-columns'],
-                        'style' => 'grid-template-columns: repeat(' . $attributes['data-cols'] . ', 1fr);',
+                        'style' => 'grid-template-columns: repeat(' . $attributes['data-columns'] . ', 1fr);',
                     ];
                 },
             ],

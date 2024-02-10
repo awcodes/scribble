@@ -9,6 +9,7 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, sta
         statePath,
         placeholder: placeholder ?? "press '/' for blocks",
         fullscreen: false,
+        updatedFromEditor: false,
 
         init() {
             const _this = this
@@ -26,18 +27,21 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, sta
             });
 
             this.$watch('state', (newState, oldState) => {
-                if (newState !== oldState) {
+                if (! _this.updatedFromEditor && JSON.stringify(newState) !== JSON.stringify(oldState)) {
                     window.dispatchEvent(new CustomEvent('updateContent', {
                         detail: {
                             statePath: statePath,
                             newContent: newState,
                         }
                     }));
+
+                    _this.updatedFromEditor = false
                 }
             });
 
             window.addEventListener('updatedEditor', e => {
                 if (e.detail.statePath === _this.statePath) {
+                    _this.updatedFromEditor = true
                     _this.state = e.detail.content
                 }
             })

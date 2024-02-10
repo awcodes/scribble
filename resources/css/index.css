@@ -114,6 +114,10 @@
                     .node-scribbleBlock + .ProseMirror-gapcursor + .node-scribbleBlock {
                         margin-top: 1rem;
                     }
+
+                    .scribble-block .scribble-block-actions {
+                        @apply opacity-100;
+                    }
                 }
 
                 .scribble-block {
@@ -137,11 +141,12 @@
                     }
 
                     .scribble-block-content {
-                        @apply transition rounded-md overflow-hidden z-10 relative;
+                        @apply transition rounded-md overflow-hidden relative;
                     }
 
                     .scribble-block-actions {
-                        @apply transition opacity-0 absolute z-20 top-0 right-0 p-1 rounded-tr-md rounded-bl-lg flex items-center bg-gray-950;
+                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-tr-md rounded-bl-lg flex items-center bg-gray-950;
+                        z-index: 1;
 
                         .scribble-block-action {
                             @apply text-white block rounded p-1 hover:text-primary-500 hover:bg-gray-800;
@@ -154,10 +159,6 @@
                                 @apply cursor-grab;
                             }
                         }
-                    }
-
-                    &:hover .scribble-block-actions {
-                        @apply opacity-100;
                     }
                 }
 

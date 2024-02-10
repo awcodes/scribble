@@ -3,8 +3,10 @@
 namespace Awcodes\Scribble;
 
 use Awcodes\Scribble\Concerns\HasBubbleTools;
+use Awcodes\Scribble\Concerns\HasCustomStyles;
 use Awcodes\Scribble\Concerns\HasSuggestionTools;
 use Awcodes\Scribble\Concerns\HasToolbarTools;
+use Awcodes\Scribble\Utils\Converter;
 use Exception;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasPlaceholder;
@@ -13,6 +15,7 @@ use Livewire\Component;
 class Scribble extends Field
 {
     use HasBubbleTools;
+    use HasCustomStyles;
     use HasPlaceholder;
     use HasSuggestionTools;
     use HasToolbarTools;
@@ -28,8 +31,12 @@ class Scribble extends Field
         });
 
         $this->dehydrateStateUsing(function ($state) {
+            if (! $state) {
+                return null;
+            }
+
             if (! is_array($state)) {
-                $state = json_decode($state, true);
+                $state = Converter::from($state)->toJson();
             }
 
             return $state;

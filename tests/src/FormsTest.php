@@ -1,24 +1,15 @@
 <?php
 
-use Awcodes\Scribble\Scribble;
-use Awcodes\Scribble\Tests\Fixtures\Livewire as LivewireFixture;
 use Awcodes\Scribble\Tests\Models\Page;
 use Awcodes\Scribble\Tests\Resources\PageResource\Pages\CreatePage;
 use Awcodes\Scribble\Tests\Resources\PageResource\Pages\EditPage;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Illuminate\Contracts\View\View;
 use Livewire\Livewire;
-
-it('has editor field', function () {
-    Livewire::test(TestComponentWithForm::class)
-        ->assertFormFieldExists('content');
-});
 
 it('creates record', function () {
     $page = Page::factory()->make();
 
     Livewire::test(CreatePage::class)
+        ->assertFormFieldExists('content')
         ->fillForm([
             'title' => $page->title,
             'content' => $page->content,
@@ -43,6 +34,7 @@ it('updates record', function () {
     Livewire::test(EditPage::class, [
         'record' => $page->getRouteKey(),
     ])
+        ->assertFormFieldExists('content')
         ->fillForm([
             'title' => $newData->title,
             'content' => $newData->content,
@@ -64,6 +56,7 @@ it('can create null record', function () {
     $page = Page::factory()->make();
 
     Livewire::test(CreatePage::class)
+        ->assertFormFieldExists('content')
         ->fillForm([
             'title' => $page->title,
             'content' => null,
@@ -80,22 +73,3 @@ it('can create null record', function () {
     expect($storedPage)
         ->content->toBeNull();
 });
-
-class TestComponentWithForm extends LivewireFixture
-{
-    public function form(Form $form): Form
-    {
-        return $form
-            ->statePath('data')
-            ->model(Page::class)
-            ->schema([
-                TextInput::make('title'),
-                Scribble::make('content'),
-            ]);
-    }
-
-    public function render(): View
-    {
-        return view('fixtures.form');
-    }
-}

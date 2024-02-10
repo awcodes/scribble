@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble;
 
 use Awcodes\Scribble\Commands\ScribbleCommand;
+use Awcodes\Scribble\Facades\ConverterFacade;
 use Awcodes\Scribble\Livewire\Renderer;
 use Awcodes\Scribble\Testing\TestsScribble;
 use BladeUI\Icons\Factory;
@@ -81,6 +82,8 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
         // Testing
         Testable::mixin(new TestsScribble());
+
+        require_once __DIR__ . '/render-helpers.php';
     }
 
     protected function getAssetPackageName(): ?string

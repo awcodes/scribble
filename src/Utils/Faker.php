@@ -126,7 +126,7 @@ class Faker
 
     public function blockquote(): static
     {
-        $this->output .= '<blockquote>' . '<p>' . collect($this->faker->paragraphs())->implode('</p><p>') . '</p>' . '</blockquote>';
+        $this->output .= '<blockquote>' . '<p>' . collect($this->faker->paragraph())->implode('</p><p>') . '</p>' . '</blockquote>';
 
         return $this;
     }

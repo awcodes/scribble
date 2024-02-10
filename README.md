@@ -1,54 +1,43 @@
-# This is my package scribble
+# Scribble
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/awcodes/scribble.svg?style=flat-square)](https://packagist.org/packages/awcodes/scribble)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/awcodes/scribble/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/awcodes/scribble/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/awcodes/scribble/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/awcodes/scribble/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/awcodes/scribble.svg?style=flat-square)](https://packagist.org/packages/awcodes/scribble)
-
-
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
 ## Installation
 
-You can install the package via composer:
+Install the package via composer
 
 ```bash
 composer require awcodes/scribble
 ```
 
-You can publish and run the migrations with:
+In an effort to align with Filament's theming methodology you will need to use a custom theme to use this plugin.
 
-```bash
-php artisan vendor:publish --tag="scribble-migrations"
-php artisan migrate
+<x-filament-theme-info />
+
+Import the plugin's stylesheet and tippy.js stylesheet (if not already included) into your theme's css file.
+
+```css
+@import '../../../../vendor/awcodes/scribble/resources/css/plugin.css';
 ```
 
-You can publish the config file with:
+Add the plugin's views to your `tailwind.config.js` file.
 
-```bash
-php artisan vendor:publish --tag="scribble-config"
+```js
+content: [
+    './vendor/awcodes/scribble/resources/**/*.blade.php',
+]
 ```
 
-Optionally, you can publish the views using
+Rebuild your custom theme.
 
-```bash
-php artisan vendor:publish --tag="scribble-views"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
+```sh
+npm run build
 ```
 
 ## Usage
 
-```php
-$scribble = new Awcodes\Scribble();
-echo $scribble->echoPhrase('Hello, Awcodes!');
-```
+@TODO Write actual docs.
 
 ## Testing
 

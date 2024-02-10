@@ -67,7 +67,7 @@
                 "Awcodes\\Scribble\\ScribbleServiceProvider"
             ],
             "aliases": {
-                "Scribble": "Awcodes\\Scribble\\Facades\\Scribble"
+                "ScribbleConverter": "Converter"
             }
         }
     },
