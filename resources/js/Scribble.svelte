@@ -6,9 +6,14 @@
     import CommandsExtension from './extensions/CommandsExtension.js'
     import Grid from './extensions/Grid/Grid.js'
     import GridColumn from './extensions/Grid/GridColumn.js'
+    import Details from './extensions/Details/Details.js'
+    import DetailsSummary from './extensions/Details/DetailsSummary.js'
+    import DetailsContent from './extensions/Details/DetailsContent.js'
     import IdExtension from './extensions/IdExtension.js'
     import LinkExtension from './extensions/LinkExtension.js'
     import MediaExtension from './extensions/MediaExtension.js'
+    import MergeTag from './extensions/MergeTag.js'
+    import MergeTagsExtension from './extensions/MergeTagsExtension.js'
     import Placeholder from '@tiptap/extension-placeholder'
     import StarterKit from '@tiptap/starter-kit';
     import ScribbleBlock from './extensions/ScribbleBlock';
@@ -35,64 +40,87 @@
     export let bubbleTools;
     export let suggestionTools;
     export let toolbarTools;
+    export let mergeTags;
 
     $getStatePath = statePath
 
     onMount(() => {
+        let customExtensions = window?.scribbleExtensions || [];
+        let extensions = [
+            StarterKit,
+            ClassExtension,
+            CommandsExtension,
+            LinkExtension,
+            IdExtension,
+            Grid,
+            GridColumn,
+            Details,
+            DetailsContent,
+            DetailsSummary,
+            ScribbleBlock,
+            Subscript,
+            Superscript,
+            MediaExtension,
+            Underline,
+            TextAlign.configure({
+                types: ['heading', 'paragraph']
+            }),
+            TextStyle,
+            SlashExtension.configure({
+                tools: suggestionTools,
+                statePath: statePath,
+            }),
+            TiptapBubbleMenu.configure({
+                element: bubbleMenuElement,
+                tippyOptions: {
+                    maxWidth: 'none',
+                    placement: 'bottom-start',
+                    theme: 'scribble-bubble',
+                    interactive: true,
+                },
+                shouldShow: ({ editor, from, to }) => {
+                    if (from === to && editor.isActive('link')) {
+                        return true
+                    }
+
+                    if (from !== to && editor.isActive('link')) {
+                        return true
+                    }
+
+                    return from !== to && ! (
+                        bubbleTools.filter(tool => ! tool.isHidden).length === 0 ||
+                        editor.isActive('image') ||
+                        editor.isActive('scribbleBlock') ||
+                        editor.isActive('slashExtension')
+                    )
+                },
+            }),
+            Placeholder.configure({
+                placeholder: placeholder,
+                emptyEditorClass: 'is-editor-empty',
+            }),
+            ...customExtensions,
+        ]
+
+        if (mergeTags?.length) {
+            extensions.push(
+                MergeTag.configure({
+                    mergeTags,
+                }),
+            )
+
+            extensions.push(
+                MergeTagsExtension.configure({
+                    tags: mergeTags,
+                    statePath: statePath
+                })
+            )
+        }
+
         editor = new Editor({
             content: content,
             element: element,
-            extensions: [
-                StarterKit,
-                ClassExtension,
-                CommandsExtension,
-                LinkExtension,
-                IdExtension,
-                Grid,
-                GridColumn,
-                ScribbleBlock,
-                Subscript,
-                Superscript,
-                MediaExtension,
-                Underline,
-                TextAlign.configure({
-                    types: ['heading', 'paragraph']
-                }),
-                TextStyle,
-                SlashExtension.configure({
-                    tools: suggestionTools,
-                    statePath: statePath,
-                }),
-                TiptapBubbleMenu.configure({
-                    element: bubbleMenuElement,
-                    tippyOptions: {
-                        maxWidth: 'none',
-                        placement: 'bottom-start',
-                        theme: 'scribble-bubble',
-                        interactive: true,
-                    },
-                    shouldShow: ({ editor, from, to }) => {
-                        if (from === to && editor.isActive('link')) {
-                            return true
-                        }
-
-                        if (from !== to && editor.isActive('link')) {
-                            return true
-                        }
-
-                        return from !== to && ! (
-                            bubbleTools.filter(tool => ! tool.isHidden).length === 0 ||
-                            editor.isActive('image') ||
-                            editor.isActive('scribbleBlock') ||
-                            editor.isActive('slashExtension')
-                        )
-                    },
-                }),
-                Placeholder.configure({
-                    placeholder: placeholder,
-                    emptyEditorClass: 'is-editor-empty',
-                }),
-            ],
+            extensions: extensions,
             onTransaction: () => {
                 editor = editor
             },

@@ -69,6 +69,7 @@ trait HasToolbarTools
             Tools\Code::class,
             Tools\Link::class,
             Tools\Grid::class,
+            Tools\Details::class,
             Tools\Divider::class,
             Tools\AlignStart::class,
             Tools\AlignCenter::class,

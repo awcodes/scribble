@@ -20,14 +20,11 @@ class ExtensionManager
         return app(static::class);
     }
 
-    public function add(array $extensions): static
+    public function getCustomExtensions(): array
     {
-        $this->customExtensions = [
-            ...$this->customExtensions,
-            ...$extensions,
-        ];
-
-        return $this;
+        return collect(config('scribble.tiptap_php_extensions'))
+            ->map(fn ($extension) => new $extension())
+            ->toArray();
     }
 
     public function getExtensions(): array
@@ -56,6 +53,7 @@ class ExtensionManager
             new CoreNodes\GridColumn(),
             new CoreNodes\MergeTag(),
             new CoreNodes\ScribbleBlock(),
+            new CoreNodes\MergeTag(),
             new Marks\TextStyle(),
             new Marks\Underline(),
             new Marks\Superscript(),
@@ -65,7 +63,7 @@ class ExtensionManager
             new Marks\Italic(),
             new Marks\Strike(),
             new CoreMarks\Link(),
-            ...$this->customExtensions,
+            ...$this->getCustomExtensions(),
         ];
     }
 }

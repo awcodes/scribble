@@ -3,6 +3,7 @@
 return [
     'classes' => 'App\\Filament\\Scribble\\Tools',
     'views' => 'filament.scribble.tools',
+    'tiptap_php_extensions' => [],
     'media' => [
         'accepted_file_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'],
         'disk' => env('FILAMENT_FILESYSTEM_DISK', 'public'),

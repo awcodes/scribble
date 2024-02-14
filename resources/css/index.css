@@ -223,6 +223,31 @@
                         }
                     }
                 }
+
+                span[data-type="mergeTag"] {
+                    @apply bg-primary-500/30 dark:bg-primary-500/50;
+                }
+
+                div[data-type="details"] {
+                    @apply border border-dashed border-gray-400 rounded relative dark:border-gray-500;
+
+                    summary {
+                        @apply py-1 px-2 font-bold border-b border-gray-200 dark:border-gray-500;
+
+                        &::marker {
+                            content: "";
+                            display: none;
+                        }
+                    }
+
+                    div[data-type="details-content"] {
+                        @apply p-2 h-auto;
+
+                        > * + * {
+                            margin-block-start: 1rem;
+                        }
+                    }
+                }
             }
         }
     }
@@ -268,7 +293,8 @@
     }
 }
 
-.scribble-suggestions {
+.scribble-suggestions,
+.scribble-merge-tags {
     @apply w-56 max-h-56 overflow-y-auto text-xs rounded-lg shadow-lg ring-1 ring-gray-950/5 transition dark:ring-white/10;
 
     .no-blocks {

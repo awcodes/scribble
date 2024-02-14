@@ -10,7 +10,7 @@ export const pounce = (component, args) => {
     window.Livewire.dispatch('pounce', { component: component, arguments: args })
 }
 
-export const commandRunner = (editor, commands, args = null) => {
+export const commandRunner = (editor, commands, args = []) => {
     commands.forEach(command => {
         editor.chain().focus()[command.command](command?.arguments ?? args).run()
     })

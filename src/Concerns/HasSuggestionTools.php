@@ -42,6 +42,7 @@ trait HasSuggestionTools
         return [
             Tools\Grid::class,
             Tools\Media::class,
+            Tools\Details::class,
             Tools\BulletList::class,
             Tools\OrderedList::class,
             Tools\Blockquote::class,

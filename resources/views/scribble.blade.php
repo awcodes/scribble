@@ -27,6 +27,7 @@
             @js($getBubbleToolsSchema()),
             @js($getSuggestionToolsSchema()),
             @js($getToolbarToolsSchema()),
+            @js($getMergeTags()),
             $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')", isOptimisticallyLive: false) }},
             @js($statePath),
             @js($getPlaceholder()),

@@ -1,10 +1,11 @@
 import Scribble from './Scribble.svelte'
 
-export default function scribble(bubbleTools, suggestionTools, toolbarTools, state, statePath, placeholder) {
+export default function scribble(bubbleTools, suggestionTools, toolbarTools, mergeTags, state, statePath, placeholder) {
     return {
         bubbleTools,
         suggestionTools,
         toolbarTools,
+        mergeTags,
         state,
         statePath,
         placeholder: placeholder ?? "press '/' for blocks",
@@ -20,6 +21,7 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, sta
                     bubbleTools: _this.bubbleTools,
                     suggestionTools: _this.suggestionTools,
                     toolbarTools: _this.toolbarTools,
+                    mergeTags: _this.mergeTags,
                     content: _this.state,
                     statePath: _this.statePath,
                     placeholder: _this.placeholder

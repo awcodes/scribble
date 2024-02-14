@@ -28,6 +28,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         $package->name(static::$name)
             ->hasViews()
+            ->hasConfigFile()
             ->hasTranslations()
             ->hasCommands($this->getCommands());
     }

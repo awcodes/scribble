@@ -49,7 +49,6 @@ trait HasBubbleTools
             Tools\Divider::class,
             Tools\Bold::class,
             Tools\Italic::class,
-            Tools\Underline::class,
             Tools\Strike::class,
             Tools\Superscript::class,
             Tools\Subscript::class,
@@ -59,12 +58,10 @@ trait HasBubbleTools
             Tools\OrderedList::class,
             Tools\Code::class,
             Tools\Link::class,
-            Tools\Grid::class,
             Tools\Divider::class,
             Tools\AlignStart::class,
             Tools\AlignCenter::class,
             Tools\AlignEnd::class,
-            Tools\AlignJustify::class,
         ];
     }
 
