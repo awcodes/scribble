@@ -11,17 +11,35 @@ trait HasSuggestionTools
 {
     protected array | Closure | null $suggestionTools = null;
 
-    public function suggestionTools(array | Closure | null $tools): static
+    protected ?bool $withSuggestionDefaults = null;
+
+    public function suggestionTools(array | Closure | null $tools, bool $withDefaults = true): static
     {
         $this->suggestionTools = $tools;
+        $this->withSuggestionDefaults = $withDefaults;
 
         return $this;
     }
 
     public function getSuggestionTools(): array
     {
+        $tools = [...$this->evaluate($this->suggestionTools) ?? []];
+
+        if ($this->shouldIncludeSuggestionDefaults()) {
+            $tools = array_merge($tools, $this->getDefaultSuggestionTools());
+        }
+
+        return $tools;
+    }
+
+    public function shouldIncludeSuggestionDefaults()
+    {
+        return $this->evaluate($this->withSuggestionDefaults) ?? true;
+    }
+
+    public function getDefaultSuggestionTools(): array
+    {
         return [
-            ...$this->evaluate($this->suggestionTools) ?? [],
             Tools\Grid::class,
             Tools\Media::class,
             Tools\BulletList::class,

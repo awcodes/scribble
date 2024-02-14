@@ -253,10 +253,10 @@
 }
 
 .scribble-toolbar {
-    @apply flex items-center relative rounded-t-md bg-gray-100 dark:bg-gray-950 border-b border-gray-950/10 dark:border-white/20 px-1;
+    @apply flex items-center relative rounded-t-md bg-gray-100 dark:bg-gray-950 border-b border-gray-950/10 dark:border-white/20 p-1;
 
     .divider {
-        @apply self-stretch w-0 mx-1 border-r border-gray-950/10 dark:border-white/20;
+        @apply self-stretch w-0 mx-1 -my-1 border-r border-gray-950/10 dark:border-white/20;
     }
 
     .toolbar-group {

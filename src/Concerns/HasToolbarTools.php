@@ -13,9 +13,12 @@ trait HasToolbarTools
 
     protected bool | Closure | null $renderToolbar = false;
 
-    public function toolbarTools(array | Closure | null $tools): static
+    protected ?bool $withToolbarDefaults = null;
+
+    public function toolbarTools(array | Closure | null $tools, bool $withDefaults = true): static
     {
         $this->toolbarTools = $tools;
+        $this->withToolbarDefaults = $withDefaults;
 
         return $this;
     }
@@ -29,8 +32,26 @@ trait HasToolbarTools
 
     public function getToolbarTools(): array
     {
+        $tools = [...$this->evaluate($this->toolbarTools) ?? []];
+
+        if ($this->shouldIncludeToolbarDefaults()) {
+            $tools = array_merge($tools, $this->getDefaultToolbarTools());
+        }
+
+        return array_merge(
+            $tools,
+            [(new Tools\Link())->hidden()]
+        );
+    }
+
+    public function shouldIncludeToolbarDefaults()
+    {
+        return $this->evaluate($this->withToolbarDefaults) ?? true;
+    }
+
+    public function getDefaultToolbarTools(): array
+    {
         return [
-            ...$this->evaluate($this->toolbarTools) ?? [],
             Tools\HeadingOne::class,
             Tools\HeadingTwo::class,
             Tools\HeadingThree::class,
