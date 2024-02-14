@@ -11,11 +11,10 @@ Install the package via composer
 composer require awcodes/scribble
 ```
 
-In an effort to align with Filament's theming methodology you will need to use a custom theme to use this plugin.
+> [!IMPORTANT]
+> If you have not set up a custom theme and are using a Panel follow the instructions in the [Filament Docs](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) first. The following applies to both the Panels Package and the standalone Forms package.
 
-<x-filament-theme-info />
-
-Import the plugin's stylesheet and tippy.js stylesheet (if not already included) into your theme's css file.
+Import the plugin's stylesheet (if not already included) into your theme's css file.
 
 ```css
 @import '../../../../vendor/awcodes/scribble/resources/css/plugin.css';
