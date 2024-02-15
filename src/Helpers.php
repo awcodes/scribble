@@ -4,6 +4,7 @@ namespace Awcodes\Scribble;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use SplFileInfo;
 
@@ -43,5 +44,17 @@ class Helpers
         }
 
         return $coreActions->merge($customActions);
+    }
+
+    public static function isAuthRoute(): bool
+    {
+        $authRoutes = [
+            '/login',
+            '/password-reset',
+            '/register',
+            '/email-verification',
+        ];
+
+        return Str::of(Request::path())->contains($authRoutes);
     }
 }

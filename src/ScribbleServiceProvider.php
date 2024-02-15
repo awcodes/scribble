@@ -6,6 +6,7 @@ use Awcodes\Scribble\Commands\ScribbleCommand;
 use Awcodes\Scribble\Livewire\Renderer;
 use Awcodes\Scribble\Testing\TestsScribble;
 use BladeUI\Icons\Factory;
+use Filament\Facades\Filament;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
@@ -47,6 +48,8 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        require_once __DIR__ . '/render-helpers.php';
+
         foreach (Helpers::getToolClasses() as $block) {
             $block = new $block();
 
@@ -55,10 +58,21 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
         Livewire::component('scribble.renderer', Renderer::class);
 
-        FilamentView::registerRenderHook(
-            'panels::body.end',
-            fn (): string => Blade::render('@livewire(\'scribble.renderer\')')
-        );
+        if (
+            ! Helpers::isAuthRoute()
+            && Filament::getCurrentPanel()
+            && ! Filament::getCurrentPanel()->hasPlugin('scribblePlugin')
+        ) {
+            FilamentView::registerRenderHook(
+                name: 'panels::body.end',
+                hook: fn (): string => Blade::render('@livewire("scribble.renderer")')
+            );
+
+            FilamentView::registerRenderHook(
+                name: 'panels::body.end',
+                hook: fn (): string => Blade::render('@livewire("pounce")'),
+            );
+        }
 
         // Asset Registration
         FilamentAsset::register(
@@ -82,8 +96,6 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
         // Testing
         Testable::mixin(new TestsScribble());
-
-        require_once __DIR__ . '/render-helpers.php';
     }
 
     protected function getAssetPackageName(): ?string
