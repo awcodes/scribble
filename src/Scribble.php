@@ -5,6 +5,7 @@ namespace Awcodes\Scribble;
 use Awcodes\Scribble\Concerns\HasBubbleTools;
 use Awcodes\Scribble\Concerns\HasCustomStyles;
 use Awcodes\Scribble\Concerns\HasMergeTags;
+use Awcodes\Scribble\Concerns\HasProfiles;
 use Awcodes\Scribble\Concerns\HasSuggestionTools;
 use Awcodes\Scribble\Concerns\HasToolbarTools;
 use Awcodes\Scribble\Utils\Converter;
@@ -19,6 +20,7 @@ class Scribble extends Field
     use HasCustomStyles;
     use HasMergeTags;
     use HasPlaceholder;
+    use HasProfiles;
     use HasSuggestionTools;
     use HasToolbarTools;
 

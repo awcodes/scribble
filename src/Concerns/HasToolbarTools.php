@@ -15,10 +15,14 @@ trait HasToolbarTools
 
     protected ?bool $withToolbarDefaults = null;
 
-    public function toolbarTools(array | Closure | null $tools, bool $withDefaults = true): static
+    public function toolbarTools(array | Closure | bool $tools, bool $withDefaults = true): static
     {
-        $this->toolbarTools = $tools;
-        $this->withToolbarDefaults = $withDefaults;
+        if ($tools) {
+            $this->toolbarTools = $tools;
+            $this->withToolbarDefaults = $withDefaults;
+        } else {
+            $this->withToolbarDefaults = false;
+        }
 
         return $this;
     }
@@ -32,16 +36,25 @@ trait HasToolbarTools
 
     public function getToolbarTools(): array
     {
-        $tools = [...$this->evaluate($this->toolbarTools) ?? []];
+        if ($this->shouldRenderToolbar()) {
+            if ($this->getProfile()) {
+                $tools = app($this->getProfile())->toolbarTools() ?? [];
+                $this->withToolbarDefaults = false;
+            } else {
+                $tools = [...$this->evaluate($this->toolbarTools) ?? []];
+            }
 
-        if ($this->shouldIncludeToolbarDefaults()) {
-            $tools = array_merge($tools, $this->getDefaultToolbarTools());
+            if ($this->shouldIncludeToolbarDefaults()) {
+                $tools = array_merge($tools, $this->getDefaultToolbarTools());
+            }
+
+            return array_merge(
+                $tools,
+                [(new Tools\Link())->hidden()]
+            );
         }
 
-        return array_merge(
-            $tools,
-            [(new Tools\Link())->hidden()]
-        );
+        return [];
     }
 
     public function shouldIncludeToolbarDefaults()

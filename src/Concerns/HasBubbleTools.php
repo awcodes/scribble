@@ -13,17 +13,26 @@ trait HasBubbleTools
 
     protected ?bool $withBubbleDefaults = null;
 
-    public function bubbleTools(array | Closure | null $tools, bool $withDefaults = true): static
+    public function bubbleTools(array | Closure | bool $tools, bool $withDefaults = true): static
     {
-        $this->bubbleTools = $tools;
-        $this->withBubbleDefaults = $withDefaults;
+        if ($tools) {
+            $this->bubbleTools = $tools;
+            $this->withBubbleDefaults = $withDefaults;
+        } else {
+            $this->withBubbleDefaults = false;
+        }
 
         return $this;
     }
 
     public function getBubbleTools(): array
     {
-        $tools = [...$this->evaluate($this->bubbleTools) ?? []];
+        if ($this->getProfile()) {
+            $tools = app($this->getProfile())->bubbleTools() ?? [];
+            $this->withBubbleDefaults = false;
+        } else {
+            $tools = [...$this->evaluate($this->bubbleTools) ?? []];
+        }
 
         if ($this->shouldIncludeBubbleDefaults()) {
             $tools = array_merge($tools, $this->getDefaultBubbleTools());

@@ -66,10 +66,6 @@
                 types: ['heading', 'paragraph']
             }),
             TextStyle,
-            SlashExtension.configure({
-                tools: suggestionTools,
-                statePath: statePath,
-            }),
             TiptapBubbleMenu.configure({
                 element: bubbleMenuElement,
                 tippyOptions: {
@@ -95,12 +91,24 @@
                     )
                 },
             }),
-            Placeholder.configure({
-                placeholder: placeholder,
-                emptyEditorClass: 'is-editor-empty',
-            }),
             ...customExtensions,
         ]
+
+        if (suggestionTools?.length) {
+            extensions.push(
+                SlashExtension.configure({
+                    tools: suggestionTools,
+                    statePath: statePath,
+                }),
+            )
+
+            extensions.push(
+                Placeholder.configure({
+                    placeholder: placeholder,
+                    emptyEditorClass: 'is-editor-empty',
+                }),
+            )
+        }
 
         if (mergeTags?.length) {
             extensions.push(

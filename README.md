@@ -3,6 +3,8 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/awcodes/scribble.svg?style=flat-square)](https://packagist.org/packages/awcodes/scribble)
 [![Total Downloads](https://img.shields.io/packagist/dt/awcodes/scribble.svg?style=flat-square)](https://packagist.org/packages/awcodes/scribble)
 
+A Rich Text Editor plugin for Filament Forms.
+
 ## Installation
 
 Install the package via composer
@@ -32,6 +34,22 @@ Rebuild your custom theme.
 
 ```sh
 npm run build
+```
+
+## Preparing your model
+
+Scribble stores its content as JSON data in a single column on your model. So, it is vital that you cast the column to an array in your model.
+
+```php
+protected $casts = [
+    'content' => 'array',
+];
+```
+
+It is also recommended to make the column a`longText` type in your migration. However, this is not required and if you know you will not need a large amount of data you can use a `text` or `mediumText` type as well. Just be aware that the content can grow rather quickly.
+
+```php 
+$table->longText('content')->nullable();
 ```
 
 ## Usage

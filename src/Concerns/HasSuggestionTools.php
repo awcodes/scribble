@@ -13,17 +13,27 @@ trait HasSuggestionTools
 
     protected ?bool $withSuggestionDefaults = null;
 
-    public function suggestionTools(array | Closure | null $tools, bool $withDefaults = true): static
+    public function suggestionTools(array | Closure | bool $tools, bool $withDefaults = true): static
     {
-        $this->suggestionTools = $tools;
-        $this->withSuggestionDefaults = $withDefaults;
+        if ($tools) {
+            $this->suggestionTools = $tools;
+            $this->withSuggestionDefaults = $withDefaults;
+        } else {
+            $this->withSuggestionDefaults = false;
+        }
 
         return $this;
     }
 
     public function getSuggestionTools(): array
     {
-        $tools = [...$this->evaluate($this->suggestionTools) ?? []];
+        if ($this->getProfile()) {
+            $tools = app($this->getProfile())->suggestionTools() ?? [];
+            $this->withSuggestionDefaults = false;
+        } else {
+            $tools = [...$this->evaluate($this->suggestionTools) ?? []];
+        }
+
 
         if ($this->shouldIncludeSuggestionDefaults()) {
             $tools = array_merge($tools, $this->getDefaultSuggestionTools());
