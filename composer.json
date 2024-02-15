@@ -1,6 +1,6 @@
 {
     "name": "awcodes/scribble",
-    "description": "This is my package scribble",
+    "description": "A Rich Text Editor plugin for Filament Forms.",
     "keywords": [
         "awcodes",
         "laravel",
