@@ -1,19 +1,19 @@
 <?php
 
-namespace {{namespace}};
+namespace {{ namespace }};
 
 use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\ScribbleTool;
 
-class {{class_name}} extends ScribbleTool
+class {{ class_name }} extends ScribbleTool
 {
-    protected static string $icon = 'heroicon-o-lightning-bolt';
+    protected string $icon = 'heroicon-o-lightning-bolt';
 
-    protected static string $label = '{{tool_label}}';
+    protected string $label = '{{ tool_label }}';
 
-    protected static string $view = '{{tool_view}}';
+    protected ?string $view = '{{ tool_view }}';
 
-    protected ?string $renderedView = '{{tool_rendered_view}}';
+    protected ?string $editorView = '{{ tool_editor_view }}';
 
     public function getType(): ToolType
     {

@@ -4,7 +4,6 @@ namespace Awcodes\Scribble\Commands;
 
 use Filament\Support\Commands\Concerns\CanManipulateFiles;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
@@ -43,81 +42,97 @@ class MakeToolCommand extends Command
             required: true,
         );
 
-        $toolClass = (string) str($tool)->afterLast('\\');
-        $toolNamespace = str($tool)->contains('\\')
-            ? (string) str($tool)->beforeLast('\\')
-            : '';
-
         $namespace = config('scribble.auto_discover.tools');
+        $viewsPath = config('scribble.auto_discover.views');
 
-        $path = app_path('TiptapBlocks/');
+        $className = (string) str($tool)->afterLast('\\');
+        $toolLabel = (string) str($className)
+            ->afterLast('.')
+            ->kebab()
+            ->replace(['-', '_'], ' ')
+            ->ucfirst();
+        $fullNamespace = str($namespace) . "\\{$className}";
 
-        $preview = str($tool)
-            ->prepend(
-                (string) str("{$namespace}\\Previews\\")
-                    ->replaceFirst('App\\', '')
-            )
-            ->replace('\\', '/')
-            ->explode('/')
-            ->map(fn ($segment) => Str::lower(Str::kebab($segment)))
-            ->implode('.');
+        $view = (string) str($className)->kebab();
 
-        $rendered = str($block)
-            ->prepend(
-                (string) str("{$namespace}\\Rendered\\")
-                    ->replaceFirst('App\\', '')
-            )
-            ->replace('\\', '/')
-            ->explode('/')
-            ->map(fn ($segment) => Str::lower(Str::kebab($segment)))
-            ->implode('.');
-
-        $path = (string) str($block)
+        $classPath = app_path((string)  str($className)
             ->prepend('/')
-            ->prepend($path ?? '')
+            ->prepend($namespace)
             ->replace('\\', '/')
             ->replace('//', '/')
-            ->append('.php');
+            ->replace('App', '')
+            ->append('.php'));
 
-        $previewPath = resource_path(
-            (string) str($preview)
-                ->replace('.', '/')
-                ->prepend('views/')
-                ->append('.blade.php'),
-        );
+        $viewPath = resource_path((string) str($view)
+            ->prepend('/')
+            ->prepend($viewsPath)
+            ->prepend('/views/')
+            ->replace('.', '/')
+            ->replace('\\', '/')
+            ->replace('//', '/')
+            ->append('.blade.php'));
 
-        $renderedViewPath = resource_path(
-            (string) str($rendered)
-                ->replace('.', '/')
-                ->prepend('views/')
-                ->append('.blade.php'),
-        );
+        $editorViewPath = resource_path((string) str($view)
+            ->prepend('/')
+            ->prepend($viewsPath)
+            ->prepend('/views/')
+            ->replace('.', '/')
+            ->replace('\\', '/')
+            ->replace('//', '/')
+            ->append('-editor.blade.php'));
+
+        $toolView = (string) str($viewsPath)
+            ->append('.')
+            ->replace('/', '.')
+            ->append($view)
+            ->trim('.');
+
+        $toolEditorView = (string) str($viewsPath)
+            ->append('.')
+            ->replace('/', '.')
+            ->append($view)
+            ->append('-editor')
+            ->trim('.');
+
+//        dd([
+//            'tool' => $tool,
+//            'type' => $type,
+//            'class_name' => $className,
+//            'tool_label' => $toolLabel,
+//            'full_namespace' => $fullNamespace,
+//            'view' => $view,
+//            'class_path' => $classPath,
+//            'view_path' => $viewPath,
+//            'editor_view_path' => $editorViewPath,
+//            'tool_view' => $toolView,
+//            'tool_editor_view' => $toolEditorView,
+//        ]);
 
         $files = [
-            $path,
-            $previewPath,
-            $renderedViewPath,
+            $classPath,
+            $viewPath,
+            $editorViewPath,
         ];
 
         if (! $this->option('force') && $this->checkForCollision($files)) {
             return static::INVALID;
         }
 
-        $stub = 'tool-' . $type . '-class.stub';
+        $stub = 'tool-' . $type . '-class';
 
-        $this->copyStubToApp($stub, $path, [
-            'namespace' => str($namespace) . ($blockNamespace !== '' ? "\\{$blockNamespace}" : ""),
-            'class_name' => $blockClass,
-            'tool_label' => $preview,
-            'tool_view' => $rendered,
-            'tool_rendered_view' => $rendered,
+        $this->copyStubToApp($stub, $classPath, [
+            'namespace' => $namespace,
+            'class_name' => $className,
+            'tool_label' => $toolLabel,
+            'tool_view' => $toolView,
+            'tool_editor_view' => $toolEditorView,
         ]);
 
-        $this->copyStubToApp('tool-view', $previewPath);
+        $this->copyStubToApp('tool-view', $viewPath);
 
-        $this->copyStubToApp('tool-view', $renderedViewPath);
+        $this->copyStubToApp('tool-view', $editorViewPath);
 
-        $this->components->info("Scribble tool [{$path}] created successfully.");
+        $this->components->info("Scribble tool [{$fullNamespace}] created successfully.");
 
         return self::SUCCESS;
     }

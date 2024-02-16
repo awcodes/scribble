@@ -2,8 +2,8 @@
 
 return [
     'auto_discover' => [
-        'tools' => 'App\\Filament\\Scribble\\Tools',
-        'views' => 'filament.scribble.tools',
+        'tools' => 'App\\ScribbleTools',
+        'views' => 'scribble-tools',
     ],
     'tiptap_php_extensions' => [],
     'media' => [

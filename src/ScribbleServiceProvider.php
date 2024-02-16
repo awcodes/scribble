@@ -2,15 +2,14 @@
 
 namespace Awcodes\Scribble;
 
+use Awcodes\Scribble\Commands\MakeToolCommand;
 use Awcodes\Scribble\Commands\ScribbleCommand;
 use Awcodes\Scribble\Livewire\Renderer;
 use Awcodes\Scribble\Testing\TestsScribble;
 use BladeUI\Icons\Factory;
 use Filament\Facades\Filament;
 use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
-use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Contracts\Container\Container;
@@ -18,6 +17,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Features\SupportTesting\Testable;
 use Livewire\Livewire;
+use ReflectionException;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -46,13 +46,15 @@ class ScribbleServiceProvider extends PackageServiceProvider
         });
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function packageBooted(): void
     {
         require_once __DIR__ . '/render-helpers.php';
 
         foreach (Helpers::getToolClasses() as $block) {
             $block = new $block();
-
             Livewire::component($block->getIdentifier(), $block);
         }
 
@@ -107,9 +109,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         return [
             AlpineComponent::make('scribble-component', __DIR__ . '/../resources/dist/scribble.js'),
-            Css::make('scribble-styles', __DIR__ . '/../resources/dist/scribble.css')
-                ->loadedOnRequest(),
-            //            Js::make('scribble-scripts', __DIR__ . '/../resources/dist/scribble.js'),
+            Css::make('scribble-styles', __DIR__ . '/../resources/dist/scribble.css')->loadedOnRequest(),
         ];
     }
 
@@ -117,6 +117,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         return [
             ScribbleCommand::class,
+            MakeToolCommand::class,
         ];
     }
 

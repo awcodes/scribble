@@ -49,7 +49,7 @@ class ScribbleBlock extends Node
                 $block = new $block();
 
                 if ($block->getIdentifier() === $data['identifier']) {
-                    $view = $block->getRenderedView((array) $data['values']);
+                    $view = $block->getView((array) $data['values']);
                 }
             }
         }

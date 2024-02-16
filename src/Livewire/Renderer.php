@@ -5,9 +5,13 @@ namespace Awcodes\Scribble\Livewire;
 use Awcodes\Scribble\Helpers;
 use Livewire\Attributes\Isolate;
 use Livewire\Component;
+use ReflectionException;
 
 class Renderer extends Component
 {
+    /**
+     * @throws ReflectionException
+     */
     #[Isolate]
     public function getView(string $identifier, array $attrs)
     {
@@ -15,7 +19,7 @@ class Renderer extends Component
             $block = new $block();
 
             if ($block->getIdentifier() === $identifier) {
-                return $block->getView($attrs);
+                return $block->getEditorView($attrs);
             }
         }
     }
