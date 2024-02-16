@@ -11,7 +11,8 @@ trait HasIcon
 
     public function getIcon(): string
     {
-        return (string) Str::of(Blade::render('<x-' . $this->icon . ' stroke-width="1.5"/>'))
+        return svg($this->icon)->toHtml();
+        return (string) Str::of(svg($this->icon)->toHtml())
             ->replace("\n", '')
             ->squish();
     }
