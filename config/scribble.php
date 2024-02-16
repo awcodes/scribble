@@ -1,8 +1,10 @@
 <?php
 
 return [
-    'classes' => 'App\\Filament\\Scribble\\Tools',
-    'views' => 'filament.scribble.tools',
+    'auto_discover' => [
+        'tools' => 'App\\Filament\\Scribble\\Tools',
+        'views' => 'filament.scribble.tools',
+    ],
     'tiptap_php_extensions' => [],
     'media' => [
         'accepted_file_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'],

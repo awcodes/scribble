@@ -10,10 +10,13 @@ use SplFileInfo;
 
 class Helpers
 {
+    /**
+     * @throws \ReflectionException
+     */
     public static function getToolClasses(): Collection
     {
         $corePath = base_path('vendor/awcodes/scribble/src/Tools');
-        $path = base_path(str_replace('\\', '/', config('scribble.classes')));
+        $path = base_path(str_replace('\\', '/', config('scribble.auto_discover.tools')));
 
         $filesystem = new Filesystem();
 
@@ -33,7 +36,7 @@ class Helpers
         if ($filesystem->exists($path)) {
             $customActions = collect($filesystem->allFiles($path))
                 ->map(function (SplFileInfo $file): string {
-                    return (string) Str::of(config('scribble.classes'))
+                    return (string) Str::of(config('scribble.auto_discover.tools'))
                         ->append('\\', $file->getRelativePathname())
                         ->replace(['/', '.php'], ['\\', ''], '');
                 })->filter(function (string $class): bool {

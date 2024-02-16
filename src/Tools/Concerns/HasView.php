@@ -2,8 +2,6 @@
 
 namespace Awcodes\Scribble\Tools\Concerns;
 
-use Illuminate\Support\Str;
-
 trait HasView
 {
     protected string $view = 'scribble::components.action';
@@ -12,17 +10,13 @@ trait HasView
 
     public function getView(array $attrs): string
     {
-        return (string) Str::of(view($this->view, $attrs)->render())
-            ->replace("\n", '')
-            ->squish();
+        return view($this->view, $attrs)->toHtml();
     }
 
     public function getRenderedView(array $attrs): string
     {
         $view = $this->renderedView ?? $this->view;
 
-        return (string) Str::of(view($view, $attrs)->render())
-            ->replace("\n", '')
-            ->squish();
+        return view($view, $attrs)->toHtml();
     }
 }
