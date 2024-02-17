@@ -53,7 +53,7 @@ class Scribble extends Field
     private function formatTool(ScribbleTool | string $tool): array
     {
         if (is_string($tool)) {
-            $tool = new $tool();
+            $tool = Helpers::getRegisteredTools()[$tool];
         }
 
         return [

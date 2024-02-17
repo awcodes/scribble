@@ -53,9 +53,8 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         require_once __DIR__ . '/render-helpers.php';
 
-        foreach (Helpers::getToolClasses() as $block) {
-            $block = new $block();
-            Livewire::component($block->getIdentifier(), $block);
+        foreach (Helpers::getRegisteredTools() as $tool) {
+            Livewire::component($tool->getIdentifier(), $tool);
         }
 
         Livewire::component('scribble.renderer', Renderer::class);

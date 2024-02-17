@@ -42,8 +42,8 @@ class MakeToolCommand extends Command
             required: true,
         );
 
-        $namespace = config('scribble.auto_discover.tools');
-        $viewsPath = config('scribble.auto_discover.views');
+        $namespace = config('scribble.generator.namespace');
+        $viewsPath = config('scribble.generator.views');
 
         $className = (string) str($tool)->afterLast('\\');
         $toolLabel = (string) str($className)

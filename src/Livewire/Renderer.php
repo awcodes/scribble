@@ -15,11 +15,9 @@ class Renderer extends Component
     #[Isolate]
     public function getView(string $identifier, array $attrs)
     {
-        foreach (Helpers::getToolClasses() as $block) {
-            $block = new $block();
-
-            if ($block->getIdentifier() === $identifier) {
-                return $block->getEditorView($attrs);
+        foreach (Helpers::getRegisteredTools() as $tool) {
+            if ($tool->getIdentifier() === $identifier) {
+                return $tool->getEditorView($attrs);
             }
         }
     }

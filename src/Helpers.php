@@ -2,51 +2,19 @@
 
 namespace Awcodes\Scribble;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
-use SplFileInfo;
 
 class Helpers
 {
-    /**
-     * @throws \ReflectionException
-     */
-    public static function getToolClasses(): Collection
+    public static function getRegisteredTools(): Collection
     {
-        $corePath = base_path('vendor/awcodes/scribble/src/Tools');
-        $path = base_path(str_replace('\\', '/', config('scribble.auto_discover.tools')));
+        $tools = config('scribble.tools');
 
-        $filesystem = new Filesystem();
-
-        if (! $filesystem->exists($corePath)) {
-            return collect();
-        }
-
-        $coreActions = collect($filesystem->allFiles($corePath))
-            ->map(function (SplFileInfo $file): string {
-                return (string) Str::of('Awcodes\\Scribble\\Tools')
-                    ->append('\\', $file->getRelativePathname())
-                    ->replace(['/', '.php'], ['\\', ''], '');
-            })->filter(function (string $class): bool {
-                return ! str_contains($class, 'Concerns');
-            });
-
-        if ($filesystem->exists($path)) {
-            $customActions = collect($filesystem->allFiles($path))
-                ->map(function (SplFileInfo $file): string {
-                    return (string) Str::of(config('scribble.auto_discover.tools'))
-                        ->append('\\', $file->getRelativePathname())
-                        ->replace(['/', '.php'], ['\\', ''], '');
-                })->filter(function (string $class): bool {
-                    return ! str_contains($class, 'Concerns');
-                });
-        } else {
-            $customActions = collect();
-        }
-
-        return $coreActions->merge($customActions);
+        return collect($tools)->mapWithKeys(function ($tool) {
+            return [$tool => new $tool];
+        });
     }
 
     public static function isAuthRoute(): bool

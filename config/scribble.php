@@ -1,9 +1,38 @@
 <?php
 
 return [
-    'auto_discover' => [
-        'tools' => 'App\\ScribbleTools',
+    'generator' => [
+        'namespace' => 'App\\ScribbleTools',
         'views' => 'scribble-tools',
+    ],
+    'tools' => [
+        \Awcodes\Scribble\Tools\AlignCenter::class,
+        \Awcodes\Scribble\Tools\AlignEnd::class,
+        \Awcodes\Scribble\Tools\AlignJustify::class,
+        \Awcodes\Scribble\Tools\AlignStart::class,
+        \Awcodes\Scribble\Tools\Blockquote::class,
+        \Awcodes\Scribble\Tools\Bold::class,
+        \Awcodes\Scribble\Tools\BulletList::class,
+        \Awcodes\Scribble\Tools\Code::class,
+        \Awcodes\Scribble\Tools\Details::class,
+        \Awcodes\Scribble\Tools\Divider::class,
+        \Awcodes\Scribble\Tools\Grid::class,
+        \Awcodes\Scribble\Tools\HeadingOne::class,
+        \Awcodes\Scribble\Tools\HeadingTwo::class,
+        \Awcodes\Scribble\Tools\HeadingThree::class,
+        \Awcodes\Scribble\Tools\HeadingFour::class,
+        \Awcodes\Scribble\Tools\HeadingFive::class,
+        \Awcodes\Scribble\Tools\HeadingSix::class,
+        \Awcodes\Scribble\Tools\HorizontalRule::class,
+        \Awcodes\Scribble\Tools\Italic::class,
+        \Awcodes\Scribble\Tools\Link::class,
+        \Awcodes\Scribble\Tools\Media::class,
+        \Awcodes\Scribble\Tools\OrderedList::class,
+        \Awcodes\Scribble\Tools\Paragraph::class,
+        \Awcodes\Scribble\Tools\Strike::class,
+        \Awcodes\Scribble\Tools\Subscript::class,
+        \Awcodes\Scribble\Tools\Superscript::class,
+        \Awcodes\Scribble\Tools\Underline::class,
     ],
     'tiptap_php_extensions' => [],
     'media' => [
