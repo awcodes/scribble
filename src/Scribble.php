@@ -59,7 +59,7 @@ class Scribble extends Field
         return [
             'statePath' => $this->getStatePath(),
             'identifier' => $tool->getIdentifier(),
-            'extension' => $tool->getExtension(),
+            'extension' => $tool->getTiptapExtension(),
             'activeAttributes' => $tool->getActiveAttributes(),
             'icon' => $tool->getIcon(),
             'label' => ucfirst($tool->getLabel()),

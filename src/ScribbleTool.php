@@ -9,6 +9,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 
 class ScribbleTool extends PounceComponent implements HasForms
 {
@@ -17,6 +18,7 @@ class ScribbleTool extends PounceComponent implements HasForms
     use Concerns\HasIcon;
     use Concerns\HasLabel;
     use Concerns\HasView;
+    use Concerns\InteractsWithTiptap;
     use EvaluatesClosures;
     use InteractsWithForms;
 
@@ -28,14 +30,9 @@ class ScribbleTool extends PounceComponent implements HasForms
 
     public array $data = [];
 
-    public function getExtension(): string
-    {
-        return lcfirst(substr(strrchr(static::class, '\\'), 1));
-    }
-
     public function getIdentifier(): string
     {
-        return 'scribble-' . lcfirst(substr(strrchr(static::class, '\\'), 1));
+        return 'scribble-' . Str::of($this->getLabel())->lower()->kebab();
     }
 
     public function getType(): ToolType
@@ -43,22 +40,12 @@ class ScribbleTool extends PounceComponent implements HasForms
         return ToolType::Command;
     }
 
-    public function getCommands(): ?array
-    {
-        return null;
-    }
-
-    public function getActiveAttributes(): string | array
-    {
-        return [];
-    }
-
     public function save(): void
     {
         $data = $this->form->getState();
 
         $this->dispatch(
-            event: 'handle-' . $this->getExtension(),
+            event: 'handle-' . $this->getIdentifier(),
             statePath: $this->statePath,
             blockId: $this->blockId,
             context: $this->update ? 'update' : 'insert',

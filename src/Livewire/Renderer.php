@@ -9,17 +9,16 @@ use ReflectionException;
 
 class Renderer extends Component
 {
-    /**
-     * @throws ReflectionException
-     */
     #[Isolate]
-    public function getView(string $identifier, array $attrs)
+    public function getView(string $identifier, array $attrs): ?string
     {
         foreach (Helpers::getRegisteredTools() as $tool) {
             if ($tool->getIdentifier() === $identifier) {
                 return $tool->getEditorView($attrs);
             }
         }
+
+        return null;
     }
 
     public function render(): string

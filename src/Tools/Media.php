@@ -184,7 +184,7 @@ class Media extends ScribbleTool
         }
 
         $this->dispatch(
-            event: 'handle-' . $this->getExtension(),
+            event: 'handle-' . $this->getIdentifier(),
             statePath: $this->statePath,
             blockId: $this->blockId,
             context: $this->update ? 'update' : 'insert',

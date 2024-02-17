@@ -1,7 +1,7 @@
 <script>
     import {onMount, onDestroy} from "svelte";
-    import { Editor } from '@tiptap/core'
-    import { BubbleMenu as TiptapBubbleMenu } from '@tiptap/extension-bubble-menu'
+    import {Editor} from '@tiptap/core'
+    import {BubbleMenu as TiptapBubbleMenu} from '@tiptap/extension-bubble-menu'
     import ClassExtension from './extensions/ClassExtension.js'
     import CommandsExtension from './extensions/CommandsExtension.js'
     import Grid from './extensions/Grid/Grid.js'
@@ -22,9 +22,9 @@
     import Superscript from '@tiptap/extension-superscript'
     import TextAlign from './extensions/TextAlignExtension.js'
     import TextStyle from '@tiptap/extension-text-style'
-    import { Underline } from '@tiptap/extension-underline'
-    import { pounce, commandRunner } from './utils.js'
-    import { getStatePath } from './stores.js'
+    import {Underline} from '@tiptap/extension-underline'
+    import {pounce, commandRunner} from './utils.js'
+    import {getStatePath} from './stores.js'
     import Controls from './components/Controls.svelte'
     import BubbleMenu from './components/BubbleMenu.svelte'
     import Toolbar from './components/Toolbar.svelte'
@@ -160,7 +160,7 @@
     $: isActive = (name, attrs = {}) => editor.isActive(name, attrs);
 
     tools.forEach(tool => {
-        window.addEventListener(`handle-${tool.extension}`, data => {
+        window.addEventListener(`handle-${tool.identifier}`, data => {
             if (data.detail.statePath !== statePath) {
                 return
             }
@@ -198,7 +198,8 @@
             case 'modal':
                 pounce(tool.identifier, {
                     statePath: statePath,
-                    update: update, ...editor.getAttributes(tool.extension)
+                    update: update,
+                    ...editor.getAttributes(tool.extension)
                 });
                 return
             case 'static':

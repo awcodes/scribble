@@ -104,21 +104,6 @@ class Grid extends ScribbleTool
             ]);
     }
 
-    public function save(): void
-    {
-        $data = $this->form->getState();
-
-        $this->dispatch(
-            event: 'handle-' . $this->getExtension(),
-            statePath: $this->statePath,
-            blockId: $this->blockId,
-            context: $this->update ? 'update' : 'insert',
-            values: $data,
-        );
-
-        $this->unPounce();
-    }
-
     public function render(): View
     {
         return view('scribble::components.grid-form');
