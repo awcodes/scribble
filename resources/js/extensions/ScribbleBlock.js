@@ -53,7 +53,7 @@ export default Node.create({
             },
 
             insertScribbleBlock: (options) => {
-                return ({ tr, dispatch, state }) => {
+                return ({ tr, dispatch, commands }) => {
                     const { selection } = tr;
 
                     const node = this.type.create({
@@ -62,7 +62,8 @@ export default Node.create({
                     })
 
                     if (dispatch) {
-                        tr.replaceRangeWith(selection.from - selection.$anchor.parentOffset, selection.to, node);
+                        tr.replaceRangeWith(selection.from - selection.$anchor.parentOffset, selection.to, node)
+                        commands.setNodeSelection(tr.mapping.map(tr.steps[tr.steps.length - 1].from), 1)
                     }
 
                     return true

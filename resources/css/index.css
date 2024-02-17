@@ -37,6 +37,12 @@
         }
     }
 
+    &.focused {
+        .scribble-block .scribble-block-actions {
+            @apply !opacity-100 !pointer-events-auto;
+        }
+    }
+
     .scribble-editor-wrapper {
         @apply w-full;
 
@@ -114,10 +120,6 @@
                     .node-scribbleBlock + .ProseMirror-gapcursor + .node-scribbleBlock {
                         margin-top: 1rem;
                     }
-
-                    .scribble-block .scribble-block-actions {
-                        @apply opacity-100;
-                    }
                 }
 
                 .scribble-block {
@@ -145,7 +147,7 @@
                     }
 
                     .scribble-block-actions {
-                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-tr-md rounded-bl-lg flex items-center bg-gray-950;
+                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-tr-md rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
                         z-index: 1;
 
                         .scribble-block-action {

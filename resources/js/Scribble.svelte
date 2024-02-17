@@ -129,6 +129,13 @@
             content: content,
             element: element,
             extensions: extensions,
+            onFocus: () => {
+                window.dispatchEvent(new CustomEvent('focusScribbleComponent', {
+                    detail: {
+                        statePath: statePath,
+                    }
+                }));
+            },
             onTransaction: () => {
                 editor = editor
             },

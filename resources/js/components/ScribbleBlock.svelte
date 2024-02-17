@@ -58,10 +58,6 @@
             ) {
                 updateAttributes({ values: e.detail.values })
                 getView()
-                setTimeout(() => {
-                    let currentNode = editor.$node('scribbleBlock', {id: node.attrs.id});
-                    editor.commands.setNodeSelection(currentNode.pos)
-                }, 100)
             }
         })
     })

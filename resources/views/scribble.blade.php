@@ -33,7 +33,8 @@
         )"
         x-on:toggle-fullscreen.window="toggleFullscreen($event)"
         x-on:keydown.esc.window="fullscreen = false"
-        x-bind:class="{'fullscreen': fullscreen}"
+        x-on:click.away="isFocused = false"
+        x-bind:class="{'fullscreen': fullscreen, 'focused': isFocused}"
         id="{{ 'scribble-wrapper-' . $statePath }}"
         @class([
             'scribble-wrapper',

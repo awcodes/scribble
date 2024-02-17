@@ -11,6 +11,7 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, mer
         placeholder: placeholder ?? "press '/' for blocks",
         fullscreen: false,
         updatedFromEditor: false,
+        isFocused: false,
 
         init() {
             const _this = this
@@ -45,6 +46,12 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, mer
                 if (e.detail.statePath === _this.statePath) {
                     _this.updatedFromEditor = true
                     _this.state = e.detail.content
+                }
+            })
+
+            window.addEventListener('focusScribbleComponent', e => {
+                if (e.detail.statePath === _this.statePath) {
+                    _this.isFocused = true
                 }
             })
         },
