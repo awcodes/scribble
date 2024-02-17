@@ -1,0 +1,73 @@
+.scribble-entry {
+    @apply prose dark:prose-invert max-w-none prose-a:text-blue-500 dark:prose-a:text-blue-400;
+
+    p:empty {
+        display: none;
+    }
+
+    *:first-child {
+        margin-top: 0;
+    }
+
+    *:last-child {
+        margin-bottom: 0;
+    }
+
+    .scribble-block + .scribble-block {
+        margin-top: 1rem;
+    }
+
+    .hero {
+        @apply py-8 lg:py-12;
+
+        *:first-child {
+            margin-top: 0;
+        }
+
+        *:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .scribble-grid {
+        @apply grid gap-6;
+
+        .scribble-grid-column {
+            @apply border border-dashed border-gray-400 p-2 rounded-lg dark:border-gray-600;
+
+            > * + * {
+                margin-block-start: 1rem;
+            }
+        }
+    }
+
+    @media (max-width: theme('screens.sm')) {
+        .scribble-grid[data-stack-at="sm"] {
+            grid-template-columns: 1fr !important;
+
+            .scribble-grid-column {
+                grid-column: span 1 !important;
+            }
+        }
+    }
+
+    @media (max-width: theme('screens.md')) {
+        .scribble-grid[data-stack-at="md"] {
+            grid-template-columns: 1fr !important;
+
+            .scribble-grid-column {
+                grid-column: span 1 !important;
+            }
+        }
+    }
+
+    @media (max-width: theme('screens.lg')) {
+        .scribble-grid[data-stack-at="lg"] {
+            grid-template-columns: 1fr !important;
+
+            .scribble-grid-column {
+                grid-column: span 1 !important;
+            }
+        }
+    }
+}

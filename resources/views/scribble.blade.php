@@ -10,7 +10,6 @@
     }
 
     $stylesheets = implode(',', $stylesheets);
-
 @endphp
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
     <div

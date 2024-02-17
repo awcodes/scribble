@@ -45,11 +45,9 @@ class ScribbleBlock extends Node
         $view = null;
 
         if ($data) {
-            foreach (Helpers::getToolClasses() as $block) {
-                $block = new $block();
-
-                if ($block->getIdentifier() === $data['identifier']) {
-                    $view = $block->getView((array) $data['values']);
+            foreach (Helpers::getRegisteredTools() as $tool) {
+                if ($tool->getIdentifier() === $data['identifier']) {
+                    $view = $tool->getView((array) $data['values']);
                 }
             }
         }

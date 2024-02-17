@@ -62,17 +62,18 @@ class ScribbleServiceProvider extends PackageServiceProvider
         if (
             ! Helpers::isAuthRoute()
             && Filament::getCurrentPanel()
-            && ! Filament::getCurrentPanel()->hasPlugin('scribblePlugin')
         ) {
             FilamentView::registerRenderHook(
                 name: 'panels::body.end',
                 hook: fn (): string => Blade::render('@livewire("scribble.renderer")')
             );
 
-            FilamentView::registerRenderHook(
-                name: 'panels::body.end',
-                hook: fn (): string => Blade::render('@livewire("pounce")'),
-            );
+            if (! Filament::getCurrentPanel()->hasPlugin('pouncePlugin')) {
+                FilamentView::registerRenderHook(
+                    name: 'panels::body.end',
+                    hook: fn(): string => Blade::render('@livewire("pounce")'),
+                );
+            }
         }
 
         // Asset Registration
@@ -109,6 +110,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
         return [
             AlpineComponent::make('scribble-component', __DIR__ . '/../resources/dist/scribble.js'),
             Css::make('scribble-styles', __DIR__ . '/../resources/dist/scribble.css')->loadedOnRequest(),
+            Css::make('scribble-entry-styles', __DIR__ . '/../resources/dist/scribble-entry.css')->loadedOnRequest(),
         ];
     }
 

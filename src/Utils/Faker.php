@@ -167,7 +167,7 @@ class Faker
         return $this;
     }
 
-    public function block(string $type = 'block', string $identifier = 'scribble-batmanBlock', ?array $values = null): static
+    public function block(string $type = 'block', string $identifier = 'scribble-batman-character', ?array $values = null): static
     {
         $attrs = [
             'id' => Str::uuid(),
