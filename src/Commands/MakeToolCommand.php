@@ -94,20 +94,6 @@ class MakeToolCommand extends Command
             ->append('-editor')
             ->trim('.');
 
-//        dd([
-//            'tool' => $tool,
-//            'type' => $type,
-//            'class_name' => $className,
-//            'tool_label' => $toolLabel,
-//            'full_namespace' => $fullNamespace,
-//            'view' => $view,
-//            'class_path' => $classPath,
-//            'view_path' => $viewPath,
-//            'editor_view_path' => $editorViewPath,
-//            'tool_view' => $toolView,
-//            'tool_editor_view' => $toolEditorView,
-//        ]);
-
         $files = [
             $classPath,
             $viewPath,
