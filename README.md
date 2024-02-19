@@ -21,7 +21,7 @@ composer require awcodes/scribble
 Import the plugin's stylesheet (if not already included) into your theme's css file.
 
 ```css
-@import '../../../../vendor/awcodes/scribble/resources/css/plugin.css';
+@import '../../../../vendor/awcodes/scribble/resources/css/index.css';
 ```
 
 Add the plugin's views to your `tailwind.config.js` file.
