@@ -59,6 +59,29 @@ $table->longText('content')->nullable();
 
 @TODO Write actual docs.
 
+Simple usage example for now:
+
+```php
+<?php
+
+namespace App\Filament\Resources;
+
+use Awcodes\Scribble\Scribble;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+
+class PageResource extends Resource
+{
+    public static function form(Form $form): Form
+    {
+        return $form->schema([
+            Scribble::make('content'),
+        ]);
+    }
+}
+
+```
+
 ## Testing
 
 ```bash
