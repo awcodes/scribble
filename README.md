@@ -222,73 +222,6 @@ Scribble::make('content')
 
 ### Custom Tools
 
-#### Blocks
-
-Blocks are a tool type that interact with the editor's content through a modal form and a blade view. They can be used to insert custom content into the editor.
-
-`$editorView` is optional but can be useful in the case that you need to provide a custom editor view for the block. And a different rendering view for the output.
-
-```php
-use Awcodes\Scribble\ScribbleTool;
-
-class BatmanBlock extends ScribbleTool
-{
-    protected ?string $view = 'scribble.static-block';
-    
-    protected ?string $editorView = 'scribble.static-block-editor';
-    
-    public function getType(): ToolType
-    {
-        return ToolType::Block;
-    }
-}
-```
-
-#### Static Blocks
-
-Static Blocks are a tool type that can be used to insert a static blade view into the editor. These are useful for inserting placeholder content that can be rendered out to a different view in your HTML.
-
-`$editorView` is optional but can be useful in the case that you need to provide a custom editor view for the block. And a different rendering view for the output.
-
-```php
-use Awcodes\Scribble\ScribbleTool;
-
-class StaticBlock extends ScribbleTool
-{
-    protected ?string $view = 'scribble.static-block';
-    
-    protected ?string $editorView = 'scribble.static-block-editor';
-    
-    public function getType(): ToolType
-    {
-        return ToolType::StaticBlock;
-    }
-}
-```
-
-#### Modals
-
-Modals are a tool type that interact with the editor's content through a modal form and use Tiptap commands to insert content into the editor. The `Media` and `Grid` tools are examples of this.
-
-```php
-use Awcodes\Scribble\ScribbleTool;
-
-class Grid extends ScribbleTool
-{
-    public function getType(): ToolType
-    {
-        return ToolType::Modal;
-    }
-
-    public function getCommands(): ?array
-    {
-        return [
-            ['command' => 'insertGrid', 'arguments' => null],
-        ];
-    }
-}
-```
-
 #### Commands
 
 Command tools are used to insert content into the editor using Tiptap commands. The `Bold` and `Italic` tools are examples of this. This is also the default tool type.
@@ -308,6 +241,180 @@ class Bold extends ScribbleTool
         return [
             ['command' => 'toggleBold', 'arguments' => null],
         ];
+    }
+}
+```
+
+#### Static Blocks
+
+Static Blocks are a tool type that can be used to insert a static blade view into the editor. These are useful for inserting placeholder content that can be rendered out to a different view in your HTML. For instance, a block that represents a list of FAQs that when rendered on the front-end will display a list of FAQs from the database.
+
+`$editorView` is optional but can be useful in the case that you need to provide a custom editor view for the block. And a different rendering view for the output.
+
+```php
+use Awcodes\Scribble\ScribbleTool;
+
+class CustomStaticBlock extends ScribbleTool
+{
+    protected ?string $view = 'scribble.static-block';
+    
+    protected ?string $editorView = 'scribble.static-block-editor';
+    
+    public function getType(): ToolType
+    {
+        return ToolType::StaticBlock;
+    }
+}
+```
+
+```blade
+{{-- scribble.static-block-editor --}}
+<div class="p-4 bg-gray-800 rounded-lg">
+    <p>This is a placeholder. FAQ list will be rendered on output.</p>
+</div>
+
+{{-- scribble.static-block --}}
+<div class="p-4 bg-gray-800 rounded-lg">
+    @foreach ($faqs as $faq)
+        <div class="mb-4">
+            <h3 class="text-lg font-bold">{{ $faq->question }}</h3>
+            <p>{{ $faq->answer }}</p>
+        </div>
+    @endforeach
+</div>
+```
+
+#### Blocks
+
+Blocks are a tool type that interact with the editor's content through a modal form and a blade view. They can be used to insert custom content into the editor.
+
+`$editorView` is optional but can be useful in the case that you need to provide a custom editor view for the block. And a different rendering view for the output.
+
+*See the [Pounce plugin docs](https://github.com/awcodes/pounce) for more information on the `Alignment`, `MaxWidth`, and `SlideDirection`.*
+
+```php
+use Awcodes\Scribble\ScribbleTool;
+use Awcodes\Pounce\Enums\MaxWidth;
+use Awcodes\Pounce\Enums\Alignment;
+use Awcodes\Pounce\Enums\SlideDirection;
+
+class CustomBlock extends ScribbleTool
+{
+    protected ?string $view = 'scribble.custom-block';
+    
+    // protected ?string $editorView = 'scribble.custom-block-editor';
+    
+    public ?string $name;
+    
+    public ?string $email;
+    
+    public function getType(): ToolType
+    {
+        return ToolType::Block;
+    }
+    
+    public static function getAlignment() : Alignment
+    {
+        return Alignment::MiddleCenter
+    }
+    
+    public static function getMaxWidth(): MaxWidth
+    {
+        return MaxWidth::Large;
+    }
+    
+    public static function getSlideDirection() : SlideDirection
+    {
+        return SlideDirection::Right;
+    }
+
+    public function mount(): void
+    {
+        $this->form->fill([
+            'name' => $this->name,
+            'email' => $this->email,
+        ]);
+    }
+
+    public function form(Forms\Form $form): Forms\Form
+    {
+        return $form
+            ->statePath('data')
+            ->schema([
+                Forms\Components\TextInput::make('name'),
+                Forms\Components\TextInput::make('email'),
+            ]);
+    }
+}
+```
+
+```blade
+{{-- scribble.custom-block --}}
+
+<div class="flex items-center gap-6 p-4 rounded-lg">
+    <p>Name: {{ $name }}</p>
+    <p>Email: {{ $email }}</p>
+</div>
+```
+
+#### Modals
+
+Modals are a tool type that interact with the editor's content through a modal form and use Tiptap commands to insert content into the editor. The `Media` and `Grid` tools are examples of this.
+
+*See the [Pounce plugin docs](https://github.com/awcodes/pounce) for more information on the `Alignment`, `MaxWidth`, and `SlideDirection`.*
+
+```php
+use Awcodes\Scribble\ScribbleTool;
+
+class ModalBlock extends ScribbleTool
+{
+    public ?string $name;
+    
+    public ?string $email;
+    
+    public function getType(): ToolType
+    {
+        return ToolType::Modal;
+    }
+    
+    public function getCommands(): ?array
+    {
+        return [
+            ['command' => 'insertModal', 'arguments' => null],
+        ];
+    }
+        
+    public static function getAlignment() : Alignment
+    {
+        return Alignment::MiddleCenter
+    }
+    
+    public static function getMaxWidth(): MaxWidth
+    {
+        return MaxWidth::Large;
+    }
+    
+    public static function getSlideDirection() : SlideDirection
+    {
+        return SlideDirection::Right;
+    }
+
+    public function mount(): void
+    {
+        $this->form->fill([
+            'name' => $this->name,
+            'email' => $this->email,
+        ]);
+    }
+
+    public function form(Forms\Form $form): Forms\Form
+    {
+        return $form
+            ->statePath('data')
+            ->schema([
+                Forms\Components\TextInput::make('name'),
+                Forms\Components\TextInput::make('email'),
+            ]);
     }
 }
 ```
