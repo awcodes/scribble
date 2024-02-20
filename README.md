@@ -97,7 +97,9 @@ public function infolist(Infolist $infolist): Infolist
 
 ## Customizing the Bubble Menu
 
-You may by providing an array of tools to the `bubbleTools` method. The `withDefaults` option can be used to disable the default tools that are provided to the bubble menu by the plugin.
+You may customize the bubble menu by providing an array of tools to the `bubbleTools` method. The `withDefaults` option can be used to disable the default tools that are provided to the bubble menu by the plugin.
+
+You can disable the bubble menu by passing and empty array and setting `withDefaults` to `false`.
 
 ```php
 Scribble::make('content')
@@ -110,7 +112,9 @@ Scribble::make('content')
 
 ## Customizing the Suggestion Menu (Slash Commands)
 
-You may by providing an array of tools to the `suggestionTools` method. The `withDefaults` option can be used to disable the default tools that are provided to the suggestion menu by the plugin.
+You may customize the suggestion menu by providing an array of tools to the `suggestionTools` method. The `withDefaults` option can be used to disable the default tools that are provided to the suggestion menu by the plugin.
+
+You can disable the suggestion menu by passing and empty array and setting `withDefaults` to `false`.
 
 ```php
 Scribble::make('content')
@@ -125,7 +129,7 @@ Scribble::make('content')
 
 By default, Scribble will not render a toolbar. You can enable the toolbar by calling the `renderToolbar` method.
 
-You may by providing an array of tools to the `toolbarTools` method. The `withDefaults` option can be used to disable the default tools that are provided to the toolbar by the plugin.
+You may customize the toolbar by providing an array of tools to the `toolbarTools` method. The `withDefaults` option can be used to disable the default tools that are provided to the toolbar by the plugin.
 
 ```php
 Scribble::make('content')
@@ -139,7 +143,7 @@ Scribble::make('content')
 
 ## Global Configuration
 
-In a ServiceProvider you can set the default configuration for all instances of the editor with the `configureUsing` method.
+In the `boot` method of a ServiceProvider you can set the default configuration for all instances of the editor with the `configureUsing` method.
 
 ```php
 Scribble::configureUsing('content')
