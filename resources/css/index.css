@@ -267,7 +267,7 @@
     @apply flex items-center relative;
 
     .divider {
-        @apply self-stretch w-0 mx-1 border-r border-gray-500;
+        @apply self-stretch w-0 mx-1 border-r border-gray-500 dark:border-gray-700;
     }
 
     .bubble-group {
@@ -337,10 +337,10 @@
 }
 
 .tippy-box[data-theme*="scribble-"] {
-    @apply bg-gray-700 shadow-md;
+    @apply bg-gray-800 dark:bg-gray-950 shadow-md;
 
     .tippy-arrow {
-        @apply text-gray-700;
+        @apply text-gray-800 dark:text-gray-950;
     }
 }
 
