@@ -13,7 +13,7 @@
     class:active={active}
     on:click
     class={cx(
-        `scribble-button ${key}`,
+        `scribble-button scribble-${key}`,
         {
             'active': active
         }
