@@ -71,7 +71,6 @@ trait HasToolbarTools
             Tools\Divider::class,
             Tools\Bold::class,
             Tools\Italic::class,
-            Tools\Underline::class,
             Tools\Strike::class,
             Tools\Superscript::class,
             Tools\Subscript::class,
@@ -79,7 +78,6 @@ trait HasToolbarTools
             Tools\Divider::class,
             Tools\BulletList::class,
             Tools\OrderedList::class,
-            Tools\Code::class,
             Tools\Link::class,
             Tools\Grid::class,
             Tools\Details::class,
@@ -87,7 +85,6 @@ trait HasToolbarTools
             Tools\AlignStart::class,
             Tools\AlignCenter::class,
             Tools\AlignEnd::class,
-            Tools\AlignJustify::class,
         ];
     }
 

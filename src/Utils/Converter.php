@@ -53,8 +53,8 @@ class Converter
 
     public function getBlocks(): array
     {
-        return Helpers::getToolClasses()->filter(function ($tool) {
-            $type = (new $tool())->getType();
+        return Helpers::getRegisteredTools()->filter(function ($tool) {
+            $type = $tool->getType();
 
             return $type === ToolType::Block || $type === ToolType::StaticBlock;
         });

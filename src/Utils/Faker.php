@@ -167,20 +167,9 @@ class Faker
         return $this;
     }
 
-    public function block(string $type = 'block', string $identifier = 'scribble-batman-character', ?array $values = null): static
+    public function block(string $type = 'static', string $identifier = 'scribble-static-block', ?array $values = null): static
     {
-        $attrs = [
-            'id' => Str::uuid(),
-            'type' => $type,
-            'identifier' => $identifier,
-            'values' => $values ?? [
-                'name' => 'Batman',
-                'color' => 'Black',
-                'side' => 'Hero',
-            ],
-        ];
-
-        $this->output .= '<scribble-block>' . json_encode($attrs) . '</scribble-block>';
+        $this->output .= '<scribble-block>' . json_encode($values) . '</scribble-block>';
 
         return $this;
     }
@@ -191,8 +180,6 @@ class Faker
             ->emptyParagraph()
             ->heading()
             ->paragraphs(2, true)
-            ->block()
-            ->block(values: ['name' => 'Ivy', 'color' => 'Green', 'side' => 'Villain'])
             ->unorderedList(3)
             ->orderedList(3)
             ->hr()

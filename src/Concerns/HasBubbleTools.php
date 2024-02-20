@@ -65,7 +65,6 @@ trait HasBubbleTools
             Tools\Divider::class,
             Tools\BulletList::class,
             Tools\OrderedList::class,
-            Tools\Code::class,
             Tools\Link::class,
             Tools\Divider::class,
             Tools\AlignStart::class,

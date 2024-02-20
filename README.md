@@ -15,13 +15,25 @@ Install the package via composer
 composer require awcodes/scribble
 ```
 
+### Publishing the config
+
+```bash
+php artisan vendor:publish --tag="scribble-config"
+```
+
+### Publishing the translations
+
+```bash
+php artisan vendor:publish --tag="scribble-translations"
+```
+
 > [!IMPORTANT]
 > If you have not set up a custom theme and are using a Panel follow the instructions in the [Filament Docs](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) first. The following applies to both the Panels Package and the standalone Forms package.
 
 Import the plugin's stylesheet (if not already included) into your theme's css file.
 
 ```css
-@import '../../../../vendor/awcodes/scribble/resources/css/plugin.css';
+@import '../../../../vendor/awcodes/scribble/resources/css/index.css';
 ```
 
 Add the plugin's views to your `tailwind.config.js` file.
@@ -41,11 +53,11 @@ npm run build
 
 ## Preparing your model
 
-Scribble stores its content as JSON data in a single column on your model. So, it is vital that you cast the column to an array in your model.
+Scribble stores its content as JSON data in a single column on your model. So, it is vital that you cast the column to an array or json object in your model.
 
 ```php
 protected $casts = [
-    'content' => 'array',
+    'content' => 'array', // or 'json'
 ];
 ```
 
@@ -57,7 +69,395 @@ $table->longText('content')->nullable();
 
 ## Usage
 
-@TODO Write actual docs.
+### Form Component
+```php
+use Awcodes\Scribble\Scribble;
+
+public function form(Form $form): Form
+{
+    return $form
+        ->schema([
+            Scribble::make('content')
+        ])
+}
+```
+
+### Infolist Entry
+```php
+use Awcodes\Scribble\ScribbleEntry;
+
+public function infolist(Infolist $infolist): Infolist
+{
+    return $infolist
+        ->schema([
+            ScribbleEntry::make('content')
+        ]);
+}
+```
+
+## Customizing the Bubble Menu
+
+You may by providing an array of tools to the `bubbleTools` method. The `withDefaults` option can be used to disable the default tools that are provided to the bubble menu by the plugin.
+
+```php
+Scribble::make('content')
+    ->bubbleTools([
+        \Awcodes\Scribble\Tools\Bold::class,
+        \Awcodes\Scribble\Tools\Italic::class,
+        \App\ScribbleTools\CustomTool::class,
+    ], withDefaults: false)
+```
+
+## Customizing the Suggestion Menu (Slash Commands)
+
+You may by providing an array of tools to the `suggestionTools` method. The `withDefaults` option can be used to disable the default tools that are provided to the suggestion menu by the plugin.
+
+```php
+Scribble::make('content')
+    ->suggestionTools([
+        \Awcodes\Scribble\Tools\Grid::class,
+        \Awcodes\Scribble\Tools\Media::class,
+        \App\ScribbleTools\CustomTool::class,
+    ], withDefaults: false)
+```
+
+## Customizing the Toolbar
+
+By default, Scribble will not render a toolbar. You can enable the toolbar by calling the `renderToolbar` method.
+
+You may by providing an array of tools to the `toolbarTools` method. The `withDefaults` option can be used to disable the default tools that are provided to the toolbar by the plugin.
+
+```php
+Scribble::make('content')
+    ->renderToolbar()
+    ->toolbarTools([
+        \Awcodes\Scribble\Tools\Bold::class,
+        \Awcodes\Scribble\Tools\Italic::class,
+        \App\ScribbleTools\CustomTool::class,
+    ], withDefaults: false)
+```
+
+## Global Configuration
+
+In a ServiceProvider you can set the default configuration for all instances of the editor with the `configureUsing` method.
+
+```php
+Scribble::configureUsing('content')
+    ->renderToolbar()
+    ->toolbarTools([
+        \Awcodes\Scribble\Tools\Bold::class,
+        \Awcodes\Scribble\Tools\Italic::class,
+        \App\ScribbleTools\CustomTool::class,
+    ], withDefaults: false)
+    ->bubbleTools([
+        \Awcodes\Scribble\Tools\Bold::class,
+        \Awcodes\Scribble\Tools\Italic::class,
+        \App\ScribbleTools\CustomTool::class,
+    ], withDefaults: false)
+    ->suggestionTools([
+        \Awcodes\Scribble\Tools\Grid::class,
+        \Awcodes\Scribble\Tools\Media::class,
+    ], withDefaults: false)
+```
+
+## Editor Profiles
+
+Manually, creating menu configurations for each instance of the editor can be cumbersome. To alleviate this, you can create a profile class that defines the tools for the bubble, suggestion, and toolbar menus. You can then apply the profile to the editor using the `profile` method.
+
+Using the `withDefaults` argument is not necessary when using a profile as the profile will override the default tools.
+
+```php
+namespace App\ScribbleProfiles;
+
+use Awcodes\Scribble\Tools;
+use Awcodes\Scribble\ScribbleProfile;
+
+class Minimal extends ScribbleProfile
+{
+    public static function bubbleTools(): array
+    {
+        return [
+            Tools\Bold::class,
+            Tools\Italic::class,
+            Tools\Link::class,
+            Tools\AlignStart::class,
+            Tools\AlignCenter::class,
+            Tools\AlignEnd::class,
+        ];
+    }
+
+    public static function suggestionTools(): array
+    {
+        return [];
+    }
+
+    public static function toolbarTools(): array
+    {
+        return [];
+    }
+}
+```
+
+```php
+use App\ScribbleProfiles\Minimal;
+
+Scribble::configureUsing('content')
+    ->profile(Mimimal::class)
+```
+
+## Custom Editor Styles
+
+Should you need to provide styles to the editor for custom blocks or tools, you can use the `customStyles` method to provide a path to a CSS file.
+
+```php
+Scribble::make('content')
+    ->customStyles('path/to/custom.css')
+```
+
+## Extending the Editor
+
+### Custom Tools
+
+#### Blocks
+
+Blocks are a tool type that interact with the editor's content through a modal form and a blade view. They can be used to insert custom content into the editor.
+
+`$editorView` is optional but can be useful in the case that you need to provide a custom editor view for the block. And a different rendering view for the output.
+
+```php
+use Awcodes\Scribble\ScribbleTool;
+
+class BatmanBlock extends ScribbleTool
+{
+    protected ?string $view = 'scribble.static-block';
+    
+    protected ?string $editorView = 'scribble.static-block-editor';
+    
+    public function getType(): ToolType
+    {
+        return ToolType::Block;
+    }
+}
+```
+
+#### Static Blocks
+
+Static Blocks are a tool type that can be used to insert a static blade view into the editor. These are useful for inserting placeholder content that can be rendered out to a different view in your HTML.
+
+`$editorView` is optional but can be useful in the case that you need to provide a custom editor view for the block. And a different rendering view for the output.
+
+```php
+use Awcodes\Scribble\ScribbleTool;
+
+class StaticBlock extends ScribbleTool
+{
+    protected ?string $view = 'scribble.static-block';
+    
+    protected ?string $editorView = 'scribble.static-block-editor';
+    
+    public function getType(): ToolType
+    {
+        return ToolType::StaticBlock;
+    }
+}
+```
+
+#### Modals
+
+Modals are a tool type that interact with the editor's content through a modal form and use Tiptap commands to insert content into the editor. The `Media` and `Grid` tools are examples of this.
+
+```php
+use Awcodes\Scribble\ScribbleTool;
+
+class Grid extends ScribbleTool
+{
+    public function getType(): ToolType
+    {
+        return ToolType::Modal;
+    }
+
+    public function getCommands(): ?array
+    {
+        return [
+            ['command' => 'insertGrid', 'arguments' => null],
+        ];
+    }
+}
+```
+
+#### Commands
+
+Command tools are used to insert content into the editor using Tiptap commands. The `Bold` and `Italic` tools are examples of this. This is also the default tool type.
+
+```php
+use Awcodes\Scribble\ScribbleTool;
+
+class Bold extends ScribbleTool
+{
+    public function getType(): ToolType
+    {
+        return ToolType::Command;
+    }
+    
+    public function getCommands(): ?array
+    {
+        return [
+            ['command' => 'toggleBold', 'arguments' => null],
+        ];
+    }
+}
+```
+
+### Generating Custom Tools
+
+In order to help you get started with creating custom tools, you can use the `make:scribble-tool` command to generate a new tool class.
+
+Tools and views will be generated to the paths defined in the `generator` configuration in the `scribble.php` config file.
+
+After generating the tool, you will need to register it in the `tools` array in the `scribble.php` config file for global registration to the plugin.
+
+```bash
+php artisan make:scribble-tool CustomTool
+```
+
+### Registering Custom Tools
+
+```php
+// config/scribble.php
+'generator' => [
+    'namespace' => 'App\\ScribbleTools',
+    'views' => 'scribble-tools',
+],
+'tools' => [
+    \App\ScribbleTools\HeroBlock::class,
+    \App\ScribbleTools\BatmanBlock::class,
+    \App\ScribbleTools\FormBlock::class,
+    \App\ScribbleTools\StaticBlock::class,
+    \App\ScribbleTools\Highlight::class
+],
+```
+
+## Custom Tiptap Extensions
+
+You can also provide custom Tiptap extensions or other Tiptap native extensions to the editor. This can be useful for adding custom marks, nodes, or other extensions to the editor.
+
+### Javascript
+
+```js
+import {Highlight} from "@tiptap/extension-highlight";
+import MyCustomExtension from "./MyCustomExtension";
+
+window.scribbleExtensions = [
+    Highlight,
+    MyCustomExtension,
+];
+```
+
+### PHP Parser
+
+In order for the content to be able to be converted to HTML, you will need to provide a PHP parser for the extension. See the [Tiptap PHP](https://github.com/ueberdosis/tiptap-php) package for more information on how to create a parser for a Tiptap extension or using an included one in their package.
+
+```php
+// config/scribble.php
+'tiptap_php_extensions' => [
+    Tiptap\Marks\Highlight::class,
+    MyCustomPHPExtension::class,
+],
+```
+
+### Tool
+
+Next you will need a make a tool for the extension and register it in the `tools` array in the `scribble.php` config file for global registration to the plugin.
+
+```php
+use Awcodes\Scribble\ScribbleTool;
+
+class Highlight extends ScribbleTool
+{
+    public function getType(): ToolType
+    {
+        return ToolType::Command;
+    }
+    
+    public function getCommands(): ?array
+    {
+        return [
+            ['command' => 'toggleHighlight', 'arguments' => null],
+        ];
+    }
+}
+```
+
+```php
+// config/scribble.php
+'tools' => [
+    ...
+    \App\ScribbleTools\Highlight::class,
+],
+```
+
+## Converting output
+
+### With the Converter Utility class
+
+```php
+use Awcodes\Scribble\Utils\Converter;
+
+Converter::from($content)->toHtml();
+Converter::from($content)->toJson();
+Converter::from($content)->toText();
+Converter::from($content)->toMarkdown();
+Converter::from($content)->toTOC(); // Table of Contents
+```
+
+### With the helper function
+
+```blade
+{!! scribble($content)->toHtml() !!}
+{!! scribble($content)->toJson() !!}
+{!! scribble($content)->toText() !!}
+{!! scribble($content)->toMarkdown() !!}
+{!! scribble($content)->toTOC() !!}
+````
+
+### Table of Contents
+
+```php
+use Awcodes\Scribble\Utils\Converter;
+
+// HTML output with headings linked and wrapped in anchor tags
+Converter::from($content)
+    ->toHtml(
+        toc: true,
+        maxDepth: 3,
+        wrapHeadings: true
+    );
+
+// Structured list of heading links
+Converter::from($content)->toTOC();
+```
+
+## Faker Utility
+
+```php
+use Awcodes\Scribble\Utils\Faker;
+
+Faker::make()
+    ->heading(int | string | null $level = 2)
+    ->emptyParagraph()
+    ->paragraphs(int $count = 1, bool $withRandomLinks = false)
+    ->unorderedList(int $count = 1)
+    ->orderedList(int $count = 1)
+    ->image(?int $width = 640, ?int $height = 480)
+    ->link()
+    ->details(bool $open = false)
+    ->code(?string $className = null)
+    ->blockquote()
+    ->hr()
+    ->br()
+    ->grid(array $cols = [1, 1, 1])
+    ->toJson();
+```
 
 ## Testing
 
