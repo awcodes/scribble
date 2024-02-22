@@ -12,12 +12,10 @@
     export let selected = false;
     export let updateAttributes;
 
-    let statePath = editor.storage?.statePathExtension.statePath;
-
     const handleOpen = () => {
         pounce('scribble-media', {
             update: true,
-            statePath: statePath,
+            statePath: editor.storage?.statePathExtension.statePath ?? null,
             ...node.attrs
         })
     }
@@ -28,7 +26,10 @@
 
     onMount(() => {
         window.addEventListener('updatedBlock', (e) => {
-            if (e.detail.type === node.attrs.type && e.detail.statePath === statePath) {
+            if (
+                e.detail.type === node.attrs.type
+                && e.detail.statePath === editor.storage?.statePathExtension.statePath
+            ) {
                 updateAttributes({ values: e.detail.values })
             }
         })

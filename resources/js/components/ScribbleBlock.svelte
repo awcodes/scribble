@@ -12,14 +12,14 @@
     export let selected = false;
     export let updateAttributes;
 
-    let statePath = editor.storage?.statePathExtension.statePath ?? null;
     let view = null;
     $: wrapper = null;
 
     const handleOpen = () => {
+        console.log(editor.storage)
         pounce(node.attrs.identifier, {
             update: true,
-            statePath: statePath,
+            statePath: editor.storage?.statePathExtension.statePath ?? null,
             blockId: node.attrs.id,
             ...node.attrs.values
         })
@@ -53,7 +53,7 @@
         window.addEventListener('updatedBlock', (e) => {
             if (
                 e.detail.identifier === node.attrs.identifier
-                && e.detail.statePath === statePath
+                && e.detail.statePath === editor.storage?.statePathExtension.statePath
                 && e.detail.blockId === node.attrs.id
             ) {
                 updateAttributes({ values: e.detail.values })
