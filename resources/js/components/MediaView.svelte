@@ -2,7 +2,6 @@
     import { NodeViewWrapper } from 'svelte-tiptap'
     import { onMount } from 'svelte'
     import { pounce } from '../utils.js'
-    import { getStatePath } from '../stores.js'
     import BlockActions from './BlockActions.svelte'
     import DragHandle from './DragHandle.svelte'
     import BlockSettings from './BlockSettings.svelte'
@@ -13,10 +12,12 @@
     export let selected = false;
     export let updateAttributes;
 
+    let statePath = editor.storage?.statePathExtension.statePath;
+
     const handleOpen = () => {
         pounce('scribble-media', {
             update: true,
-            statePath: $getStatePath,
+            statePath: statePath,
             ...node.attrs
         })
     }
@@ -27,7 +28,7 @@
 
     onMount(() => {
         window.addEventListener('updatedBlock', (e) => {
-            if (e.detail.type === node.attrs.type && e.detail.statePath === $getStatePath) {
+            if (e.detail.type === node.attrs.type && e.detail.statePath === statePath) {
                 updateAttributes({ values: e.detail.values })
             }
         })

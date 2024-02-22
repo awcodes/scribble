@@ -1,6 +1,5 @@
 <script>
     import Button from './Button.svelte'
-    import { onMount } from 'svelte'
 
     export let editor
     export let isActive

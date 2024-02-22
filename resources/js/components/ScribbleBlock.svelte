@@ -2,7 +2,6 @@
     import { NodeViewWrapper } from 'svelte-tiptap'
     import { onMount, tick } from 'svelte'
     import { pounce } from '../utils.js'
-    import { getStatePath } from '../stores.js'
     import BlockSettings from './BlockSettings.svelte'
     import DragHandle from './DragHandle.svelte'
     import RemoveBlock from './RemoveBlock.svelte'
@@ -13,13 +12,14 @@
     export let selected = false;
     export let updateAttributes;
 
+    let statePath = editor.storage?.statePathExtension.statePath ?? null;
     let view = null;
     $: wrapper = null;
 
     const handleOpen = () => {
         pounce(node.attrs.identifier, {
             update: true,
-            statePath: $getStatePath,
+            statePath: statePath,
             blockId: node.attrs.id,
             ...node.attrs.values
         })
@@ -53,7 +53,7 @@
         window.addEventListener('updatedBlock', (e) => {
             if (
                 e.detail.identifier === node.attrs.identifier
-                && e.detail.statePath === $getStatePath
+                && e.detail.statePath === statePath
                 && e.detail.blockId === node.attrs.id
             ) {
                 updateAttributes({ values: e.detail.values })

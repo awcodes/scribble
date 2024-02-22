@@ -12,6 +12,12 @@ export default Node.create({
     defining: true,
     selectable: true,
 
+    addStorage() {
+        return {
+            statePath: null
+        }
+    },
+
     addAttributes() {
         return {
             id: {
@@ -58,7 +64,7 @@ export default Node.create({
 
                     const node = this.type.create({
                         ...{id: uuid()},
-                        ...options
+                        ...options,
                     })
 
                     if (dispatch) {

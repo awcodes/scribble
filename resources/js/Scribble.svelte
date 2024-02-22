@@ -16,6 +16,7 @@
     import MergeTagsExtension from './extensions/MergeTagsExtension.js'
     import Placeholder from '@tiptap/extension-placeholder'
     import StarterKit from '@tiptap/starter-kit';
+    import StatePathExtension from './extensions/StatePathExtension.js'
     import ScribbleBlock from './extensions/ScribbleBlock';
     import SlashExtension from './extensions/SlashExtension.js'
     import Subscript from '@tiptap/extension-subscript'
@@ -24,7 +25,6 @@
     import TextStyle from '@tiptap/extension-text-style'
     import {Underline} from '@tiptap/extension-underline'
     import {pounce, commandRunner} from './utils.js'
-    import {getStatePath} from './stores.js'
     import Controls from './components/Controls.svelte'
     import BubbleMenu from './components/BubbleMenu.svelte'
     import Toolbar from './components/Toolbar.svelte'
@@ -42,11 +42,12 @@
     export let toolbarTools;
     export let mergeTags;
 
-    $getStatePath = statePath
-
     onMount(() => {
         let customExtensions = window?.scribbleExtensions || [];
         let extensions = [
+            StatePathExtension.configure({
+               statePath: statePath
+            }),
             StarterKit,
             ClassExtension,
             CommandsExtension,
