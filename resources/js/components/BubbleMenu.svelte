@@ -34,7 +34,7 @@
                     {:else}
                         <Button {editor}
                             key={tool.extension}
-                            active={isActive(tool.extension, tool.activeAttributes)}
+                            active={isActive(tool.active.extension, tool.active.attrs)}
                             on:click={() => handleToolClick(tool)}
                             hidden={tool.isHidden}
                         >

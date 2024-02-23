@@ -2,6 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
+use Awcodes\Scribble\ScribbleManager;
 use Awcodes\Scribble\Tools;
 use Awcodes\Scribble\Wrappers\Group;
 use Closure;
@@ -50,7 +51,7 @@ trait HasToolbarTools
 
             return array_merge(
                 $tools,
-                [(new Tools\Link())->hidden()]
+//                [(new Tools\Link())->hidden()]
             );
         }
 
@@ -64,28 +65,27 @@ trait HasToolbarTools
 
     public function getDefaultToolbarTools(): array
     {
-        return [
-            Tools\HeadingOne::class,
-            Tools\HeadingTwo::class,
-            Tools\HeadingThree::class,
-            Tools\Divider::class,
-            Tools\Bold::class,
-            Tools\Italic::class,
-            Tools\Strike::class,
-            Tools\Superscript::class,
-            Tools\Subscript::class,
-            Tools\Paragraph::class,
-            Tools\Divider::class,
-            Tools\BulletList::class,
-            Tools\OrderedList::class,
-            Tools\Link::class,
-            Tools\Grid::class,
-            Tools\Details::class,
-            Tools\Divider::class,
-            Tools\AlignStart::class,
-            Tools\AlignCenter::class,
-            Tools\AlignEnd::class,
-        ];
+        return app(ScribbleManager::class)->getTools([
+            'heading-two',
+            'heading-three',
+            'divider',
+            'paragraph',
+            'bold',
+            'italic',
+            'strike',
+            'subscript',
+            'superscript',
+            'divider',
+            'blockquote',
+            'horizontal-rule',
+            'bullet-list',
+            'ordered-list',
+            'details',
+            'divider',
+            'align-start',
+            'align-center',
+            'align-end',
+        ])->toArray();
     }
 
     public function shouldRenderToolbar(): bool
@@ -101,19 +101,18 @@ trait HasToolbarTools
         $tools = [];
 
         if ($this->shouldRenderToolbar()) {
-
             foreach ($this->getToolbarTools() as $tool) {
                 if ($tool instanceof Group) {
                     foreach ($tool->getTools() as $groupBlock) {
                         $tools[] = [
-                            ...$this->formatTool($groupBlock),
+                            ...$groupBlock->toArray(),
                             'group' => $tool->getLabel(),
                             'groupLabel' => str($tool->getLabel())->title(),
                         ];
                     }
                 } else {
                     $tools[] = [
-                        ...$this->formatTool($tool),
+                        ...$tool->toArray(),
                         'group' => '',
                         'groupLabel' => '',
                     ];

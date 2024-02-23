@@ -2,6 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
+use Awcodes\Scribble\ScribbleManager;
 use Awcodes\Scribble\Tools;
 use Awcodes\Scribble\Wrappers\Group;
 use Closure;
@@ -49,15 +50,13 @@ trait HasSuggestionTools
 
     public function getDefaultSuggestionTools(): array
     {
-        return [
-            Tools\Grid::class,
-            Tools\Media::class,
-            Tools\Details::class,
-            Tools\BulletList::class,
-            Tools\OrderedList::class,
-            Tools\Blockquote::class,
-            Tools\HorizontalRule::class,
-        ];
+        return app(ScribbleManager::class)->getTools([
+            'details',
+            'bullet-list',
+            'ordered-list',
+            'blockquote',
+            'horizontal-rule',
+        ])->toArray();
     }
 
     /**
@@ -71,14 +70,14 @@ trait HasSuggestionTools
             if ($tool instanceof Group) {
                 foreach ($tool->getTools() as $groupBlock) {
                     $tools[] = [
-                        ...$this->formatTool($groupBlock),
+                        ...$groupBlock->toArray(),
                         'group' => $tool->getLabel(),
                         'groupLabel' => str($tool->getLabel())->title(),
                     ];
                 }
             } else {
                 $tools[] = [
-                    ...$this->formatTool($tool),
+                    ...$tool->toArray(),
                     'group' => '',
                     'groupLabel' => '',
                 ];

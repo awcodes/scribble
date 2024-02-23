@@ -44,6 +44,10 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
             $factory->add('scribble', array_merge(['path' => __DIR__ . '/../resources/svg'], $config));
         });
+
+        $this->app->singleton(ScribbleManager::class, function () {
+            return new ScribbleManager();
+        });
     }
 
     /**
@@ -53,9 +57,9 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         require_once __DIR__ . '/render-helpers.php';
 
-        foreach (Helpers::getRegisteredTools() as $tool) {
-            Livewire::component($tool->getIdentifier(), $tool);
-        }
+//        foreach (Helpers::getRegisteredTools() as $tool) {
+//            Livewire::component($tool->getIdentifier(), $tool);
+//        }
 
         Livewire::component('scribble.renderer', Renderer::class);
 

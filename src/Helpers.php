@@ -8,15 +8,6 @@ use Illuminate\Support\Str;
 
 class Helpers
 {
-    public static function getRegisteredTools(): Collection
-    {
-        $tools = config('scribble.tools');
-
-        return collect($tools)->mapWithKeys(function ($tool) {
-            return [$tool => new $tool];
-        });
-    }
-
     public static function isAuthRoute(): bool
     {
         $authRoutes = [
@@ -27,5 +18,13 @@ class Helpers
         ];
 
         return Str::of(Request::path())->contains($authRoutes);
+    }
+
+    public static function makeCommand(string $command, string | array | null $arguments = null): array
+    {
+        return [
+            'command' => $command,
+            'arguments' => $arguments ?? [],
+        ];
     }
 }

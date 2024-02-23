@@ -14,11 +14,11 @@
             .scribble-controls {
                 @apply relative !top-0 pointer-events-auto transition-none rounded-none opacity-100 z-0 py-2 px-4;
 
-                .enter-fullscreen {
+                .scribble-enter-fullscreen {
                     @apply hidden;
                 }
 
-                .exit-fullscreen {
+                .scribble-exit-fullscreen {
                     @apply block;
                 }
             }
@@ -57,11 +57,11 @@
                 @apply inline-flex px-2 items-center rounded-full border border-gray-950/10 dark:border-white/20 shadow-md bg-gray-700 text-white;
             }
 
-            .enter-fullscreen {
+            .scribble-enter-fullscreen {
                 @apply block;
             }
 
-            .exit-fullscreen {
+            .scribble-exit-fullscreen {
                 @apply hidden;
             }
         }
