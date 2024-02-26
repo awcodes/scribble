@@ -2,8 +2,8 @@
 
 namespace Awcodes\Scribble\Concerns;
 
-use Awcodes\Scribble\ScribbleManager;
-use Awcodes\Scribble\Tools;
+use Awcodes\Scribble\FluentTools\Link;
+use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\Wrappers\Group;
 use Closure;
 use Exception;
@@ -39,10 +39,11 @@ trait HasBubbleTools
             $tools = array_merge($tools, $this->getDefaultBubbleTools());
         }
 
-        return array_merge(
-            $tools,
-//            [(new Tools\Link())->hidden()]
-        );
+        if (! isset($tools['link'])) {
+            $tools['link'] = Link::make()->hidden();
+        }
+
+        return $tools;
     }
 
     public function shouldIncludeBubbleDefaults()
@@ -52,24 +53,7 @@ trait HasBubbleTools
 
     public function getDefaultBubbleTools(): array
     {
-        return app(ScribbleManager::class)->getTools([
-            'heading-two',
-            'heading-three',
-            'divider',
-            'paragraph',
-            'bold',
-            'italic',
-            'strike',
-            'subscript',
-            'superscript',
-            'divider',
-            'bullet-list',
-            'ordered-list',
-            'divider',
-            'align-start',
-            'align-center',
-            'align-end',
-        ])->toArray();
+        return DefaultProfile::bubbleTools();
     }
 
     /**

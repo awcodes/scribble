@@ -12,7 +12,6 @@ class HorizontalRule extends Tool
             ->icon('scribble-hr')
             ->label('Horizontal Rule')
             ->extension('horizontalRule')
-            ->defaultSuggestionTool()
             ->commands([
                 $this->makeCommand(command: 'setHorizontalRule'),
             ]);

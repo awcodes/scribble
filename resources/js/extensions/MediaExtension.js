@@ -34,6 +34,40 @@ export default Image.extend({
         };
     },
 
+    addCommands() {
+        return {
+            setMedia: options => ({ commands }) => {
+                const src = options?.url || options?.src;
+                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
+
+                const regex = /.*\.([a-zA-Z]*)\??/;
+                const match = regex.exec(src);
+
+                if (match !== null && imageTypes.includes(match[1])) {
+                    commands.setImage({
+                        src: src,
+                        alt: options?.alt,
+                        title: options?.title,
+                        width: options?.width,
+                        height: options?.height,
+                        lazy: options?.lazy,
+                    })
+                } else {
+                    commands.setDocument(options)
+                }
+            },
+            setDocument: options => ({ chain }) => {
+                return chain().focus().extendMarkRange('link').setLink({ href: options.src }).insertContent(options?.link_text).run()
+            },
+            setImage: options => ({ commands }) => {
+                return commands.insertContent({
+                    type: this.name,
+                    attrs: options,
+                })
+            },
+        }
+    },
+
     addNodeView() {
         return SvelteNodeViewRenderer(MediaView)
     }

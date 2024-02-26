@@ -12,9 +12,6 @@ class HeadingThree extends Tool
             ->icon('scribble-heading-three')
             ->label('Heading 3')
             ->extension('heading')
-            ->order(3)
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->active(extension: 'heading', attrs: ['level' => 3])
             ->commands([
                 $this->makeCommand(command: 'toggleHeading', arguments: ['level' => 3]),

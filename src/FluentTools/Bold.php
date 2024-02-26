@@ -12,8 +12,6 @@ class Bold extends Tool
             ->icon('scribble-bold')
             ->label('Bold')
             ->extension('bold')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->active(extension: 'bold')
             ->commands([
                 $this->makeCommand(command: 'toggleBold'),

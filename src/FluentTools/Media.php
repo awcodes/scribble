@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\FluentTools;
 
 use Awcodes\Scribble\Enums\ToolType;
+use Awcodes\Scribble\Livewire\MediaModal;
 use Awcodes\Scribble\Tool;
 
 class Media extends Tool
@@ -14,7 +15,8 @@ class Media extends Tool
             ->label('Media')
             ->type(ToolType::Modal)
             ->commands([
-                $this->makeCommand(command: 'setImage'),
-            ]);
+                $this->makeCommand(command: 'setMedia'),
+            ])
+            ->optionsModal(MediaModal::class);
     }
 }

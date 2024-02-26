@@ -12,8 +12,6 @@ class Superscript extends Tool
             ->icon('scribble-superscript')
             ->label('Superscript')
             ->extension('superscript')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->active(extension: 'superscript')
             ->commands([
                 $this->makeCommand(command: 'toggleSuperscript'),

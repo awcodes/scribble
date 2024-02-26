@@ -12,8 +12,6 @@ class Details extends Tool
             ->icon('scribble-details')
             ->label('Details')
             ->extension('details')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->active(extension: 'details')
             ->commands([
                 $this->makeCommand(command: 'setDetails'),

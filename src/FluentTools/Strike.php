@@ -12,8 +12,6 @@ class Strike extends Tool
             ->icon('scribble-strike')
             ->label('Strike')
             ->extension('strike')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->active(extension: 'strike')
             ->commands([
                 $this->makeCommand(command: 'toggleStrike'),

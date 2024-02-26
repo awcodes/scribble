@@ -12,8 +12,6 @@ class AlignEnd extends Tool
             ->icon('scribble-align-end')
             ->label('Align End')
             ->extension('textAlign')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->commands([
                 $this->makeCommand(command: 'setTextAlign', arguments: 'end'),
             ]);

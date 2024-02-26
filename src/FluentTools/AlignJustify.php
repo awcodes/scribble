@@ -12,8 +12,6 @@ class AlignJustify extends Tool
             ->icon('scribble-align-justify')
             ->label('Align Justify')
             ->extension('textAlign')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->commands([
                 $this->makeCommand(command: 'setTextAlign', arguments: 'justify'),
             ]);

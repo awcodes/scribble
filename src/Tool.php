@@ -37,13 +37,9 @@ class Tool extends Component
 
     protected ToolType | Closure | null $type = null;
 
-    protected bool | null $isDefaultBubbleTool = null;
-
-    protected bool | null $isDefaultToolbarTool = null;
-
-    protected bool | null $isDefaultSuggestionTool = null;
-
     protected int $order = 0;
+
+    protected string | null $optionsModal = null;
 
     final public function __construct(string $name)
     {
@@ -75,7 +71,7 @@ class Tool extends Component
             'type' => $this->getType()->value,
             'commands' => $this->getCommands(),
             'isHidden' => $this->isHidden(),
-            'hasSettings' => false,
+            'options' => $this->getOptionsModal(),
             'order' => $this->getOrder(),
         ];
     }
@@ -186,27 +182,16 @@ class Tool extends Component
         return $this;
     }
 
-    public function defaultBubbleTool(bool $condition = true): static
-    {
-        $this->isDefaultBubbleTool = $condition;
-        return $this;
-    }
-
-    public function defaultToolbarTool(bool $condition = true): static
-    {
-        $this->isDefaultToolbarTool = $condition;
-        return $this;
-    }
-
-    public function defaultSuggestionTool(bool $condition = true): static
-    {
-        $this->isDefaultSuggestionTool = $condition;
-        return $this;
-    }
-
     public function order(int $order): static
     {
         $this->order = $order;
+        return $this;
+    }
+
+    public function optionsModal(string $component): static
+    {
+        $this->optionsModal = $component;
+
         return $this;
     }
 
@@ -262,29 +247,19 @@ class Tool extends Component
         return $this->evaluate($this->isHidden) ?? false;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
-        return $this->evaluate($this->description) ?? 'description';
-    }
-
-    public function isDefaultBubbleTool(): bool
-    {
-        return $this->evaluate($this->isDefaultBubbleTool) ?? false;
-    }
-
-    public function isDefaultToolbarTool(): bool
-    {
-        return $this->evaluate($this->isDefaultToolbarTool) ?? false;
-    }
-
-    public function isDefaultSuggestionTool(): bool
-    {
-        return $this->evaluate($this->isDefaultSuggestionTool) ?? false;
+        return $this->evaluate($this->description) ?? null;
     }
 
     public function getOrder(): int
     {
         return $this->order;
+    }
+
+    public function getOptionsModal(): ?string
+    {
+        return $this->optionsModal;
     }
 
     public function makeCommand(string $command, string | array | null $arguments = null): array

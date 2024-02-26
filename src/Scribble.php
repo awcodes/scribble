@@ -46,27 +46,4 @@ class Scribble extends Field
             return $state;
         });
     }
-
-    /**
-     * @throws Exception
-     */
-    private function formatTool(ScribbleTool | string $tool): array
-    {
-        if (is_string($tool)) {
-            $tool = Helpers::getRegisteredTools()[$tool];
-        }
-
-        return [
-            'statePath' => $this->getStatePath(),
-            'identifier' => $tool->getIdentifier(),
-            'extension' => $tool->getTiptapExtension(),
-            'activeAttributes' => $tool->getActiveAttributes(),
-            'icon' => $tool->getIcon(),
-            'label' => ucfirst($tool->getLabel()),
-            'description' => $tool->getDescription(),
-            'type' => $tool->getType()->value,
-            'commands' => $tool->getCommands(),
-            'isHidden' => $tool->isHidden(),
-        ];
-    }
 }

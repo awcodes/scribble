@@ -12,8 +12,6 @@ class Blockquote extends Tool
             ->icon('scribble-blockquote')
             ->label('Blockquote')
             ->extension('blockquote')
-            ->defaultToolbarTool()
-            ->defaultSuggestionTool()
             ->active(extension: 'blockquote')
             ->commands([
                 $this->makeCommand(command: 'toggleBlockquote'),

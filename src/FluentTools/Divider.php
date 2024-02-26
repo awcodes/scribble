@@ -10,8 +10,6 @@ class Divider extends Tool
     protected function setUp(): void
     {
         $this
-            ->type(ToolType::Divider)
-            ->defaultBubbleTool()
-            ->defaultToolbarTool();
+            ->type(ToolType::Divider);
     }
 }

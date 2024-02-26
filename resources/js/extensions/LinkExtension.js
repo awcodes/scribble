@@ -36,29 +36,7 @@ export default Link.extend({
             },
             class: {
                 default: null,
-            },
-            as_button: {
-                default: null,
-                parseHTML: element => element.getAttribute('data-as-button') ?? null,
-                renderHTML: attributes => {
-                    if (!attributes.as_button) return
-
-                    return {
-                        'data-as-button': attributes.as_button,
-                    }
-                },
-            },
-            button_theme: {
-                default: null,
-                parseHTML: element => element.getAttribute('data-as-button-theme') ?? null,
-                renderHTML: attributes => {
-                    if (!attributes.button_theme) return
-
-                    return {
-                        'data-as-button-theme': attributes.button_theme,
-                    }
-                },
-            },
+            }
         }
     },
 })

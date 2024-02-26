@@ -12,8 +12,6 @@ class Subscript extends Tool
             ->icon('scribble-subscript')
             ->label('Subscript')
             ->extension('subscript')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->active(extension: 'subscript')
             ->commands([
                 $this->makeCommand(command: 'toggleSubscript'),

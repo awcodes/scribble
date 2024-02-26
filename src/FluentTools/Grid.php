@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\FluentTools;
 
 use Awcodes\Scribble\Enums\ToolType;
+use Awcodes\Scribble\Livewire\GridModal;
 use Awcodes\Scribble\Tool;
 
 class Grid extends Tool
@@ -15,6 +16,7 @@ class Grid extends Tool
             ->type(ToolType::Modal)
             ->commands([
                 $this->makeCommand(command: 'insertGrid'),
-            ]);
+            ])
+            ->optionsModal(GridModal::class);
     }
 }

@@ -12,8 +12,6 @@ class AlignStart extends Tool
             ->icon('scribble-align-start')
             ->label('Align Start')
             ->extension('textAlign')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->commands([
                 $this->makeCommand(command: 'setTextAlign', arguments: 'start'),
             ]);

@@ -70,7 +70,11 @@
                     commandRunner(editor, item.commands)
                     break
                 case 'modal':
-                    pounce(item.identifier, { statePath: statePath, ...editor.getAttributes(item.extension) });
+                    pounce(item.options, {
+                        statePath: statePath,
+                        identifier: item.identifier,
+                        data: editor.getAttributes(item.extension)
+                    });
                     break
                 case 'static':
                     editor.chain().insertScribbleBlock({

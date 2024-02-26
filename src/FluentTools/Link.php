@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\FluentTools;
 
 use Awcodes\Scribble\Enums\ToolType;
+use Awcodes\Scribble\Livewire\LinkModal;
 use Awcodes\Scribble\Tool;
 
 class Link extends Tool
@@ -17,6 +18,7 @@ class Link extends Tool
                 $this->makeCommand(command: 'extendMarkRange', arguments: 'link'),
                 $this->makeCommand(command: 'setLink'),
                 $this->makeCommand(command: 'moveToEnd'),
-            ]);
+            ])
+            ->optionsModal(component: LinkModal::class);
     }
 }

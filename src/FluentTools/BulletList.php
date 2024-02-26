@@ -12,9 +12,6 @@ class BulletList extends Tool
             ->icon('scribble-list-unordered')
             ->label('Bullet list')
             ->extension('bulletList')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
-            ->defaultSuggestionTool()
             ->active(extension: 'bulletList')
             ->commands([
                 $this->makeCommand(command: 'toggleBulletList'),

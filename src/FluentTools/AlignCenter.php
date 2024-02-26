@@ -12,8 +12,6 @@ class AlignCenter extends Tool
             ->icon('scribble-align-center')
             ->label('Align Center')
             ->extension('textAlign')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->commands([
                 $this->makeCommand(command: 'setTextAlign', arguments: 'center'),
             ]);

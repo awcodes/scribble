@@ -12,8 +12,6 @@ class Italic extends Tool
             ->icon('scribble-italic')
             ->label('Italic')
             ->extension('italic')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
             ->active(extension: 'italic')
             ->commands([
                 $this->makeCommand(command: 'toggleItalic'),

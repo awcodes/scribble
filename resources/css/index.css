@@ -41,6 +41,10 @@
         .scribble-block .scribble-block-actions {
             @apply !opacity-100 !pointer-events-auto;
         }
+
+        .scribble-button.active {
+            @apply text-primary-500;
+        }
     }
 
     .scribble-editor-wrapper {
@@ -164,14 +168,6 @@
                     }
                 }
 
-                .node-view-hero .gray { @apply bg-gray-500 text-white; }
-                .node-view-hero .grayLight { @apply bg-gray-500 text-white; }
-                .node-view-hero .grayDark { @apply bg-gray-500 text-white; }
-                .node-view-hero .primary { @apply bg-amber-500 text-black; }
-                .node-view-hero .secondary { @apply bg-yellow-500 text-black; }
-                .node-view-hero .tertiary { @apply bg-rose-500 text-white; }
-                .node-view-hero .accent { @apply bg-indigo-500 text-white; }
-
                 .node-image {
                     display: inline-block;
                 }
@@ -257,10 +253,6 @@
 
 .scribble-button {
     @apply flex items-center justify-center rounded-sm p-1 bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500;
-
-    &.active {
-        @apply text-primary-500;
-    }
 }
 
 .scribble-bubble-menu {
@@ -280,7 +272,7 @@
 }
 
 .scribble-toolbar {
-    @apply flex items-center relative rounded-t-md bg-gray-100 dark:bg-gray-950 border-b border-gray-950/10 dark:border-white/20 p-1;
+    @apply flex items-center relative rounded-t-md bg-gray-100 text-gray-800 p-1 border-b border-gray-950/10 dark:bg-gray-950 dark:border-white/20 dark:text-gray-300;
 
     .divider {
         @apply self-stretch w-0 mx-1 -my-1 border-r border-gray-950/10 dark:border-white/20;
@@ -311,7 +303,7 @@
         @apply p-2 w-full flex gap-2 items-center cursor-pointer select-none hover:bg-gray-800/40;
 
         &.active-option {
-            @apply bg-gray-800;
+            @apply bg-gray-700 dark:bg-gray-800;
         }
 
         .icon {

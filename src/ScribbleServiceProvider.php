@@ -4,6 +4,7 @@ namespace Awcodes\Scribble;
 
 use Awcodes\Scribble\Commands\MakeToolCommand;
 use Awcodes\Scribble\Commands\ScribbleCommand;
+use Awcodes\Scribble\Livewire\LinkModal;
 use Awcodes\Scribble\Livewire\Renderer;
 use Awcodes\Scribble\Testing\TestsScribble;
 use BladeUI\Icons\Factory;
@@ -57,9 +58,11 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         require_once __DIR__ . '/render-helpers.php';
 
-//        foreach (Helpers::getRegisteredTools() as $tool) {
-//            Livewire::component($tool->getIdentifier(), $tool);
-//        }
+        foreach (app(ScribbleManager::class)->getRegisteredTools() as $tool) {
+            if ($tool->getOptionsModal()) {
+                Livewire::component($tool->getIdentifier(), $tool->getOptionsModal());
+            }
+        }
 
         Livewire::component('scribble.renderer', Renderer::class);
 

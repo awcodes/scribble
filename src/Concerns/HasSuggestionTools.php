@@ -2,6 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
+use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\ScribbleManager;
 use Awcodes\Scribble\Tools;
 use Awcodes\Scribble\Wrappers\Group;
@@ -50,13 +51,7 @@ trait HasSuggestionTools
 
     public function getDefaultSuggestionTools(): array
     {
-        return app(ScribbleManager::class)->getTools([
-            'details',
-            'bullet-list',
-            'ordered-list',
-            'blockquote',
-            'horizontal-rule',
-        ])->toArray();
+        return DefaultProfile::suggestionTools();
     }
 
     /**

@@ -12,9 +12,6 @@ class OrderedList extends Tool
             ->icon('scribble-list-ordered')
             ->label('Ordered list')
             ->extension('orderedList')
-            ->defaultBubbleTool()
-            ->defaultToolbarTool()
-            ->defaultSuggestionTool()
             ->active(extension: 'orderedList')
             ->commands([
                 $this->makeCommand(command: 'toggleOrderedList'),

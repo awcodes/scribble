@@ -168,34 +168,36 @@
     $: isActive = (name, attrs = {}) => editor.isActive(name, attrs);
 
     tools.forEach(tool => {
-        window.addEventListener(`handle-${tool.identifier}`, data => {
-            if (data.detail.statePath !== statePath) {
-                return
-            }
+        if (tool.options) {
+            window.addEventListener(`handle-${tool.identifier}`, data => {
+                if (data.detail.statePath !== statePath) {
+                    return
+                }
 
-            if (tool.type === 'block' || tool.type === 'static') {
-                if (data.detail.context === 'insert') {
-                    editor.chain().insertScribbleBlock({
-                        identifier: tool.identifier,
-                        type: tool.type,
-                        values: data.detail.values
-                    }).focus().run();
-                } else {
-                    window.dispatchEvent(new CustomEvent('updatedBlock', {
-                        detail: {
-                            statePath: statePath,
+                if (tool.type === 'block' || tool.type === 'static') {
+                    if (data.detail.context === 'insert') {
+                        editor.chain().insertScribbleBlock({
                             identifier: tool.identifier,
                             type: tool.type,
-                            blockId: data.detail.blockId,
                             values: data.detail.values
-                        }
-                    }));
+                        }).focus().run();
+                    } else {
+                        window.dispatchEvent(new CustomEvent('updatedBlock', {
+                            detail: {
+                                statePath: statePath,
+                                identifier: tool.identifier,
+                                type: tool.type,
+                                blockId: data.detail.blockId,
+                                values: data.detail.values
+                            }
+                        }));
+                    }
+                    return
                 }
-                return
-            }
 
-            commandRunner(editor, tool.commands, data.detail.values)
-        })
+                commandRunner(editor, tool.commands, data.detail.values)
+            })
+        }
     })
 
     const handleToolClick = (tool, update = false) => {
@@ -207,7 +209,8 @@
                 pounce(tool.identifier, {
                     statePath: statePath,
                     update: update,
-                    ...editor.getAttributes(tool.extension)
+                    identifier: tool.identifier,
+                    data: editor.getAttributes(tool.extension)
                 });
                 return
             case 'static':
