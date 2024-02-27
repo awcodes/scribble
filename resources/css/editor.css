@@ -127,7 +127,7 @@
                 }
 
                 .scribble-block {
-                    @apply relative bg-gray-900/5 dark:bg-white/5 rounded-md;
+                    @apply relative bg-gray-900/5 dark:bg-white/5;
                     min-height: 2rem;
 
                     .loading-block {
@@ -147,11 +147,11 @@
                     }
 
                     .scribble-block-content {
-                        @apply transition rounded-md overflow-hidden relative;
+                        @apply transition overflow-hidden relative;
                     }
 
                     .scribble-block-actions {
-                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-tr-md rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
+                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
                         z-index: 1;
 
                         .scribble-block-action {
@@ -256,10 +256,18 @@
 }
 
 .scribble-bubble-menu {
-    @apply flex items-center relative;
+    @apply flex items-center relative text-gray-200 dark:text-gray-800;
 
     .divider {
         @apply self-stretch w-0 mx-1 border-r border-gray-500 dark:border-gray-700;
+    }
+
+    button {
+        @apply text-gray-200 dark:text-gray-800 hover:text-primary-500 dark:hover:text-primary-600;
+
+        &.active {
+            @apply !text-gray-200 dark:!text-gray-800 bg-primary-500/80;
+        }
     }
 
     .bubble-group {
@@ -267,7 +275,7 @@
     }
 
     .link-preview {
-        @apply max-w-xs text-sm px-1 leading-none truncate overflow-hidden whitespace-nowrap;
+        @apply max-w-xs text-sm px-1 truncate overflow-x-hidden whitespace-nowrap;
     }
 }
 
@@ -300,14 +308,14 @@
     }
 
     button {
-        @apply p-2 w-full flex gap-2 items-center cursor-pointer select-none hover:bg-gray-800/40;
+        @apply p-2 w-full flex gap-2 items-center cursor-pointer select-none hover:bg-gray-800/40 dark:hover:bg-white/40;
 
         &.active-option {
-            @apply bg-gray-700 dark:bg-gray-800;
+            @apply bg-gray-700 dark:bg-white/60;
         }
 
         .icon {
-            @apply shrink-0 rounded-md flex items-center justify-center text-gray-200;
+            @apply shrink-0 rounded-md flex items-center justify-center text-gray-200 dark:text-gray-800;
 
             svg {
                 @apply w-5 h-5;
@@ -318,21 +326,21 @@
             @apply flex-1 text-left;
 
             .label {
-                @apply block;
+                @apply block text-gray-200 dark:text-gray-800;
             }
 
             .description {
-                @apply block text-xs text-gray-300;
+                @apply block text-xs text-gray-300 dark:text-gray-700;
             }
         }
     }
 }
 
 .tippy-box[data-theme*="scribble-"] {
-    @apply bg-gray-800 dark:bg-gray-950 shadow-md;
+    @apply bg-gray-800 dark:bg-gray-300 shadow-md;
 
     .tippy-arrow {
-        @apply text-gray-800 dark:text-gray-950;
+        @apply text-gray-800 dark:text-gray-300;
     }
 }
 

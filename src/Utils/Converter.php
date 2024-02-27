@@ -5,6 +5,7 @@ namespace Awcodes\Scribble\Utils;
 use Awcodes\Scribble\Enums\ContentType;
 use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\Helpers;
+use Awcodes\Scribble\ScribbleManager;
 use League\HTMLToMarkdown\HtmlConverter;
 use stdClass;
 use Tiptap\Editor;
@@ -53,7 +54,7 @@ class Converter
 
     public function getBlocks(): array
     {
-        return Helpers::getRegisteredTools()->filter(function ($tool) {
+        return app(ScribbleManager::class)->getRegisteredTools()->filter(function ($tool) {
             $type = $tool->getType();
 
             return $type === ToolType::Block || $type === ToolType::StaticBlock;

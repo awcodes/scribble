@@ -3,55 +3,20 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Profiles\DefaultProfile;
-use Awcodes\Scribble\ScribbleManager;
-use Awcodes\Scribble\Tools;
 use Awcodes\Scribble\Wrappers\Group;
-use Closure;
 use Exception;
 
 trait HasSuggestionTools
 {
-    protected array | Closure | null $suggestionTools = null;
-
-    protected ?bool $withSuggestionDefaults = null;
-
-    public function suggestionTools(array | Closure | bool $tools, bool $withDefaults = true): static
-    {
-        if ($tools) {
-            $this->suggestionTools = $tools;
-            $this->withSuggestionDefaults = $withDefaults;
-        } else {
-            $this->withSuggestionDefaults = false;
-        }
-
-        return $this;
-    }
-
     public function getSuggestionTools(): array
     {
         if ($this->getProfile()) {
-            $tools = app($this->getProfile())->suggestionTools() ?? [];
-            $this->withSuggestionDefaults = false;
+            $tools = app($this->getProfile())::suggestionTools() ?? [];
         } else {
-            $tools = [...$this->evaluate($this->suggestionTools) ?? []];
-        }
-
-
-        if ($this->shouldIncludeSuggestionDefaults()) {
-            $tools = array_merge($tools, $this->getDefaultSuggestionTools());
+            $tools = DefaultProfile::suggestionTools();
         }
 
         return $tools;
-    }
-
-    public function shouldIncludeSuggestionDefaults()
-    {
-        return $this->evaluate($this->withSuggestionDefaults) ?? true;
-    }
-
-    public function getDefaultSuggestionTools(): array
-    {
-        return DefaultProfile::suggestionTools();
     }
 
     /**

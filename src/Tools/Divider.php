@@ -7,10 +7,9 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Divider extends ScribbleTool
 {
-    protected string $label = 'Divider';
-
-    public function getType(): ToolType
+    protected function setUp(): void
     {
-        return ToolType::Divider;
+        $this
+            ->type(ToolType::Divider);
     }
 }

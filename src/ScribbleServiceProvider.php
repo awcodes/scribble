@@ -85,13 +85,8 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
         // Asset Registration
         FilamentAsset::register(
-            $this->getAssets(),
-            $this->getAssetPackageName()
-        );
-
-        FilamentAsset::registerScriptData(
-            $this->getScriptData(),
-            $this->getAssetPackageName()
+            assets: $this->getAssets(),
+            package: 'awcodes/scribble'
         );
 
         // Handle Stubs
@@ -107,17 +102,10 @@ class ScribbleServiceProvider extends PackageServiceProvider
         Testable::mixin(new TestsScribble());
     }
 
-    protected function getAssetPackageName(): ?string
-    {
-        return 'awcodes/scribble';
-    }
-
     protected function getAssets(): array
     {
         return [
             AlpineComponent::make('scribble-component', __DIR__ . '/../resources/dist/scribble.js'),
-            Css::make('scribble-styles', __DIR__ . '/../resources/dist/scribble.css')->loadedOnRequest(),
-            Css::make('scribble-entry-styles', __DIR__ . '/../resources/dist/scribble-entry.css')->loadedOnRequest(),
         ];
     }
 
@@ -127,10 +115,5 @@ class ScribbleServiceProvider extends PackageServiceProvider
             ScribbleCommand::class,
             MakeToolCommand::class,
         ];
-    }
-
-    protected function getScriptData(): array
-    {
-        return [];
     }
 }

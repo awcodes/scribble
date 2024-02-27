@@ -2,7 +2,7 @@
 
 namespace Awcodes\Scribble\Tests\Resources;
 
-use Awcodes\Scribble\Scribble;
+use Awcodes\Scribble\ScribbleEditor;
 use Awcodes\Scribble\Tests\Models\Page;
 use Awcodes\Scribble\Tests\Resources\PageResource\Pages;
 use Filament\Forms;
@@ -22,7 +22,7 @@ class PageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title'),
-                Scribble::make('content'),
+                ScribbleEditor::make('content'),
             ])->columns(1);
     }
 

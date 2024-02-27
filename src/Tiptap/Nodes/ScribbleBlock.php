@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tiptap\Nodes;
 
 use Awcodes\Scribble\Helpers;
+use Awcodes\Scribble\ScribbleManager;
 use Tiptap\Core\Node;
 
 class ScribbleBlock extends Node
@@ -45,9 +46,9 @@ class ScribbleBlock extends Node
         $view = null;
 
         if ($data) {
-            foreach (Helpers::getRegisteredTools() as $tool) {
+            foreach (app(ScribbleManager::class)->getRegisteredTools() as $tool) {
                 if ($tool->getIdentifier() === $data['identifier']) {
-                    $view = $tool->getView((array) $data['values']);
+                    $view = $tool->getRenderedView((array) $data['values']);
                 }
             }
         }

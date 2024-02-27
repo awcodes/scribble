@@ -2,7 +2,6 @@
 
 namespace Awcodes\Scribble;
 
-use Awcodes\Scribble\FluentTools;
 use Filament\Support\Components\Component;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -13,9 +12,18 @@ class ScribbleManager extends Component
 
     protected array | null $customTools = null;
 
-    public function registerCustomTools(array $tools): static
+    protected array | null $converterExtensions = null;
+
+    public function registerTools(array $tools): static
     {
         $this->customTools = $tools;
+
+        return $this;
+    }
+
+    public function registerConverterExtensions(array $extensions): static
+    {
+        $this->converterExtensions = $extensions;
 
         return $this;
     }
@@ -34,6 +42,11 @@ class ScribbleManager extends Component
             });
     }
 
+    public function getRegisteredConverterExtensions(): Collection
+    {
+        return collect($this->converterExtensions ?? []);
+    }
+
     public function getTools(array | string $tools): Collection
     {
         $tls = collect();
@@ -50,33 +63,33 @@ class ScribbleManager extends Component
     public function getDefaultTools(): array
     {
         return [
-            FluentTools\AlignCenter::make(),
-            FluentTools\AlignEnd::make(),
-            FluentTools\AlignJustify::make(),
-            FluentTools\AlignStart::make(),
-            FluentTools\Blockquote::make(),
-            FluentTools\Bold::make(),
-            FluentTools\BulletList::make(),
-            FluentTools\Code::make(),
-            FluentTools\Details::make(),
-            FluentTools\Divider::make(),
-            FluentTools\Grid::make(),
-            FluentTools\HeadingFive::make(),
-            FluentTools\HeadingFour::make(),
-            FluentTools\HeadingOne::make(),
-            FluentTools\HeadingSix::make(),
-            FluentTools\HeadingThree::make(),
-            FluentTools\HeadingTwo::make(),
-            FluentTools\HorizontalRule::make(),
-            FluentTools\Italic::make(),
-            FluentTools\Link::make(),
-            FluentTools\Media::make(),
-            FluentTools\OrderedList::make(),
-            FluentTools\Paragraph::make(),
-            FluentTools\Strike::make(),
-            FluentTools\Subscript::make(),
-            FluentTools\Superscript::make(),
-            FluentTools\Underline::make(),
+            Tools\AlignCenter::make(),
+            Tools\AlignEnd::make(),
+            Tools\AlignJustify::make(),
+            Tools\AlignStart::make(),
+            Tools\Blockquote::make(),
+            Tools\Bold::make(),
+            Tools\BulletList::make(),
+            Tools\Code::make(),
+            Tools\Details::make(),
+            Tools\Divider::make(),
+            Tools\Grid::make(),
+            Tools\HeadingFive::make(),
+            Tools\HeadingFour::make(),
+            Tools\HeadingOne::make(),
+            Tools\HeadingSix::make(),
+            Tools\HeadingThree::make(),
+            Tools\HeadingTwo::make(),
+            Tools\HorizontalRule::make(),
+            Tools\Italic::make(),
+            Tools\Link::make(),
+            Tools\Media::make(),
+            Tools\OrderedList::make(),
+            Tools\Paragraph::make(),
+            Tools\Strike::make(),
+            Tools\Subscript::make(),
+            Tools\Superscript::make(),
+            Tools\Underline::make(),
         ];
     }
 }

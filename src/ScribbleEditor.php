@@ -9,12 +9,11 @@ use Awcodes\Scribble\Concerns\HasProfiles;
 use Awcodes\Scribble\Concerns\HasSuggestionTools;
 use Awcodes\Scribble\Concerns\HasToolbarTools;
 use Awcodes\Scribble\Utils\Converter;
-use Exception;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasPlaceholder;
 use Livewire\Component;
 
-class Scribble extends Field
+class ScribbleEditor extends Field
 {
     use HasBubbleTools;
     use HasCustomStyles;
@@ -24,13 +23,13 @@ class Scribble extends Field
     use HasSuggestionTools;
     use HasToolbarTools;
 
-    protected string $view = 'scribble::scribble';
+    protected string $view = 'scribble::scribble-editor';
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->afterStateUpdated(function (Scribble $component, Component $livewire): void {
+        $this->afterStateUpdated(function (ScribbleEditor $component, Component $livewire): void {
             $livewire->validateOnly($component->getStatePath());
         });
 

@@ -179,6 +179,7 @@
                         editor.chain().insertScribbleBlock({
                             identifier: tool.identifier,
                             type: tool.type,
+                            blockId: data.detail.blockId,
                             values: data.detail.values
                         }).focus().run();
                     } else {

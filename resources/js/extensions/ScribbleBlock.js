@@ -53,7 +53,7 @@ export default Node.create({
     addCommands() {
         return {
             setScribbleBlock: (options) => ({ tr, state }) => {
-                pounce(options.identifier, { statePath: options.statePath })
+                pounce(options.identifier, { ...options })
 
                 return true
             },

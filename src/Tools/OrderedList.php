@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class OrderedList extends ScribbleTool
 {
-    protected string $icon = 'scribble-list-ordered';
-
-    protected string $label = 'OrderedList';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'toggleOrderedList', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-list-ordered')
+            ->label('Ordered list')
+            ->extension('orderedList')
+            ->active(extension: 'orderedList')
+            ->commands([
+                $this->makeCommand(command: 'toggleOrderedList'),
+            ]);
     }
 }

@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Bold extends ScribbleTool
 {
-    protected string $icon = 'scribble-bold';
-
-    protected string $label = 'Bold';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'toggleBold', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-bold')
+            ->label('Bold')
+            ->extension('bold')
+            ->active(extension: 'bold')
+            ->commands([
+                $this->makeCommand(command: 'toggleBold'),
+            ]);
     }
 }

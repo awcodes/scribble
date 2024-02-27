@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Superscript extends ScribbleTool
 {
-    protected string $icon = 'scribble-superscript';
-
-    protected string $label = 'Superscript';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'toggleSuperscript', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-superscript')
+            ->label('Superscript')
+            ->extension('superscript')
+            ->active(extension: 'superscript')
+            ->commands([
+                $this->makeCommand(command: 'toggleSuperscript'),
+            ]);
     }
 }

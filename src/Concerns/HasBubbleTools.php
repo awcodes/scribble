@@ -2,41 +2,19 @@
 
 namespace Awcodes\Scribble\Concerns;
 
-use Awcodes\Scribble\FluentTools\Link;
+use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\Wrappers\Group;
-use Closure;
 use Exception;
 
 trait HasBubbleTools
 {
-    protected array | Closure | null $bubbleTools = null;
-
-    protected ?bool $withBubbleDefaults = null;
-
-    public function bubbleTools(array | Closure | bool $tools, bool $withDefaults = true): static
-    {
-        if ($tools) {
-            $this->bubbleTools = $tools;
-            $this->withBubbleDefaults = $withDefaults;
-        } else {
-            $this->withBubbleDefaults = false;
-        }
-
-        return $this;
-    }
-
     public function getBubbleTools(): array
     {
         if ($this->getProfile()) {
-            $tools = app($this->getProfile())->bubbleTools() ?? [];
-            $this->withBubbleDefaults = false;
+            $tools = app($this->getProfile())::bubbleTools() ?? [];
         } else {
-            $tools = [...$this->evaluate($this->bubbleTools) ?? []];
-        }
-
-        if ($this->shouldIncludeBubbleDefaults()) {
-            $tools = array_merge($tools, $this->getDefaultBubbleTools());
+            $tools = DefaultProfile::bubbleTools();
         }
 
         if (! isset($tools['link'])) {
@@ -44,16 +22,6 @@ trait HasBubbleTools
         }
 
         return $tools;
-    }
-
-    public function shouldIncludeBubbleDefaults()
-    {
-        return $this->evaluate($this->withBubbleDefaults) ?? true;
-    }
-
-    public function getDefaultBubbleTools(): array
-    {
-        return DefaultProfile::bubbleTools();
     }
 
     /**

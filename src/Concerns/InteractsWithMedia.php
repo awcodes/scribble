@@ -1,6 +1,6 @@
 <?php
 
-namespace Awcodes\Scribble\Tools\Concerns;
+namespace Awcodes\Scribble\Concerns;
 
 trait InteractsWithMedia
 {

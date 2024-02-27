@@ -3,7 +3,7 @@
 namespace Awcodes\Scribble\Livewire;
 
 use Awcodes\Pounce\Enums\MaxWidth;
-use Awcodes\Scribble\Tools\Concerns\InteractsWithMedia;
+use Awcodes\Scribble\Concerns\InteractsWithMedia;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Components\Checkbox;

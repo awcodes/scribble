@@ -20,7 +20,7 @@
             update: true,
             statePath: editor.storage?.statePathExtension.statePath ?? null,
             blockId: node.attrs.id,
-            ...node.attrs.values
+            data: node.attrs.values
         })
     }
 

@@ -2,7 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
-use Awcodes\Scribble\FluentTools\Link;
+use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\Wrappers\Group;
 use Closure;
@@ -10,23 +10,7 @@ use Exception;
 
 trait HasToolbarTools
 {
-    protected array | Closure | null $toolbarTools = null;
-
     protected bool | Closure | null $renderToolbar = false;
-
-    protected ?bool $withToolbarDefaults = null;
-
-    public function toolbarTools(array | Closure | bool $tools, bool $withDefaults = true): static
-    {
-        if ($tools) {
-            $this->toolbarTools = $tools;
-            $this->withToolbarDefaults = $withDefaults;
-        } else {
-            $this->withToolbarDefaults = false;
-        }
-
-        return $this;
-    }
 
     public function renderToolbar(bool | Closure | null $render = true): static
     {
@@ -35,18 +19,18 @@ trait HasToolbarTools
         return $this;
     }
 
+    public function shouldRenderToolbar(): bool
+    {
+        return $this->evaluate($this->renderToolbar);
+    }
+
     public function getToolbarTools(): array
     {
         if ($this->shouldRenderToolbar()) {
             if ($this->getProfile()) {
-                $tools = app($this->getProfile())->toolbarTools() ?? [];
-                $this->withToolbarDefaults = false;
+                $tools = app($this->getProfile())::toolbarTools() ?? [];
             } else {
-                $tools = [...$this->evaluate($this->toolbarTools) ?? []];
-            }
-
-            if ($this->shouldIncludeToolbarDefaults()) {
-                $tools = array_merge($tools, $this->getDefaultToolbarTools());
+                $tools = DefaultProfile::toolbarTools();
             }
 
             if (! isset($tools['link'])) {
@@ -57,21 +41,6 @@ trait HasToolbarTools
         }
 
         return [];
-    }
-
-    public function shouldIncludeToolbarDefaults()
-    {
-        return $this->evaluate($this->withToolbarDefaults) ?? true;
-    }
-
-    public function getDefaultToolbarTools(): array
-    {
-        return DefaultProfile::toolbarTools();
-    }
-
-    public function shouldRenderToolbar(): bool
-    {
-        return $this->evaluate($this->renderToolbar);
     }
 
     /**

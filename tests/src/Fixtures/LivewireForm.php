@@ -2,7 +2,7 @@
 
 namespace Awcodes\Scribble\Tests\Fixtures;
 
-use Awcodes\Scribble\Scribble;
+use Awcodes\Scribble\ScribbleEditor;
 use Awcodes\Scribble\Tests\Models\Page;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -29,7 +29,7 @@ class LivewireForm extends Component implements HasForms
             ->model(Page::class)
             ->schema([
                 TextInput::make('title'),
-                Scribble::make('content'),
+                ScribbleEditor::make('content'),
             ]);
     }
 

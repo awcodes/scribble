@@ -6,26 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class HeadingThree extends ScribbleTool
 {
-    protected string $icon = 'scribble-heading-three';
-
-    protected string $label = 'Heading 3';
-
-    public function getExtension(): string
+    protected function setUp(): void
     {
-        return 'heading';
-    }
-
-    public function getCommands(): ?array
-    {
-        return [
-            ['command' => 'toggleHeading', 'arguments' => ['level' => 3]],
-        ];
-    }
-
-    public function getActiveAttributes(): array
-    {
-        return [
-            'level' => 3,
-        ];
+        $this
+            ->icon('scribble-heading-three')
+            ->label('Heading 3')
+            ->extension('heading')
+            ->active(extension: 'heading', attrs: ['level' => 3])
+            ->commands([
+                $this->makeCommand(command: 'toggleHeading', arguments: ['level' => 3]),
+            ]);
     }
 }

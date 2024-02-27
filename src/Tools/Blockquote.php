@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Blockquote extends ScribbleTool
 {
-    protected string $icon = 'scribble-blockquote';
-
-    protected string $label = 'Blockquote';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'toggleBlockquote', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-blockquote')
+            ->label('Blockquote')
+            ->extension('blockquote')
+            ->active(extension: 'blockquote')
+            ->commands([
+                $this->makeCommand(command: 'toggleBlockquote'),
+            ]);
     }
 }

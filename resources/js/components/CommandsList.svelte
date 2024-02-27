@@ -80,13 +80,16 @@
                     editor.chain().insertScribbleBlock({
                         identifier: item.identifier,
                         type: item.type,
+                        statePath: statePath,
+                        blockId: item.blockId,
                         values: {}
                     }).focus().run();
                     break
                 default:
                     editor.commands.setScribbleBlock({
                         identifier: item.identifier,
-                        statePath: item.statePath,
+                        statePath: statePath,
+                        blockId: item.blockId,
                     })
             }
         }

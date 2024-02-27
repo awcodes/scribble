@@ -6,14 +6,14 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Paragraph extends ScribbleTool
 {
-    protected string $icon = 'scribble-paragraph';
-
-    protected string $label = 'Paragraph';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'setParagraph', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-paragraph')
+            ->label('Paragraph')
+            ->extension('paragraph')
+            ->commands([
+                $this->makeCommand(command: 'setParagraph'),
+            ]);
     }
 }

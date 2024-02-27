@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Italic extends ScribbleTool
 {
-    protected string $icon = 'scribble-italic';
-
-    protected string $label = 'Italic';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'toggleItalic', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-italic')
+            ->label('Italic')
+            ->extension('italic')
+            ->active(extension: 'italic')
+            ->commands([
+                $this->makeCommand(command: 'toggleItalic'),
+            ]);
     }
 }

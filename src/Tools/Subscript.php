@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Subscript extends ScribbleTool
 {
-    protected string $icon = 'scribble-subscript';
-
-    protected string $label = 'Subscript';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'toggleSubscript', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-subscript')
+            ->label('Subscript')
+            ->extension('subscript')
+            ->active(extension: 'subscript')
+            ->commands([
+                $this->makeCommand(command: 'toggleSubscript'),
+            ]);
     }
 }
