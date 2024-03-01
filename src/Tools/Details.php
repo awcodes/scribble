@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Details extends ScribbleTool
 {
-    protected string $icon = 'scribble-details';
-
-    protected string $label = 'Details';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'setDetails', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-details')
+            ->label('Details')
+            ->extension('details')
+            ->active(extension: 'details')
+            ->commands([
+                $this->makeCommand(command: 'setDetails'),
+            ]);
     }
 }

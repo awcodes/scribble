@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Underline extends ScribbleTool
 {
-    protected string $icon = 'scribble-underline';
-
-    protected string $label = 'Underline';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'toggleUnderline', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-underline')
+            ->label('Underline')
+            ->extension('underline')
+            ->active(extension: 'underline')
+            ->commands([
+                $this->makeCommand(command: 'toggleUnderline'),
+            ]);
     }
 }

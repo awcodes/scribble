@@ -2,30 +2,15 @@
 
 namespace Awcodes\Scribble\Concerns;
 
-use Awcodes\Scribble\Tools;
+use Awcodes\Scribble\Tools\Link;
+use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\Wrappers\Group;
 use Closure;
 use Exception;
 
 trait HasToolbarTools
 {
-    protected array | Closure | null $toolbarTools = null;
-
     protected bool | Closure | null $renderToolbar = false;
-
-    protected ?bool $withToolbarDefaults = null;
-
-    public function toolbarTools(array | Closure | bool $tools, bool $withDefaults = true): static
-    {
-        if ($tools) {
-            $this->toolbarTools = $tools;
-            $this->withToolbarDefaults = $withDefaults;
-        } else {
-            $this->withToolbarDefaults = false;
-        }
-
-        return $this;
-    }
 
     public function renderToolbar(bool | Closure | null $render = true): static
     {
@@ -34,63 +19,28 @@ trait HasToolbarTools
         return $this;
     }
 
+    public function shouldRenderToolbar(): bool
+    {
+        return $this->evaluate($this->renderToolbar);
+    }
+
     public function getToolbarTools(): array
     {
         if ($this->shouldRenderToolbar()) {
             if ($this->getProfile()) {
-                $tools = app($this->getProfile())->toolbarTools() ?? [];
-                $this->withToolbarDefaults = false;
+                $tools = app($this->getProfile())::toolbarTools() ?? [];
             } else {
-                $tools = [...$this->evaluate($this->toolbarTools) ?? []];
+                $tools = DefaultProfile::toolbarTools();
             }
 
-            if ($this->shouldIncludeToolbarDefaults()) {
-                $tools = array_merge($tools, $this->getDefaultToolbarTools());
+            if (! isset($tools['link'])) {
+                $tools['link'] = Link::make()->hidden();
             }
 
-            return array_merge(
-                $tools,
-                [(new Tools\Link())->hidden()]
-            );
+            return $tools;
         }
 
         return [];
-    }
-
-    public function shouldIncludeToolbarDefaults()
-    {
-        return $this->evaluate($this->withToolbarDefaults) ?? true;
-    }
-
-    public function getDefaultToolbarTools(): array
-    {
-        return [
-            Tools\HeadingOne::class,
-            Tools\HeadingTwo::class,
-            Tools\HeadingThree::class,
-            Tools\Divider::class,
-            Tools\Bold::class,
-            Tools\Italic::class,
-            Tools\Strike::class,
-            Tools\Superscript::class,
-            Tools\Subscript::class,
-            Tools\Paragraph::class,
-            Tools\Divider::class,
-            Tools\BulletList::class,
-            Tools\OrderedList::class,
-            Tools\Link::class,
-            Tools\Grid::class,
-            Tools\Details::class,
-            Tools\Divider::class,
-            Tools\AlignStart::class,
-            Tools\AlignCenter::class,
-            Tools\AlignEnd::class,
-        ];
-    }
-
-    public function shouldRenderToolbar(): bool
-    {
-        return $this->evaluate($this->renderToolbar);
     }
 
     /**
@@ -101,19 +51,22 @@ trait HasToolbarTools
         $tools = [];
 
         if ($this->shouldRenderToolbar()) {
-
             foreach ($this->getToolbarTools() as $tool) {
                 if ($tool instanceof Group) {
-                    foreach ($tool->getTools() as $groupBlock) {
+                    foreach ($tool->getTools() as $groupTool) {
+                        $groupTool->statePath($this->getStatePath());
+
                         $tools[] = [
-                            ...$this->formatTool($groupBlock),
+                            ...$groupTool->toArray(),
                             'group' => $tool->getLabel(),
                             'groupLabel' => str($tool->getLabel())->title(),
                         ];
                     }
                 } else {
+                    $tool->statePath($this->getStatePath());
+
                     $tools[] = [
-                        ...$this->formatTool($tool),
+                        ...$tool->toArray(),
                         'group' => '',
                         'groupLabel' => '',
                     ];

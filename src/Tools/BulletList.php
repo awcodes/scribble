@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class BulletList extends ScribbleTool
 {
-    protected string $icon = 'scribble-list-ordered';
-
-    protected string $label = 'BulletList';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'toggleBulletList', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-list-unordered')
+            ->label('Bullet list')
+            ->extension('bulletList')
+            ->active(extension: 'bulletList')
+            ->commands([
+                $this->makeCommand(command: 'toggleBulletList'),
+            ]);
     }
 }

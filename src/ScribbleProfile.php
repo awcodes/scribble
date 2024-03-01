@@ -2,7 +2,7 @@
 
 namespace Awcodes\Scribble;
 
-use Awcodes\Scribble\Concerns\HasScribbleProfile;
+use Awcodes\Scribble\Contracts\HasScribbleProfile;
 
 abstract class ScribbleProfile implements HasScribbleProfile
 {

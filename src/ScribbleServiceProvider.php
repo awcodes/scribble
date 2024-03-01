@@ -4,6 +4,7 @@ namespace Awcodes\Scribble;
 
 use Awcodes\Scribble\Commands\MakeToolCommand;
 use Awcodes\Scribble\Commands\ScribbleCommand;
+use Awcodes\Scribble\Livewire\LinkModal;
 use Awcodes\Scribble\Livewire\Renderer;
 use Awcodes\Scribble\Testing\TestsScribble;
 use BladeUI\Icons\Factory;
@@ -44,6 +45,10 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
             $factory->add('scribble', array_merge(['path' => __DIR__ . '/../resources/svg'], $config));
         });
+
+        $this->app->singleton(ScribbleManager::class, function () {
+            return new ScribbleManager();
+        });
     }
 
     /**
@@ -53,8 +58,10 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         require_once __DIR__ . '/render-helpers.php';
 
-        foreach (Helpers::getRegisteredTools() as $tool) {
-            Livewire::component($tool->getIdentifier(), $tool);
+        foreach (app(ScribbleManager::class)->getRegisteredTools() as $tool) {
+            if ($tool->getOptionsModal()) {
+                Livewire::component($tool->getIdentifier(), $tool->getOptionsModal());
+            }
         }
 
         Livewire::component('scribble.renderer', Renderer::class);
@@ -78,13 +85,8 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
         // Asset Registration
         FilamentAsset::register(
-            $this->getAssets(),
-            $this->getAssetPackageName()
-        );
-
-        FilamentAsset::registerScriptData(
-            $this->getScriptData(),
-            $this->getAssetPackageName()
+            assets: $this->getAssets(),
+            package: 'awcodes/scribble'
         );
 
         // Handle Stubs
@@ -100,17 +102,10 @@ class ScribbleServiceProvider extends PackageServiceProvider
         Testable::mixin(new TestsScribble());
     }
 
-    protected function getAssetPackageName(): ?string
-    {
-        return 'awcodes/scribble';
-    }
-
     protected function getAssets(): array
     {
         return [
             AlpineComponent::make('scribble-component', __DIR__ . '/../resources/dist/scribble.js'),
-            Css::make('scribble-styles', __DIR__ . '/../resources/dist/scribble.css')->loadedOnRequest(),
-            Css::make('scribble-entry-styles', __DIR__ . '/../resources/dist/scribble-entry.css')->loadedOnRequest(),
         ];
     }
 
@@ -120,10 +115,5 @@ class ScribbleServiceProvider extends PackageServiceProvider
             ScribbleCommand::class,
             MakeToolCommand::class,
         ];
-    }
-
-    protected function getScriptData(): array
-    {
-        return [];
     }
 }

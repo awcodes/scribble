@@ -6,14 +6,14 @@ use Awcodes\Scribble\ScribbleTool;
 
 class AlignCenter extends ScribbleTool
 {
-    protected string $icon = 'scribble-align-center';
-
-    protected string $label = 'Align Center';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'setTextAlign', 'arguments' => 'center'],
-        ];
+        $this
+            ->icon('scribble-align-center')
+            ->label('Align Center')
+            ->extension('textAlign')
+            ->commands([
+                $this->makeCommand(command: 'setTextAlign', arguments: 'center'),
+            ]);
     }
 }

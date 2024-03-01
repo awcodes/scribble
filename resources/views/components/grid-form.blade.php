@@ -2,7 +2,7 @@
     <x-pounce::close-button/>
 
     <x-pounce::header>
-        {{ $update ? trans('scribble::modal.update') : trans('scribble::modal.insert') . ' ' . static::getLabel() }}
+        {{ $update ? trans('scribble::modal.update') : trans('scribble::modal.insert') . ' ' . $header }}
     </x-pounce::header>
 
     <x-pounce::content>

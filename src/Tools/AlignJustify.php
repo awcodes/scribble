@@ -6,14 +6,14 @@ use Awcodes\Scribble\ScribbleTool;
 
 class AlignJustify extends ScribbleTool
 {
-    protected string $icon = 'scribble-align-justify';
-
-    protected string $label = 'Align Justify';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'setTextAlign', 'arguments' => 'justify'],
-        ];
+        $this
+            ->icon('scribble-align-justify')
+            ->label('Align Justify')
+            ->extension('textAlign')
+            ->commands([
+                $this->makeCommand(command: 'setTextAlign', arguments: 'justify'),
+            ]);
     }
 }

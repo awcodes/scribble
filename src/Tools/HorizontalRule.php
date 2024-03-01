@@ -6,14 +6,14 @@ use Awcodes\Scribble\ScribbleTool;
 
 class HorizontalRule extends ScribbleTool
 {
-    protected string $icon = 'scribble-hr';
-
-    protected string $label = 'Horizontal Rule';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'setHorizontalRule', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-hr')
+            ->label('Horizontal Rule')
+            ->extension('horizontalRule')
+            ->commands([
+                $this->makeCommand(command: 'setHorizontalRule'),
+            ]);
     }
 }

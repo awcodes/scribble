@@ -14,11 +14,11 @@
             .scribble-controls {
                 @apply relative !top-0 pointer-events-auto transition-none rounded-none opacity-100 z-0 py-2 px-4;
 
-                .enter-fullscreen {
+                .scribble-enter-fullscreen {
                     @apply hidden;
                 }
 
-                .exit-fullscreen {
+                .scribble-exit-fullscreen {
                     @apply block;
                 }
             }
@@ -41,6 +41,10 @@
         .scribble-block .scribble-block-actions {
             @apply !opacity-100 !pointer-events-auto;
         }
+
+        .scribble-button.active {
+            @apply text-primary-500;
+        }
     }
 
     .scribble-editor-wrapper {
@@ -57,11 +61,11 @@
                 @apply inline-flex px-2 items-center rounded-full border border-gray-950/10 dark:border-white/20 shadow-md bg-gray-700 text-white;
             }
 
-            .enter-fullscreen {
+            .scribble-enter-fullscreen {
                 @apply block;
             }
 
-            .exit-fullscreen {
+            .scribble-exit-fullscreen {
                 @apply hidden;
             }
         }
@@ -123,7 +127,7 @@
                 }
 
                 .scribble-block {
-                    @apply relative bg-gray-900/5 dark:bg-white/5 rounded-md;
+                    @apply relative bg-gray-900/5 dark:bg-white/5;
                     min-height: 2rem;
 
                     .loading-block {
@@ -143,11 +147,11 @@
                     }
 
                     .scribble-block-content {
-                        @apply transition rounded-md overflow-hidden relative;
+                        @apply transition overflow-hidden relative;
                     }
 
                     .scribble-block-actions {
-                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-tr-md rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
+                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
                         z-index: 1;
 
                         .scribble-block-action {
@@ -163,14 +167,6 @@
                         }
                     }
                 }
-
-                .node-view-hero .gray { @apply bg-gray-500 text-white; }
-                .node-view-hero .grayLight { @apply bg-gray-500 text-white; }
-                .node-view-hero .grayDark { @apply bg-gray-500 text-white; }
-                .node-view-hero .primary { @apply bg-amber-500 text-black; }
-                .node-view-hero .secondary { @apply bg-yellow-500 text-black; }
-                .node-view-hero .tertiary { @apply bg-rose-500 text-white; }
-                .node-view-hero .accent { @apply bg-indigo-500 text-white; }
 
                 .node-image {
                     display: inline-block;
@@ -257,17 +253,21 @@
 
 .scribble-button {
     @apply flex items-center justify-center rounded-sm p-1 bg-transparent hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500;
-
-    &.active {
-        @apply text-primary-500;
-    }
 }
 
 .scribble-bubble-menu {
-    @apply flex items-center relative;
+    @apply flex items-center relative text-gray-200 dark:text-gray-800;
 
     .divider {
         @apply self-stretch w-0 mx-1 border-r border-gray-500 dark:border-gray-700;
+    }
+
+    button {
+        @apply text-gray-200 dark:text-gray-800 hover:text-primary-500 dark:hover:text-primary-600;
+
+        &.active {
+            @apply !text-gray-200 dark:!text-gray-800 bg-primary-500/80;
+        }
     }
 
     .bubble-group {
@@ -275,12 +275,12 @@
     }
 
     .link-preview {
-        @apply max-w-xs text-sm px-1 leading-none truncate overflow-hidden whitespace-nowrap;
+        @apply max-w-xs text-sm px-1 truncate overflow-x-hidden whitespace-nowrap;
     }
 }
 
 .scribble-toolbar {
-    @apply flex items-center relative rounded-t-md bg-gray-100 dark:bg-gray-950 border-b border-gray-950/10 dark:border-white/20 p-1;
+    @apply flex items-center relative rounded-t-md bg-gray-100 text-gray-800 p-1 border-b border-gray-950/10 dark:bg-gray-950 dark:border-white/20 dark:text-gray-300;
 
     .divider {
         @apply self-stretch w-0 mx-1 -my-1 border-r border-gray-950/10 dark:border-white/20;
@@ -308,14 +308,14 @@
     }
 
     button {
-        @apply p-2 w-full flex gap-2 items-center cursor-pointer select-none hover:bg-gray-800/40;
+        @apply p-2 w-full flex gap-2 items-center cursor-pointer select-none hover:bg-gray-800/40 dark:hover:bg-white/40;
 
         &.active-option {
-            @apply bg-gray-800;
+            @apply bg-gray-700 dark:bg-white/60;
         }
 
         .icon {
-            @apply shrink-0 rounded-md flex items-center justify-center text-gray-200;
+            @apply shrink-0 rounded-md flex items-center justify-center text-gray-200 dark:text-gray-800;
 
             svg {
                 @apply w-5 h-5;
@@ -326,21 +326,21 @@
             @apply flex-1 text-left;
 
             .label {
-                @apply block;
+                @apply block text-gray-200 dark:text-gray-800;
             }
 
             .description {
-                @apply block text-xs text-gray-300;
+                @apply block text-xs text-gray-300 dark:text-gray-700;
             }
         }
     }
 }
 
 .tippy-box[data-theme*="scribble-"] {
-    @apply bg-gray-800 dark:bg-gray-950 shadow-md;
+    @apply bg-gray-800 dark:bg-gray-300 shadow-md;
 
     .tippy-arrow {
-        @apply text-gray-800 dark:text-gray-950;
+        @apply text-gray-800 dark:text-gray-300;
     }
 }
 

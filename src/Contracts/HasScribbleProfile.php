@@ -1,6 +1,6 @@
 <?php
 
-namespace Awcodes\Scribble\Concerns;
+namespace Awcodes\Scribble\Contracts;
 
 interface HasScribbleProfile
 {

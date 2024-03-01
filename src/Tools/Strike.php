@@ -6,14 +6,15 @@ use Awcodes\Scribble\ScribbleTool;
 
 class Strike extends ScribbleTool
 {
-    protected string $icon = 'scribble-strike';
-
-    protected string $label = 'Strike';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'toggleStrike', 'arguments' => null],
-        ];
+        $this
+            ->icon('scribble-strike')
+            ->label('Strike')
+            ->extension('strike')
+            ->active(extension: 'strike')
+            ->commands([
+                $this->makeCommand(command: 'toggleStrike'),
+            ]);
     }
 }

@@ -13,10 +13,11 @@
     export let updateAttributes;
 
     const handleOpen = () => {
-        pounce('scribble-media', {
+        pounce('media', {
             update: true,
             statePath: editor.storage?.statePathExtension.statePath ?? null,
-            ...node.attrs
+            identifier: node.attrs.identifier,
+            data: node.attrs
         })
     }
 

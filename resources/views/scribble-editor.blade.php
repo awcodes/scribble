@@ -1,22 +1,14 @@
 @php
     $statePath = $getStatePath();
-
-    $stylesheets = [
-      Illuminate\Support\Js::from(\Filament\Support\Facades\FilamentAsset::getStyleHref('scribble-styles', 'awcodes/scribble'))
-    ];
-
-    if ($getCustomStyles()) {
-        $stylesheets[] = Illuminate\Support\Js::from($getCustomStyles());
-    }
-
-    $stylesheets = implode(',', $stylesheets);
 @endphp
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
-    <div
-        wire:ignore
-        x-data="{}"
-        x-load-css="[{{ $stylesheets }}]"
-    ></div>
+    @if ($getCustomStyles())
+        <div
+            wire:ignore
+            x-data="{}"
+            x-load-css="[{{ \Illuminate\Support\Js::from($getCustomStyles()) }}]"
+        ></div>
+    @endif
     <div
         wire:ignore
         x-ignore

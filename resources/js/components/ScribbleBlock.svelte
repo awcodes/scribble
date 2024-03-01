@@ -16,12 +16,11 @@
     $: wrapper = null;
 
     const handleOpen = () => {
-        console.log(editor.storage)
         pounce(node.attrs.identifier, {
             update: true,
             statePath: editor.storage?.statePathExtension.statePath ?? null,
             blockId: node.attrs.id,
-            ...node.attrs.values
+            data: node.attrs.values
         })
     }
 

@@ -6,14 +6,14 @@ use Awcodes\Scribble\ScribbleTool;
 
 class AlignEnd extends ScribbleTool
 {
-    protected string $icon = 'scribble-align-end';
-
-    protected string $label = 'Align End';
-
-    public function getCommands(): ?array
+    protected function setUp(): void
     {
-        return [
-            ['command' => 'setTextAlign', 'arguments' => 'end'],
-        ];
+        $this
+            ->icon('scribble-align-end')
+            ->label('Align End')
+            ->extension('textAlign')
+            ->commands([
+                $this->makeCommand(command: 'setTextAlign', arguments: 'end'),
+            ]);
     }
 }
