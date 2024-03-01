@@ -59,11 +59,11 @@ export default Image.extend({
             setDocument: options => ({ chain }) => {
                 return chain().focus().extendMarkRange('link').setLink({ href: options.src }).insertContent(options?.link_text).run()
             },
-            setImage: options => ({ commands }) => {
-                return commands.insertContent({
+            setImage: options => ({ chain }) => {
+                return chain().focus().insertContent({
                     type: this.name,
                     attrs: options,
-                })
+                }).createParagraphNear().run()
             },
         }
     },
