@@ -41,6 +41,8 @@ class ScribbleTool extends Component
 
     protected string | null $optionsModal = null;
 
+    protected array | null $event = null;
+
     final public function __construct(string $name)
     {
         $this->name($name);
@@ -72,6 +74,7 @@ class ScribbleTool extends Component
             'commands' => $this->getCommands(),
             'isHidden' => $this->isHidden(),
             'options' => $this->getOptionsModal(),
+            'event' => $this->getEvent(),
         ];
     }
 
@@ -123,9 +126,9 @@ class ScribbleTool extends Component
         return $this->evaluate($this->type) ?? ToolType::Command;
     }
 
-    public function identifier(): static
+    public function identifier(string $identifier): static
     {
-        $this->identifier = $this->name;
+        $this->identifier = $identifier;
         return $this;
     }
 
@@ -169,6 +172,16 @@ class ScribbleTool extends Component
         return $this;
     }
 
+    public function event(string $name, array | null $data = null): static
+    {
+        $this->event = [
+            'name' => $name,
+            'data' => $data,
+        ];
+
+        return $this;
+    }
+
     public function hidden(bool | Closure $condition = true): static
     {
         $this->isHidden = $condition;
@@ -184,6 +197,13 @@ class ScribbleTool extends Component
     public function optionsModal(string $component): static
     {
         $this->optionsModal = $component;
+
+        return $this;
+    }
+
+    public function statePath(string $statePath): static
+    {
+        $this->statePath = $statePath;
 
         return $this;
     }
@@ -247,6 +267,11 @@ class ScribbleTool extends Component
     public function getActive(): array
     {
         return filled($this->active) ? $this->evaluate($this->active) : ['extension' => $this->getExtension(), 'attrs' => []];
+    }
+
+    public function getEvent(): array
+    {
+        return filled($this->event) ? $this->evaluate($this->event) : ['name' => null, 'data' => null];
     }
 
     public function isHidden(): bool

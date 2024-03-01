@@ -1,5 +1,5 @@
 <script>
-    import { pounce, commandRunner } from '../utils.js'
+    import { pounce, commandRunner, replaceStatePath } from '../utils.js'
 
     export let items
     export let editor
@@ -69,6 +69,10 @@
                 case 'command':
                     commandRunner(editor, item.commands)
                     break
+                case 'event':
+                    replaceStatePath(item.event.data, statePath)
+                    window.Livewire.dispatch(item.event.name, item.event.data)
+                    return
                 case 'modal':
                     pounce(item.options, {
                         statePath: statePath,

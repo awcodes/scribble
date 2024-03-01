@@ -24,7 +24,7 @@
     import TextAlign from './extensions/TextAlignExtension.js'
     import TextStyle from '@tiptap/extension-text-style'
     import {Underline} from '@tiptap/extension-underline'
-    import {pounce, commandRunner} from './utils.js'
+    import {pounce, commandRunner, replaceStatePath} from './utils.js'
     import Controls from './components/Controls.svelte'
     import BubbleMenu from './components/BubbleMenu.svelte'
     import Toolbar from './components/Toolbar.svelte'
@@ -167,6 +167,16 @@
 
     $: isActive = (name, attrs = {}) => editor.isActive(name, attrs);
 
+    window.addEventListener(`insert-content`, data => {
+        if (data.detail.statePath !== statePath) {
+            return
+        }
+
+        if (data.detail.type === 'media') {
+            data.detail.media.forEach((item) => editor.chain().setMedia(item).focus().run())
+        }
+    })
+
     tools.forEach(tool => {
         if (tool.options) {
             window.addEventListener(`handle-${tool.identifier}`, data => {
@@ -205,6 +215,10 @@
         switch (tool.type) {
             case 'command':
                 commandRunner(editor, tool.commands);
+                return
+            case 'event':
+                replaceStatePath(tool.event.data, statePath)
+                window.Livewire.dispatch(tool.event.name, tool.event.data)
                 return
             case 'modal':
                 pounce(tool.identifier, {

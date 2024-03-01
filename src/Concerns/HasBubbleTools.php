@@ -33,14 +33,18 @@ trait HasBubbleTools
 
         foreach ($this->getBubbleTools() as $tool) {
             if ($tool instanceof Group) {
-                foreach ($tool->getTools() as $groupBlock) {
+                foreach ($tool->getTools() as $groupTool) {
+                    $groupTool->statePath($this->getStatePath());
+
                     $tools[] = [
-                        ...$groupBlock->toArray(),
+                        ...$groupTool->toArray(),
                         'group' => $tool->getLabel(),
                         'groupLabel' => str($tool->getLabel())->title(),
                     ];
                 }
             } else {
+                $tool->statePath($this->getStatePath());
+
                 $tools[] = [
                     ...$tool->toArray(),
                     'group' => '',

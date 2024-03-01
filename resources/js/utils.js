@@ -15,3 +15,16 @@ export const commandRunner = (editor, commands, args = []) => {
         editor.chain().focus()[command.command](command?.arguments.length > 0 ? command.arguments : args).run()
     })
 }
+
+export const replaceStatePath = (data, statePath) => {
+    if (typeof data != "object") return;
+    if (!data) return; // null object
+
+    for (const key in data) {
+        if (['statePath'].includes(key)) {
+            data[key] = statePath;
+        } else {
+            replaceStatePath(data[key], statePath);
+        }
+    }
+}
