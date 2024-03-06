@@ -14,6 +14,8 @@ class Converter
 {
     protected Editor $editor;
 
+    protected array $mergeTagsMap = [];
+
     public function __construct(
         public string | array | stdClass | null $content = null,
         public ?ExtensionManager $extensions = null,
@@ -52,6 +54,13 @@ class Converter
         return $this;
     }
 
+    public function mergeTagsMap(array $mergeTagsMap): static
+    {
+        $this->mergeTagsMap = $mergeTagsMap;
+
+        return $this;
+    }
+
     public function getBlocks(): array
     {
         return app(ScribbleManager::class)->getRegisteredTools()->filter(function ($tool) {
@@ -81,6 +90,10 @@ class Converter
 
         if ($toc) {
             $this->parseHeadings($editor, $maxDepth, $wrapHeadings);
+        }
+
+        if (filled($this->mergeTagsMap)) {
+            $this->parseMergeTags($editor);
         }
 
         return $editor->getHTML();
@@ -222,5 +235,25 @@ class Converter
         $result .= '</ul>';
 
         return $result;
+    }
+
+    public function parseMergeTags(Editor $editor): Editor
+    {
+        $editor->descendants(function (&$node) {
+            if ($node->type !== 'mergeTag') {
+                return;
+            }
+
+            if (filled($this->mergeTagsMap)) {
+                $node->content = [
+                    (object) [
+                        'type' => 'text',
+                        'text' => $this->mergeTagsMap[$node->attrs->id] ?? null,
+                    ],
+                ];
+            }
+        });
+
+        return $editor;
     }
 }
