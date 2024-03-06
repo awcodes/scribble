@@ -19,6 +19,7 @@ class Link extends ScribbleTool
                 $this->makeCommand(command: 'setLink'),
                 $this->makeCommand(command: 'moveToEnd'),
             ])
-            ->optionsModal(component: LinkModal::class);
+            ->optionsModal(component: LinkModal::class)
+            ->converterExtension(\Awcodes\Scribble\Tiptap\Marks\Link::class);
     }
 }

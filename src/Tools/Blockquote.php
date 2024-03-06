@@ -15,6 +15,7 @@ class Blockquote extends ScribbleTool
             ->active(extension: 'blockquote')
             ->commands([
                 $this->makeCommand(command: 'toggleBlockquote'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Nodes\Blockquote::class);
     }
 }

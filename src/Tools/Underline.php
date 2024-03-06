@@ -15,6 +15,7 @@ class Underline extends ScribbleTool
             ->active(extension: 'underline')
             ->commands([
                 $this->makeCommand(command: 'toggleUnderline'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Marks\Underline::class);
     }
 }

@@ -15,6 +15,7 @@ class Subscript extends ScribbleTool
             ->active(extension: 'subscript')
             ->commands([
                 $this->makeCommand(command: 'toggleSubscript'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Marks\Subscript::class);
     }
 }

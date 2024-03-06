@@ -15,6 +15,7 @@ class Bold extends ScribbleTool
             ->active(extension: 'bold')
             ->commands([
                 $this->makeCommand(command: 'toggleBold'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Marks\Bold::class);
     }
 }

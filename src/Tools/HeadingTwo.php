@@ -15,6 +15,7 @@ class HeadingTwo extends ScribbleTool
             ->active(extension: 'heading', attrs: ['level' => 2])
             ->commands([
                 $this->makeCommand(command: 'toggleHeading', arguments: ['level' => 2]),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Nodes\Heading::class);
     }
 }

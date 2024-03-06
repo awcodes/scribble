@@ -17,6 +17,10 @@ class Grid extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'insertGrid'),
             ])
-            ->optionsModal(GridModal::class);
+            ->optionsModal(GridModal::class)
+            ->converterExtension([
+                \Awcodes\Scribble\Tiptap\Nodes\Grid::class,
+                \Awcodes\Scribble\Tiptap\Nodes\GridColumn::class,
+            ]);
     }
 }

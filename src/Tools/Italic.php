@@ -15,6 +15,7 @@ class Italic extends ScribbleTool
             ->active(extension: 'italic')
             ->commands([
                 $this->makeCommand(command: 'toggleItalic'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Marks\Italic::class);
     }
 }

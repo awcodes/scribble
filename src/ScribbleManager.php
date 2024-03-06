@@ -12,18 +12,9 @@ class ScribbleManager extends Component
 
     protected array | null $customTools = null;
 
-    protected array | null $converterExtensions = null;
-
     public function registerTools(array $tools): static
     {
         $this->customTools = $tools;
-
-        return $this;
-    }
-
-    public function registerConverterExtensions(array $extensions): static
-    {
-        $this->converterExtensions = $extensions;
 
         return $this;
     }
@@ -40,11 +31,6 @@ class ScribbleManager extends Component
             ->mapWithKeys(function ($tool) {
                 return [$tool->getIdentifier() => $tool];
             });
-    }
-
-    public function getRegisteredConverterExtensions(): Collection
-    {
-        return collect($this->converterExtensions ?? []);
     }
 
     public function getTools(array | string $tools): Collection

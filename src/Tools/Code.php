@@ -15,6 +15,7 @@ class Code extends ScribbleTool
             ->active(extension: 'code')
             ->commands([
                 $this->makeCommand(command: 'toggleCode'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Marks\Code::class);
     }
 }

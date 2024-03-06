@@ -15,6 +15,7 @@ class OrderedList extends ScribbleTool
             ->active(extension: 'orderedList')
             ->commands([
                 $this->makeCommand(command: 'toggleOrderedList'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Nodes\OrderedList::class);
     }
 }

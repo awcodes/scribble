@@ -5,6 +5,7 @@ namespace Awcodes\Scribble\Tools;
 use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\Livewire\MediaModal;
 use Awcodes\Scribble\ScribbleTool;
+use Awcodes\Scribble\Tiptap\Nodes\Image;
 
 class Media extends ScribbleTool
 {
@@ -17,6 +18,7 @@ class Media extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setMedia'),
             ])
-            ->optionsModal(MediaModal::class);
+            ->optionsModal(MediaModal::class)
+            ->converterExtension(Image::class);
     }
 }

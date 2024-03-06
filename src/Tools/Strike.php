@@ -15,6 +15,7 @@ class Strike extends ScribbleTool
             ->active(extension: 'strike')
             ->commands([
                 $this->makeCommand(command: 'toggleStrike'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Marks\Strike::class);
     }
 }

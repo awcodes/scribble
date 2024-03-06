@@ -15,6 +15,7 @@ class Superscript extends ScribbleTool
             ->active(extension: 'superscript')
             ->commands([
                 $this->makeCommand(command: 'toggleSuperscript'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Marks\Superscript::class);
     }
 }

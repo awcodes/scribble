@@ -57,7 +57,6 @@ class ExtensionManager
             new CoreNodes\GridColumn(),
             new CoreNodes\MergeTag(),
             new CoreNodes\ScribbleBlock(),
-            new CoreNodes\MergeTag(),
             new Marks\TextStyle(),
             new Marks\Underline(),
             new Marks\Superscript(),

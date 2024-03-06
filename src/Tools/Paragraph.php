@@ -14,6 +14,7 @@ class Paragraph extends ScribbleTool
             ->extension('paragraph')
             ->commands([
                 $this->makeCommand(command: 'setParagraph'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Nodes\Paragraph::class);
     }
 }

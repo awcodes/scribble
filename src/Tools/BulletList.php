@@ -15,6 +15,7 @@ class BulletList extends ScribbleTool
             ->active(extension: 'bulletList')
             ->commands([
                 $this->makeCommand(command: 'toggleBulletList'),
-            ]);
+            ])
+            ->converterExtension(\Tiptap\Nodes\BulletList::class);
     }
 }
