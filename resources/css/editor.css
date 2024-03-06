@@ -323,10 +323,10 @@
         }
 
         .text {
-            @apply flex-1 text-left;
+            @apply flex-1 text-left text-gray-200 dark:text-gray-800;
 
             .label {
-                @apply block text-gray-200 dark:text-gray-800;
+                @apply block;
             }
 
             .description {
