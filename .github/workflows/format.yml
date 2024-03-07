@@ -9,6 +9,9 @@ on:
     paths:
       - '**.php'
 
+permissions:
+  pull-requests: write
+
 jobs:
   if_merged:
     if: github.event.pull_request.merged == true

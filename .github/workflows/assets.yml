@@ -11,6 +11,9 @@ on:
       - 'resources/js/**.js'
       - 'resources/css/**.css'
 
+permissions:
+  pull-requests: write
+
 jobs:
   if_merged:
     if: github.event.pull_request.merged == true
