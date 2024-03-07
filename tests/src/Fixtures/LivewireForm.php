@@ -15,6 +15,8 @@ class LivewireForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
+    public ?Page $record = null;
+
     public ?array $data = [];
 
     public function mount(): void
@@ -36,9 +38,8 @@ class LivewireForm extends Component implements HasForms
     public function save(): void
     {
         $data = $this->form->getState();
-        $model = app($this->form->getModel());
 
-        $model->update($data);
+        $this->record->update($data);
     }
 
     public function create(): void

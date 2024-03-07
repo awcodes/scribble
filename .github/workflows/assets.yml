@@ -1,6 +1,7 @@
 name: "Build Assets"
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
@@ -10,6 +11,9 @@ on:
       - 'resources/views/**.php'
       - 'resources/js/**.js'
       - 'resources/css/**.css'
+
+permissions:
+  pull-requests: write
 
 jobs:
   if_merged:
