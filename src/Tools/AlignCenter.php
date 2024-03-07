@@ -16,9 +16,6 @@ class AlignCenter extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setTextAlign', arguments: 'center'),
             ])
-            ->converterExtension(TextAlignExtension::class)
-            ->converterExtensionOptions([
-                'types' => ['heading', 'paragraph'],
-            ]);
+            ->converterExtensions(new TextAlignExtension(['types' => ['heading', 'paragraph']]));
     }
 }

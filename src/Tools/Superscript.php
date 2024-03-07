@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Marks\Superscript as SuperscriptExtension;
 
 class Superscript extends ScribbleTool
 {
@@ -16,6 +17,6 @@ class Superscript extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleSuperscript'),
             ])
-            ->converterExtension(\Tiptap\Marks\Superscript::class);
+            ->converterExtensions(new SuperscriptExtension());
     }
 }

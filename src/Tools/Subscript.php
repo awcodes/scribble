@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Marks\Subscript as SubscriptExtension;
 
 class Subscript extends ScribbleTool
 {
@@ -16,6 +17,6 @@ class Subscript extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleSubscript'),
             ])
-            ->converterExtension(\Tiptap\Marks\Subscript::class);
+            ->converterExtensions(new SubscriptExtension());
     }
 }

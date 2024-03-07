@@ -5,6 +5,7 @@ namespace Awcodes\Scribble\Tools;
 use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\Livewire\LinkModal;
 use Awcodes\Scribble\ScribbleTool;
+use Awcodes\Scribble\Tiptap\Marks\Link as LinkExtension;
 
 class Link extends ScribbleTool
 {
@@ -20,6 +21,6 @@ class Link extends ScribbleTool
                 $this->makeCommand(command: 'moveToEnd'),
             ])
             ->optionsModal(component: LinkModal::class)
-            ->converterExtension(\Awcodes\Scribble\Tiptap\Marks\Link::class);
+            ->converterExtensions(new LinkExtension());
     }
 }

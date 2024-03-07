@@ -16,9 +16,6 @@ class AlignEnd extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setTextAlign', arguments: 'end'),
             ])
-            ->converterExtension(TextAlignExtension::class)
-            ->converterExtensionOptions([
-                'types' => ['heading', 'paragraph'],
-            ]);
+            ->converterExtensions(new TextAlignExtension(['types' => ['heading', 'paragraph']]));
     }
 }

@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Nodes\BulletList as BulletListExtension;
 
 class BulletList extends ScribbleTool
 {
@@ -16,6 +17,6 @@ class BulletList extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleBulletList'),
             ])
-            ->converterExtension(\Tiptap\Nodes\BulletList::class);
+            ->converterExtensions(new BulletListExtension());
     }
 }

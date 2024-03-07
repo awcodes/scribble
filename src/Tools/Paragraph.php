@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Nodes\Paragraph as ParagraphExtension;
 
 class Paragraph extends ScribbleTool
 {
@@ -15,6 +16,6 @@ class Paragraph extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setParagraph'),
             ])
-            ->converterExtension(\Tiptap\Nodes\Paragraph::class);
+            ->converterExtensions(new ParagraphExtension());
     }
 }

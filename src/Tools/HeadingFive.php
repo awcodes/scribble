@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Nodes\Heading as HeadingExtension;
 
 class HeadingFive extends ScribbleTool
 {
@@ -16,6 +17,6 @@ class HeadingFive extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleHeading', arguments: ['level' => 5]),
             ])
-            ->converterExtension(\Tiptap\Nodes\Heading::class);
+            ->converterExtensions(new HeadingExtension());
     }
 }

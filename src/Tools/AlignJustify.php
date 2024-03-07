@@ -16,9 +16,6 @@ class AlignJustify extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setTextAlign', arguments: 'justify'),
             ])
-            ->converterExtension(TextAlignExtension::class)
-            ->converterExtensionOptions([
-                'types' => ['heading', 'paragraph'],
-            ]);
+            ->converterExtensions(new TextAlignExtension(['types' => ['heading', 'paragraph']]));
     }
 }

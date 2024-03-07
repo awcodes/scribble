@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Nodes\HorizontalRule as HorizontalRuleExtension;
 
 class HorizontalRule extends ScribbleTool
 {
@@ -15,6 +16,6 @@ class HorizontalRule extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setHorizontalRule'),
             ])
-            ->converterExtension(\Tiptap\Nodes\HorizontalRule::class);
+            ->converterExtensions(new HorizontalRuleExtension());
     }
 }

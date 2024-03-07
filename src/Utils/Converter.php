@@ -85,21 +85,20 @@ class Converter
 
     public function getExtensions(): array
     {
-        $extensions = app(ScribbleManager::class)->getRegisteredTools()
+        return app(ScribbleManager::class)->getRegisteredTools()
             ->filter(function ($tool) {
-                return $tool->getConverterExtension();
-            })->mapWithKeys(function ($tool) {
-                if (is_array($tool->getConverterExtension())) {
-                    return collect($tool->getConverterExtension())->mapWithKeys(function ($class, $key) use ($tool) {
-                        return [$class => $tool->getConverterExtensionOptions()[$key] ?? $tool->getConverterExtensionOptions()];
-                    });
-                }
-                return [$tool->getConverterExtension() => $tool->getConverterExtensionOptions()];
-            });
-
-        return $extensions->map(function ($options, $key) {
-            return new $key($options);
-        })->flatten()->toArray();
+                return $tool->getConverterExtensions();
+            })
+            ->map(function ($tool) {
+                return $tool->getConverterExtensions();
+            })
+            ->flatten()
+            ->mapWithKeys(function ($extension) {
+                return [$extension::class => $extension];
+            })
+            ->unique()
+            ->values()
+            ->toArray();
     }
 
     public function toHtml(bool $toc = false, int $maxDepth = 3, bool $wrapHeadings = false): string

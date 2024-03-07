@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Marks\Bold as BoldExtension;
 
 class Bold extends ScribbleTool
 {
@@ -16,6 +17,6 @@ class Bold extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleBold'),
             ])
-            ->converterExtension(\Tiptap\Marks\Bold::class);
+            ->converterExtensions(new BoldExtension());
     }
 }
