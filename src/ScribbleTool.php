@@ -7,6 +7,7 @@ use Filament\Support\Components\Component;
 class ScribbleTool extends Component
 {
     use Concerns\Tools\CanBeHidden;
+    use Concerns\Tools\HasConverterExtensions;
     use Concerns\Tools\HasDescription;
     use Concerns\Tools\HasEvents;
     use Concerns\Tools\HasIcon;

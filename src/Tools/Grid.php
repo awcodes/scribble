@@ -5,6 +5,8 @@ namespace Awcodes\Scribble\Tools;
 use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\Livewire\GridModal;
 use Awcodes\Scribble\ScribbleTool;
+use Awcodes\Scribble\Tiptap\Nodes\Grid as GridExtension;
+use Awcodes\Scribble\Tiptap\Nodes\GridColumn as GridColumnExtension;
 
 class Grid extends ScribbleTool
 {
@@ -17,6 +19,10 @@ class Grid extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'insertGrid'),
             ])
-            ->optionsModal(GridModal::class);
+            ->optionsModal(GridModal::class)
+            ->converterExtensions([
+                new GridExtension(),
+                new GridColumnExtension(),
+            ]);
     }
 }

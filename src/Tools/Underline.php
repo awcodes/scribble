@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Marks\Underline as UnderlineExtension;
 
 class Underline extends ScribbleTool
 {
@@ -15,6 +16,7 @@ class Underline extends ScribbleTool
             ->active(extension: 'underline')
             ->commands([
                 $this->makeCommand(command: 'toggleUnderline'),
-            ]);
+            ])
+            ->converterExtensions(new UnderlineExtension());
     }
 }

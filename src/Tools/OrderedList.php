@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Nodes\OrderedList as OrderedListExtension;
 
 class OrderedList extends ScribbleTool
 {
@@ -15,6 +16,7 @@ class OrderedList extends ScribbleTool
             ->active(extension: 'orderedList')
             ->commands([
                 $this->makeCommand(command: 'toggleOrderedList'),
-            ]);
+            ])
+            ->converterExtensions(new OrderedListExtension());
     }
 }

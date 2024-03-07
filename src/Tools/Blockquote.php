@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Nodes\Blockquote as BlockquoteExtension;
 
 class Blockquote extends ScribbleTool
 {
@@ -15,6 +16,7 @@ class Blockquote extends ScribbleTool
             ->active(extension: 'blockquote')
             ->commands([
                 $this->makeCommand(command: 'toggleBlockquote'),
-            ]);
+            ])
+            ->converterExtensions(new BlockquoteExtension());
     }
 }

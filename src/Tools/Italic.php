@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Marks\Italic as ItalicExtension;
 
 class Italic extends ScribbleTool
 {
@@ -15,6 +16,7 @@ class Italic extends ScribbleTool
             ->active(extension: 'italic')
             ->commands([
                 $this->makeCommand(command: 'toggleItalic'),
-            ]);
+            ])
+            ->converterExtensions(new ItalicExtension());
     }
 }

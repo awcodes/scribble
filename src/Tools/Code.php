@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Marks\Code as CodeExtension;
 
 class Code extends ScribbleTool
 {
@@ -15,6 +16,7 @@ class Code extends ScribbleTool
             ->active(extension: 'code')
             ->commands([
                 $this->makeCommand(command: 'toggleCode'),
-            ]);
+            ])
+            ->converterExtensions(new CodeExtension());
     }
 }

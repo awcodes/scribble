@@ -4,6 +4,7 @@ namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\Enums\ToolType;
 use Awcodes\Scribble\ScribbleTool;
+use Awcodes\Scribble\Tiptap\Nodes\Image as ImageExtension;
 use Illuminate\Support\Facades\Config;
 
 class CuratorMedia extends ScribbleTool
@@ -17,6 +18,7 @@ class CuratorMedia extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setMedia'),
             ])
+            ->converterExtensions(new ImageExtension())
             ->event(
                 name: 'open-modal',
                 data: [

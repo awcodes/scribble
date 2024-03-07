@@ -3,6 +3,7 @@
 namespace Awcodes\Scribble\Tools;
 
 use Awcodes\Scribble\ScribbleTool;
+use Awcodes\Scribble\Tiptap\Extensions\TextAlignExtension;
 
 class AlignEnd extends ScribbleTool
 {
@@ -14,6 +15,7 @@ class AlignEnd extends ScribbleTool
             ->extension('textAlign')
             ->commands([
                 $this->makeCommand(command: 'setTextAlign', arguments: 'end'),
-            ]);
+            ])
+            ->converterExtensions(new TextAlignExtension(['types' => ['heading', 'paragraph']]));
     }
 }

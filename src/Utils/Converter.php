@@ -4,8 +4,12 @@ namespace Awcodes\Scribble\Utils;
 
 use Awcodes\Scribble\Enums\ContentType;
 use Awcodes\Scribble\Enums\ToolType;
-use Awcodes\Scribble\Helpers;
 use Awcodes\Scribble\ScribbleManager;
+use Awcodes\Scribble\Tiptap\Extensions\ClassExtension;
+use Awcodes\Scribble\Tiptap\Extensions\IdExtension;
+use Awcodes\Scribble\Tiptap\Nodes\ListItem;
+use Awcodes\Scribble\Tiptap\Nodes\MergeTag;
+use Awcodes\Scribble\Tiptap\Nodes\ScribbleBlock;
 use League\HTMLToMarkdown\HtmlConverter;
 use stdClass;
 use Tiptap\Editor;
@@ -18,7 +22,6 @@ class Converter
 
     public function __construct(
         public string | array | stdClass | null $content = null,
-        public ?ExtensionManager $extensions = null,
     ) {
         if ($this->content instanceof stdClass) {
             $this->content = json_decode(json_encode($this->content), true);
@@ -47,13 +50,6 @@ class Converter
         return $this;
     }
 
-    public function extensions(ExtensionManager $manager): static
-    {
-        $this->extensions = $manager;
-
-        return $this;
-    }
-
     public function mergeTagsMap(array $mergeTagsMap): static
     {
         $this->mergeTagsMap = $mergeTagsMap;
@@ -73,15 +69,36 @@ class Converter
     public function getEditor(): Editor
     {
         return $this->editor ??= new Editor([
-            'extensions' => $this->getExtensions(),
+            'extensions' => [
+                new \Tiptap\Nodes\Document(),
+                new \Tiptap\Nodes\Text(),
+                new \Tiptap\Nodes\HardBreak(),
+                new ClassExtension(),
+                new IdExtension(),
+                new ListItem(),
+                new ScribbleBlock(),
+                new MergeTag(),
+                ...$this->getExtensions(),
+            ]
         ]);
     }
 
     public function getExtensions(): array
     {
-        return $this->extensions
-            ? $this->extensions::make()->getExtensions()
-            : ExtensionManager::make()->getExtensions();
+        return app(ScribbleManager::class)->getRegisteredTools()
+            ->filter(function ($tool) {
+                return $tool->getConverterExtensions();
+            })
+            ->map(function ($tool) {
+                return $tool->getConverterExtensions();
+            })
+            ->flatten()
+            ->mapWithKeys(function ($extension) {
+                return [$extension::class => $extension];
+            })
+            ->unique()
+            ->values()
+            ->toArray();
     }
 
     public function toHtml(bool $toc = false, int $maxDepth = 3, bool $wrapHeadings = false): string
