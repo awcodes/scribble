@@ -42,7 +42,6 @@ Add the plugin's views to your `tailwind.config.js` file.
 ```js
 content: [
     './vendor/awcodes/scribble/resources/**/*{.blade.php,.svelte}',
-    './vendor/awcodes/pounce/resources/views/**/*.blade.php',
 ]
 ```
 

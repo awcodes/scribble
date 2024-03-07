@@ -2,29 +2,23 @@
 
 namespace Awcodes\Scribble\Livewire;
 
-use Awcodes\Pounce\Enums\Alignment;
-use Awcodes\Pounce\Enums\MaxWidth;
-use Awcodes\Pounce\Enums\SlideDirection;
-use Awcodes\Pounce\PounceComponent;
+use Awcodes\Scribble\Enums\Alignment;
+use Awcodes\Scribble\Enums\SlideDirection;
+use Awcodes\Scribble\Modals\Modal;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
 
-abstract class ScribbleModal extends PounceComponent implements HasForms, HasActions
+abstract class ScribbleModal extends Modal implements HasForms, HasActions
 {
     use InteractsWithForms;
     use InteractsWithActions;
 
     public ?string $header = null;
-
-    public static ?MaxWidth $maxWidth = null;
-
-    public static ?Alignment $alignment = null;
-
-    public static ?SlideDirection $slideDirection = null;
 
     public bool $update = false;
 
@@ -80,7 +74,7 @@ abstract class ScribbleModal extends PounceComponent implements HasForms, HasAct
             values: $data
         );
 
-        $this->unPounce();
+        $this->closeScribbleModal();
     }
 
     public function render(): View

@@ -2,7 +2,6 @@
 
 namespace Awcodes\Scribble\Livewire;
 
-use Awcodes\Pounce\Enums\MaxWidth;
 use Awcodes\Scribble\Concerns\InteractsWithMedia;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\BaseFileUpload;
@@ -14,6 +13,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -164,6 +164,6 @@ class MediaModal extends ScribbleModal
             ]
         );
 
-        $this->unPounce();
+        $this->closeScribbleModal();
     }
 }

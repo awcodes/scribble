@@ -24,7 +24,7 @@
     import TextAlign from './extensions/TextAlignExtension.js'
     import TextStyle from '@tiptap/extension-text-style'
     import {Underline} from '@tiptap/extension-underline'
-    import {pounce, commandRunner, replaceStatePath} from './utils.js'
+    import {openScribbleModal, commandRunner, replaceStatePath} from './utils.js'
     import Controls from './components/Controls.svelte'
     import BubbleMenu from './components/BubbleMenu.svelte'
     import Toolbar from './components/Toolbar.svelte'
@@ -221,7 +221,7 @@
                 window.Livewire.dispatch(tool.event.name, tool.event.data)
                 return
             case 'modal':
-                pounce(tool.identifier, {
+                openScribbleModal(tool.identifier, {
                     statePath: statePath,
                     update: update,
                     identifier: tool.identifier,

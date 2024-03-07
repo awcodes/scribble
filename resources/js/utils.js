@@ -6,8 +6,8 @@ export const uuid = () => {
     );
 }
 
-export const pounce = (component, args) => {
-    window.Livewire.dispatch('pounce', { component: component, arguments: args })
+export const openScribbleModal = (component, args) => {
+    window.Livewire.dispatch('openScribbleModal', { component: component, arguments: args })
 }
 
 export const commandRunner = (editor, commands, args = []) => {

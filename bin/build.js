@@ -53,3 +53,9 @@ compile({
     entryPoints: ['./resources/js/index.js'],
     outfile: './resources/dist/scribble.js',
 })
+
+compile({
+    ...defaultOptions,
+    entryPoints: ['./resources/js/modal.js'],
+    outfile: './resources/dist/scribble-modal.js',
+})

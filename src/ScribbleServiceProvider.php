@@ -4,13 +4,12 @@ namespace Awcodes\Scribble;
 
 use Awcodes\Scribble\Commands\MakeToolCommand;
 use Awcodes\Scribble\Commands\ScribbleCommand;
-use Awcodes\Scribble\Livewire\LinkModal;
 use Awcodes\Scribble\Livewire\Renderer;
+use Awcodes\Scribble\Modals\Modals;
 use Awcodes\Scribble\Testing\TestsScribble;
 use BladeUI\Icons\Factory;
-use Filament\Facades\Filament;
 use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Contracts\Container\Container;
@@ -65,22 +64,18 @@ class ScribbleServiceProvider extends PackageServiceProvider
         }
 
         Livewire::component('scribble.renderer', Renderer::class);
+        Livewire::component('scribble.modals', Modals::class);
 
-        if (
-            ! Helpers::isAuthRoute()
-            && Filament::getCurrentPanel()
-        ) {
+        if (! Helpers::isAuthRoute()) {
             FilamentView::registerRenderHook(
                 name: 'panels::body.end',
                 hook: fn (): string => Blade::render('@livewire("scribble.renderer")')
             );
 
-            if (! Filament::getCurrentPanel()->hasPlugin('pouncePlugin')) {
-                FilamentView::registerRenderHook(
-                    name: 'panels::body.end',
-                    hook: fn(): string => Blade::render('@livewire("pounce")'),
-                );
-            }
+            FilamentView::registerRenderHook(
+                name: 'panels::body.end',
+                hook: fn(): string => Blade::render('@livewire("scribble.modals")'),
+            );
         }
 
         // Asset Registration
@@ -106,6 +101,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         return [
             AlpineComponent::make('scribble-component', __DIR__ . '/../resources/dist/scribble.js'),
+            Js::make('scribble-modal', __DIR__ . '/../resources/dist/scribble-modal.js'),
         ];
     }
 

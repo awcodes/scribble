@@ -1,11 +1,11 @@
 <form wire:submit.prevent="save">
-    <x-pounce::close-button/>
+    <x-scribble::modals.close-button/>
 
-    <x-pounce::header>
+    <x-scribble::modals.header>
         {{ $update ? trans('scribble::modal.update') : trans('scribble::modal.insert') . ' ' . $header }}
-    </x-pounce::header>
+    </x-scribble::modals.header>
 
-    <x-pounce::content>
+    <x-scribble::modals.content>
         <div class="rounded-lg p-4 bg-gray-100 dark:bg-gray-950 mb-4">
             <div class="grid gap-4" style="grid-template-columns: repeat({{ $data['columns'] }}, minmax(0, 1fr))">
                 @if ($data['asymmetric'])
@@ -32,14 +32,14 @@
         </div>
 
         {{ $this->form }}
-    </x-pounce::content>
+    </x-scribble::modals.content>
 
-    <x-pounce::footer>
+    <x-scribble::modals.footer>
         <x-filament::button type="submit">
             {{ $update ? trans('scribble::modal.update') : trans('scribble::modal.insert') }}
         </x-filament::button>
-        <x-filament::button color="gray" wire:click="unPounce">
+        <x-filament::button color="gray" wire:click="closeScribbleModal">
             {{ trans('scribble::modal.cancel') }}
         </x-filament::button>
-    </x-pounce::footer>
+    </x-scribble::modals.footer>
 </form>

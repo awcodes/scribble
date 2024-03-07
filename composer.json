@@ -21,7 +21,6 @@
     ],
     "require": {
         "php": "^8.1",
-        "awcodes/pounce": "^0.2.0",
         "filament/forms": "^3.0",
         "illuminate/contracts": "^10.0",
         "league/html-to-markdown": "^5.1",
