@@ -443,6 +443,7 @@ Next you will need a make a tool for the extension.
 
 ```php
 use Awcodes\Scribble\ScribbleTool;
+use Tiptap\Marks\Highlight as TiptapHighlight;
 
 class Highlight extends ScribbleTool
 {
@@ -453,7 +454,8 @@ class Highlight extends ScribbleTool
             ->label('Highlight')
             ->commands([
                 $this->makeCommand(command: 'toggleHighlight'),
-            ]);
+            ])
+            ->converterExtensions(new TiptapHighlight());
     }
 }
 ```
@@ -470,9 +472,6 @@ public function register(): void
     app(ScribbleManager::class)
         ->registerTools([
             Highlight::make(),
-        ])
-        ->registerConverterExtensions([
-            TiptapHighlight::class
         ]);
 }
 ```
@@ -516,6 +515,19 @@ Converter::from($content)
 
 // Structured list of heading links
 Converter::from($content)->toTOC();
+```
+
+### MergeTags Replacement
+
+If you are using Merge tags and outputting the content as HTML you can use the `mergeTagsMap` method to replace the merge tags with the appropriate values.
+
+```blade
+{!! 
+    scribble($content)->mergeTagsMap([
+        'brand_phone' => '1-800-555-1234',
+        'brand_email' => 'webinquiries@titlemax.com',
+    ])->toHtml() 
+!!}
 ```
 
 ## Faker Utility
