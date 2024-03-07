@@ -1,7 +1,7 @@
 <script>
     import { NodeViewWrapper } from 'svelte-tiptap'
     import { onMount } from 'svelte'
-    import { pounce } from '../utils.js'
+    import { openScribbleModal } from '../utils.js'
     import BlockActions from './BlockActions.svelte'
     import DragHandle from './DragHandle.svelte'
     import BlockSettings from './BlockSettings.svelte'
@@ -13,7 +13,7 @@
     export let updateAttributes;
 
     const handleOpen = () => {
-        pounce('media', {
+        openScribbleModal('media', {
             update: true,
             statePath: editor.storage?.statePathExtension.statePath ?? null,
             identifier: node.attrs.identifier,

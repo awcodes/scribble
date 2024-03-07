@@ -1,7 +1,7 @@
 import { Node } from '@tiptap/core'
 import { SvelteNodeViewRenderer } from 'svelte-tiptap'
 import ScribbleBlockView from "../components/ScribbleBlock.svelte"
-import { uuid, pounce } from "../utils.js"
+import { uuid, openScribbleModal } from "../utils.js"
 
 export default Node.create({
     name: 'scribbleBlock',
@@ -53,7 +53,7 @@ export default Node.create({
     addCommands() {
         return {
             setScribbleBlock: (options) => ({ tr, state }) => {
-                pounce(options.identifier, { ...options })
+                openScribbleModal(options.identifier, { ...options })
 
                 return true
             },

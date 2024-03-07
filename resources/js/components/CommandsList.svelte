@@ -1,5 +1,5 @@
 <script>
-    import { pounce, commandRunner, replaceStatePath } from '../utils.js'
+    import { openScribbleModal, commandRunner, replaceStatePath } from '../utils.js'
 
     export let items
     export let editor
@@ -74,7 +74,7 @@
                     window.Livewire.dispatch(item.event.name, item.event.data)
                     return
                 case 'modal':
-                    pounce(item.options, {
+                    openScribbleModal(item.options, {
                         statePath: statePath,
                         identifier: item.identifier,
                         data: editor.getAttributes(item.extension)
