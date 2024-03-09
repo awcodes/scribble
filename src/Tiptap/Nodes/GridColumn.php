@@ -13,7 +13,7 @@ class GridColumn extends Node
     {
         return [
             'HTMLAttributes' => [
-                'class' => 'lexic-grid__column',
+                'class' => 'scribble-grid-column',
             ],
         ];
     }
