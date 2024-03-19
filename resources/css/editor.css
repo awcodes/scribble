@@ -280,7 +280,7 @@
 }
 
 .scribble-toolbar {
-    @apply flex items-center relative rounded-t-md bg-gray-100 text-gray-800 p-1 border-b border-gray-950/10 dark:bg-gray-950 dark:border-white/20 dark:text-gray-300;
+    @apply flex flex-wrap items-center relative rounded-t-md bg-gray-100 text-gray-800 p-1 border-b border-gray-950/10 dark:bg-gray-950 dark:border-white/20 dark:text-gray-300;
 
     .divider {
         @apply self-stretch w-0 mx-1 -my-1 border-r border-gray-950/10 dark:border-white/20;
