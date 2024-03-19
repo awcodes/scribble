@@ -167,9 +167,9 @@ class Faker
         return $this;
     }
 
-    public function block(string $type = 'static', string $identifier = 'scribble-static-block', ?array $values = null): static
+    public function block(string $type = 'scribbleBlock', string $identifier = 'scribble-block', ?array $values = []): static
     {
-        $this->output .= '<scribble-block>' . json_encode($values) . '</scribble-block>';
+        $this->output .= '<scribble-block>' . json_encode(['type' => $type, 'identifier' => $identifier, 'values' => $values]) . '</scribble-block>';
 
         return $this;
     }
