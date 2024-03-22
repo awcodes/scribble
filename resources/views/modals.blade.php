@@ -11,7 +11,7 @@
         x-on:close.stop="setShowPropertyTo(false)"
         x-on:keydown.escape.window="closeModalOnEscape()"
         x-show="show"
-        class="scribble-modal-container fixed flex inset-0 z-50 overflow-y-auto overflow-x-hidden transition"
+        class="scribble-modal-container fixed flex inset-0 z-40 overflow-y-auto overflow-x-hidden transition"
         style="display: none;"
         x-bind:class="{
             'items-start': modalAlignment?.includes('top'),
