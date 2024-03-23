@@ -64,7 +64,7 @@ class Modals extends Component
 
         $this->activeComponent = $id;
 
-        $this->dispatch('activeModalComponentChanged', id: $id);
+        $this->dispatch('activeScribbleModalComponentChanged', id: $id);
     }
 
     public function resolveComponentProps(array $attributes, Component $component): Collection
@@ -113,7 +113,7 @@ class Modals extends Component
             ->filter();
     }
 
-    public function destroyComponent($id): void
+    public function destroyScribbleComponent($id): void
     {
         unset($this->components[$id]);
     }
@@ -122,7 +122,7 @@ class Modals extends Component
     {
         return [
             'openScribbleModal',
-            'destroyComponent',
+            'destroyScribbleComponent',
         ];
     }
 

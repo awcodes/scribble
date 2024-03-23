@@ -36,18 +36,18 @@ window.scribbleModal = () => {
 
             if (this.getActiveComponentModalAttribute('dispatchCloseEvent') === true) {
                 const componentName = this.$wire.get('components')[this.activeComponent].name;
-                Livewire.dispatch('modalClosed', {name: componentName})
+                Livewire.dispatch('scribbleModalClosed', {name: componentName})
             }
 
             if (this.getActiveComponentModalAttribute('destroyOnClose') === true) {
-                Livewire.dispatch('destroyComponent', {id: this.activeComponent})
+                Livewire.dispatch('destroyScribbleComponent', {id: this.activeComponent})
             }
 
             if (skipPreviousModals > 0) {
                 for (let i = 0; i < skipPreviousModals; i++) {
                     if (destroySkipped) {
                         const id = this.componentHistory[this.componentHistory.length - 1];
-                        Livewire.dispatch('destroyComponent', {id: id})
+                        Livewire.dispatch('destroyScribbleComponent', {id: id})
                     }
                     this.componentHistory.pop()
                 }
@@ -157,7 +157,7 @@ window.scribbleModal = () => {
             );
 
             this.listeners.push(
-                Livewire.on('activeModalComponentChanged', ({id}) => {
+                Livewire.on('activeScribbleModalComponentChanged', ({id}) => {
                     this.setActiveModalComponent(id)
                 })
             );
