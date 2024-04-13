@@ -1,0 +1,26 @@
+<?php
+
+namespace {{ namespace }};
+
+use Awcodes\Scribble\Livewire\ScribbleModal;
+
+class {{ class_name }}Modal extends ScribbleModal
+{
+    public ?string $header = '{{ label }}';
+
+    public ?string $identifier = '{{ identifier }}';
+
+    public function mount(): void
+    {
+        $this->form->fill([
+            //
+        ]);
+    }
+
+    public function getFormFields(): array
+    {
+        return [
+            //
+        ];
+    }
+}

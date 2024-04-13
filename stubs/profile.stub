@@ -1,0 +1,30 @@
+<?php
+
+namespace {{ namespace }};
+
+use Awcodes\Scribble\Facades\ScribbleFacade;
+use Awcodes\Scribble\ScribbleProfile;
+
+class {{ class_name }} extends ScribbleProfile
+{
+    public static function bubbleTools(): array
+    {
+        return ScribbleFacade::getTools([
+            //
+        ])->toArray();
+    }
+
+    public static function suggestionTools(): array
+    {
+        return ScribbleFacade::getTools([
+            //
+        ])->toArray();
+    }
+
+    public static function toolbarTools(): array
+    {
+        return ScribbleFacade::getTools([
+            //
+        ])->toArray();
+    }
+}
