@@ -4,8 +4,6 @@
         use Filament\Support\Enums\MaxWidth;
     @endphp
 
-{{--    <div x-data="{}" x-load-js="[@js(\Filament\Support\Facades\FilamentAsset::getScriptSrc('tiptap-modal', 'awcodes/scribble'))]"></div>--}}
-
     <div
         x-data="scribbleModal()"
         x-on:close.stop="setShowPropertyTo(false)"
@@ -86,49 +84,4 @@
             @endforelse
         </div>
     </div>
-
-    <style>
-        :root {
-            --scribble-enter-duration: 300ms;
-            --scribble-leave-duration: 200ms;
-        }
-
-        .scribble-modal-container:has(.enter-start),
-        .scribble-modal-container:has(.enter-end),
-        .scribble-modal-container:has(.leave-start),
-        .scribble-modal-container:has(.leave-end){
-            overflow: hidden;
-        }
-
-        .scribble-modal.fade.enter-start {opacity: 0;}
-        .scribble-modal.fade.enter-end {opacity: 1; transition: var(--scribble-enter-duration);}
-        .scribble-modal.fade.leave-start {opacity: 1;}
-        .scribble-modal.fade.leave-end {opacity: 0; transition: var(--scribble-leave-duration);}
-
-        .scribble-modal.pop.enter-start {opacity: 0; transform: scale(0.95);}
-        .scribble-modal.pop.enter-end {opacity: 1; transform: scale(1); transition: var(--scribble-enter-duration);}
-        .scribble-modal.pop.leave-start {opacity: 1; transform: scale(1);}
-        .scribble-modal.pop.leave-end {opacity: 0; transform: scale(0.95); transition: var(--scribble-leave-duration);}
-
-        .scribble-modal.slide-from-right.enter-start {transform: translateX(100%);}
-        .scribble-modal.slide-from-right.enter-end {transform: translateX(0); transition: var(--scribble-enter-duration);}
-        .scribble-modal.slide-from-right.leave-start {transform: translateX(0);}
-        .scribble-modal.slide-from-right.leave-end {transform: translateX(100%); transition: var(--scribble-leave-duration);}
-
-        .scribble-modal.slide-from-left.enter-start {transform: translateX(-100%);}
-        .scribble-modal.slide-from-left.enter-end {transform: translateX(0); transition: var(--scribble-enter-duration);}
-        .scribble-modal.slide-from-left.leave-start {transform: translateX(0);}
-        .scribble-modal.slide-from-left.leave-end {transform: translateX(-100%); transition: var(--scribble-leave-duration);}
-
-        .scribble-modal.slide-from-top.enter-start {transform: translateY(-100%);}
-        .scribble-modal.slide-from-top.enter-end {transform: translateY(0); transition: var(--scribble-enter-duration);}
-        .scribble-modal.slide-from-top.leave-start {transform: translateY(0);}
-        .scribble-modal.slide-from-top.leave-end {transform: translateY(-100%); transition: var(--scribble-leave-duration);}
-
-        .scribble-modal.slide-from-bottom.enter-start {transform: translateY(100%);}
-        .scribble-modal.slide-from-bottom.enter-end {transform: translateY(0); transition: var(--scribble-enter-duration);}
-        .scribble-modal.slide-from-bottom.leave-start {transform: translateY(0);}
-        .scribble-modal.slide-from-bottom.leave-end {transform: translateY(100%); transition: var(--scribble-leave-duration);}
-
-    </style>
 </div>
