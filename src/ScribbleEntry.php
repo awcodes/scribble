@@ -23,6 +23,6 @@ class ScribbleEntry extends Entry
 
     public function getMergeTagsMap(): array
     {
-        return $this->evaluate($this->mergeTagsMap) ?? [];
+        return $this->evaluate($this->mergeTagsMap) ?? app(ScribbleManager::class)->getMergeTagsMap();
     }
 }
