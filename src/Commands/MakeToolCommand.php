@@ -33,25 +33,37 @@ class MakeToolCommand extends Command
         $type = select(
             label: 'What is the tool type?',
             options: [
-                'command' => 'Command',
-                'modal' => 'Modal',
                 'block' => 'Block',
-                'static-block' => 'Static Block',
+                'command' => 'Command',
+                'event' => 'Event',
+                'modal' => 'Modal',
+                'static' => 'Static Block',
             ],
             default: 'command',
             required: true,
         );
 
-        $namespace = config('scribble.generator.namespace');
+        $extensionType = select(
+            label: 'What is the converter extension type?',
+            options: [
+                'none' => 'Not Applicable',
+                'node' => 'Node',
+                'mark' => 'Mark',
+            ],
+            default: 'node',
+            required: true,
+        );
+
+        $namespace = config('scribble.generator.namespace') . '\\Tools';
         $viewsPath = config('scribble.generator.views');
 
         $className = (string) str($tool)->afterLast('\\');
+        $fullNamespace = str($namespace) . "\\{$className}";
         $toolLabel = (string) str($className)
             ->afterLast('.')
             ->kebab()
             ->replace(['-', '_'], ' ')
             ->ucfirst();
-        $fullNamespace = str($namespace) . "\\{$className}";
 
         $view = (string) str($className)->kebab();
 
@@ -94,29 +106,73 @@ class MakeToolCommand extends Command
             ->append('-editor')
             ->trim('.');
 
+        $modalPath = app_path((string) str('Modals')
+            ->prepend('/')
+            ->prepend($namespace)
+            ->replace('\\', '/')
+            ->replace('//', '/')
+            ->replace('App', '')
+            ->append('/' . $className . 'Modal')
+            ->append('.php'));
+
+        $extensionPath = app_path((string) str('Extensions')
+            ->prepend('/')
+            ->prepend($namespace)
+            ->replace('\\', '/')
+            ->replace('//', '/')
+            ->replace('App', '')
+            ->append('/' . $className . 'Extension')
+            ->append('.php'));
+
         $files = [
             $classPath,
             $viewPath,
             $editorViewPath,
+            $modalPath,
+            $extensionPath,
         ];
 
         if (! $this->option('force') && $this->checkForCollision($files)) {
             return static::INVALID;
         }
 
-        $stub = 'tool-' . $type . '-class';
-
-        $this->copyStubToApp($stub, $classPath, [
+        $this->copyStubToApp('tool', $classPath, [
             'namespace' => $namespace,
             'class_name' => $className,
-            'tool_label' => $toolLabel,
-            'tool_view' => $toolView,
-            'tool_editor_view' => $toolEditorView,
+            'label' => $toolLabel,
+            'type' => match($type) {
+                'block' => 'ToolType::Block',
+                'command' => 'ToolType::Command',
+                'event' => 'ToolType::Event',
+                'modal' => 'ToolType::Modal',
+                'static-block' => 'ToolType::StaticBlock',
+            },
+            'editor_view' => $toolEditorView,
+            'rendered_view' => $toolView,
         ]);
 
-        $this->copyStubToApp('tool-view', $viewPath);
+        if ($type === 'modal' || $type === 'block') {
+            $this->copyStubToApp('modal', $modalPath, [
+                'namespace' => $namespace . '\\Modals',
+                'class_name' => $className,
+                'label' => $toolLabel,
+                'identifier' => str($toolLabel)->slug(),
+            ]);
+        }
 
-        $this->copyStubToApp('tool-view', $editorViewPath);
+        if ($extensionType !== 'none') {
+            $this->copyStubToApp('extension', $extensionPath, [
+                'namespace' => $namespace . '\\Extensions',
+                'class_name' => $className,
+                'extension_type' => ucfirst($extensionType),
+                'extension_type_slug' => $extensionType,
+                'identifier' => str($toolLabel)->slug(),
+            ]);
+        }
+
+        $this->copyStubToApp('view', $viewPath);
+
+        $this->copyStubToApp('view', $editorViewPath);
 
         $this->components->info("Scribble tool [{$fullNamespace}] created successfully.");
 

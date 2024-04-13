@@ -161,6 +161,14 @@ Scribble::configureUsing('content')
     ->profile(Mimimal::class)
 ```
 
+### Generating a Profile
+
+You can scaffold out a new profile class using the `make:scribble-profile` command and following the prompts.
+
+```bash
+php artisan make:scribble-profile
+```
+
 ## Custom Editor Styles
 
 Should you need to provide styles to the editor for custom blocks or tools, you can use the `customStyles` method to provide a path to a CSS file.
@@ -399,6 +407,46 @@ class MediaForm extends ScribbleModal
         ];
     }
 }
+```
+
+#### Events
+
+You may also create tools that emit events when they are clicked. This can be useful for triggering actions in your application when a tool is clicked.
+
+##### Tool class
+
+```php
+use Awcodes\Scribble\Enums\ToolType;
+use Awcodes\Scribble\ScribbleTool;
+
+class OpenRandomModal extends ScribbleTool
+{
+    protected function setUp(): void
+    {
+        $this
+            ->icon('scribble-open')
+            ->label('Open Random Modal')
+            ->type(ToolType::Event)
+            ->commands([
+                $this->makeCommand(command: 'setDataFromEvent'),
+            ])
+            ->event(
+                name: 'open-modal',
+                data: [
+                    'id' => 'random-modal',
+                    'title' => 'Random Modal',
+                ],
+            );
+    }
+}
+```
+
+### Generating a Tool
+
+You can scaffold out a new tool class using the `make:scribble-tool` command and following the prompts.
+
+```bash
+php artisan make:scribble-tool
 ```
 
 ## Custom Tiptap Extensions

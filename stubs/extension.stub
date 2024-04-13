@@ -1,0 +1,36 @@
+<?php
+
+namespace {{ namespace }};
+
+use Tiptap\Core\{{ extension_type }};
+use Tiptap\Utils\HTML;
+
+class {{ class_name }}Extension extends {{ extension_type }}
+{
+    public static $name = '{{ identifier }}';
+
+    public function addOptions(): array
+    {
+        return [
+            'HTMLAttributes' => [],
+        ];
+    }
+
+    public function parseHTML(): array
+    {
+        return [
+            [
+                'tag' => '{{ identifier }}',
+            ],
+        ];
+    }
+
+    public function renderHTML(${{ extension_type_slug }}, $HTMLAttributes = []): array
+    {
+        return [
+            '{{ identifier }}',
+            HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
+            0,
+        ];
+    }
+}

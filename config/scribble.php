@@ -2,7 +2,7 @@
 
 return [
     'generator' => [
-        'namespace' => 'App\\ScribbleTools',
+        'namespace' => 'App\\Scribble',
         'views' => 'scribble-tools',
     ],
     'media' => [

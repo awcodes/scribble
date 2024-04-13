@@ -1,0 +1,30 @@
+<?php
+
+namespace {{ namespace }};
+
+use Awcodes\Scribble\Helpers;
+use Awcodes\Scribble\ScribbleTool;
+use Awcodes\Scribble\Enums\ToolType;
+use {{ namespace }}\Modals\{{ class_name }}Modal;
+use {{ namespace }}\Extensions\{{ class_name }}Extension;
+
+class {{ class_name }} extends ScribbleTool
+{
+    protected function setUp(): void
+    {
+        $this
+            ->icon(icon: 'heroicon-o-cube-transparent')
+            ->label(label: '{{ label }}')
+            ->type(type: {{ type }})
+            ->editorView(view: '{{ editor_view }}')
+            ->renderedView(view: '{{ rendered_view }}')
+            ->commands([
+                 Helpers::makeCommand(command: '', arguments: []),
+            ])
+            ->optionsModal(component: {{ class_name }}Modal::class)
+            ->converterExtensions([
+                new {{ class_name }}Extension()
+            ]);
+    }
+}
+
