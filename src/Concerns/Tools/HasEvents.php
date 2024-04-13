@@ -4,9 +4,9 @@ namespace Awcodes\Scribble\Concerns\Tools;
 
 trait HasEvents
 {
-    protected array | null $event = null;
+    protected ?array $event = null;
 
-    public function event(string $name, array | null $data = null): static
+    public function event(string $name, ?array $data = null): static
     {
         $this->event = [
             'name' => $name,

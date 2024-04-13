@@ -8,9 +8,9 @@ use Illuminate\Support\Collection;
 
 class ScribbleManager extends Component
 {
-    protected array | null $tools = null;
+    protected ?array $tools = null;
 
-    protected array | null $customTools = null;
+    protected ?array $customTools = null;
 
     public function registerTools(array $tools): static
     {
@@ -22,6 +22,7 @@ class ScribbleManager extends Component
     public function tools(array $tools): static
     {
         $this->tools = $tools;
+
         return $this;
     }
 

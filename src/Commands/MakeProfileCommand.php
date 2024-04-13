@@ -4,7 +4,7 @@ namespace Awcodes\Scribble\Commands;
 
 use Filament\Support\Commands\Concerns\CanManipulateFiles;
 use Illuminate\Console\Command;
-use function Laravel\Prompts\select;
+
 use function Laravel\Prompts\text;
 
 class MakeProfileCommand extends Command
@@ -34,7 +34,7 @@ class MakeProfileCommand extends Command
 
         $className = (string) str($profile)->afterLast('\\');
 
-        $classPath = app_path((string)  str($className)
+        $classPath = app_path((string) str($className)
             ->prepend('/')
             ->prepend($namespace)
             ->replace('\\', '/')

@@ -48,7 +48,7 @@ class CuratorMedia extends ScribbleTool
                         'statePath' => $this->getStatePath(),
                         'types' => Config::get('curator.accepted_file_types'),
                         'visibility' => Config::get('curator.visibility'),
-                    ]
+                    ],
                 ],
             );
     }

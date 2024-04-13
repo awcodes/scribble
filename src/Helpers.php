@@ -2,7 +2,6 @@
 
 namespace Awcodes\Scribble;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 

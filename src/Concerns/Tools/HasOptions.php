@@ -4,7 +4,7 @@ namespace Awcodes\Scribble\Concerns\Tools;
 
 trait HasOptions
 {
-    protected string | null $optionsModal = null;
+    protected ?string $optionsModal = null;
 
     public function optionsModal(string $component): static
     {

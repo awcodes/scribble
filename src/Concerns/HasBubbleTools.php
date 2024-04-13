@@ -2,8 +2,8 @@
 
 namespace Awcodes\Scribble\Concerns;
 
-use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Profiles\DefaultProfile;
+use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Wrappers\Group;
 use Exception;
 

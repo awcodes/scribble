@@ -2,9 +2,9 @@
 
 namespace Awcodes\Scribble\Modals;
 
-use Awcodes\Scribble\Modals\Contracts\ModalComponent;
 use Awcodes\Scribble\Enums\Alignment;
 use Awcodes\Scribble\Enums\SlideDirection;
+use Awcodes\Scribble\Modals\Contracts\ModalComponent;
 use Filament\Support\Enums\MaxWidth;
 use Livewire\Component;
 

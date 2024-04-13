@@ -4,11 +4,12 @@ namespace Awcodes\Scribble\Concerns\Tools;
 
 trait HasIdentifier
 {
-    protected string | null $identifier = null;
+    protected ?string $identifier = null;
 
     public function identifier(string $identifier): static
     {
         $this->identifier = $identifier;
+
         return $this;
     }
 

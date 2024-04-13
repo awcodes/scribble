@@ -4,6 +4,7 @@ namespace Awcodes\Scribble\Commands;
 
 use Filament\Support\Commands\Concerns\CanManipulateFiles;
 use Illuminate\Console\Command;
+
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
@@ -67,7 +68,7 @@ class MakeToolCommand extends Command
 
         $view = (string) str($className)->kebab();
 
-        $classPath = app_path((string)  str($className)
+        $classPath = app_path((string) str($className)
             ->prepend('/')
             ->prepend($namespace)
             ->replace('\\', '/')
@@ -140,7 +141,7 @@ class MakeToolCommand extends Command
             'namespace' => $namespace,
             'class_name' => $className,
             'label' => $toolLabel,
-            'type' => match($type) {
+            'type' => match ($type) {
                 'block' => 'ToolType::Block',
                 'command' => 'ToolType::Command',
                 'event' => 'ToolType::Event',

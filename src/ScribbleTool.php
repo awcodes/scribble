@@ -25,7 +25,7 @@ class ScribbleTool extends Component
         $this->name($name);
     }
 
-    public static function make(string | null $name = null): static
+    public static function make(?string $name = null): static
     {
         if (! $name) {
             $name = str((new \ReflectionClass(static::class))->getShortName());

@@ -11,6 +11,7 @@ trait HasDescription
     public function description(string | Closure $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -18,5 +19,4 @@ trait HasDescription
     {
         return $this->evaluate($this->description) ?? null;
     }
-
 }

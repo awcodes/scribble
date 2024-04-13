@@ -11,7 +11,7 @@ trait HasConverterExtensions
     protected Extension | Node | Mark | array | null $converterExtensions = null;
 
     /**
-     * @param Extension|Node|Mark|array<Extension|Node|Mark> $extensions
+     * @param  Extension|Node|Mark|array<Extension|Node|Mark>  $extensions
      */
     public function converterExtensions(Extension | Node | Mark | array $extensions): static
     {

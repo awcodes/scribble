@@ -2,7 +2,6 @@
 
 namespace Awcodes\Scribble\Tiptap\Nodes;
 
-use Awcodes\Scribble\Helpers;
 use Awcodes\Scribble\ScribbleManager;
 use Tiptap\Core\Node;
 

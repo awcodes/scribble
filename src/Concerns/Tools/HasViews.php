@@ -7,19 +7,21 @@ use Illuminate\Contracts\View\View;
 
 trait HasViews
 {
-    protected string | null $editorView = null;
+    protected ?string $editorView = null;
 
-    protected string | null $renderedView = null;
+    protected ?string $renderedView = null;
 
     public function editorView(string $view): static
     {
         $this->editorView = $view;
+
         return $this;
     }
 
     public function renderedView(string $view): static
     {
         $this->renderedView = $view;
+
         return $this;
     }
 

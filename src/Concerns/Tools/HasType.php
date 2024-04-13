@@ -12,6 +12,7 @@ trait HasType
     public function type(ToolType | Closure $type): static
     {
         $this->type = $type;
+
         return $this;
     }
 

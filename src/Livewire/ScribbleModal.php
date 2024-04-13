@@ -13,10 +13,10 @@ use Filament\Forms\Form;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
 
-abstract class ScribbleModal extends Modal implements HasForms, HasActions
+abstract class ScribbleModal extends Modal implements HasActions, HasForms
 {
-    use InteractsWithForms;
     use InteractsWithActions;
+    use InteractsWithForms;
 
     public ?string $header = null;
 

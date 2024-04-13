@@ -6,7 +6,7 @@ use Closure;
 
 trait InteractsWithTiptap
 {
-    protected string | null $extension = null;
+    protected ?string $extension = null;
 
     protected array | Closure | null $commands = null;
 
@@ -15,12 +15,14 @@ trait InteractsWithTiptap
     public function extension(string $extension): static
     {
         $this->extension = $extension;
+
         return $this;
     }
 
     public function commands(array | Closure $commands): static
     {
         $this->commands = $commands;
+
         return $this;
     }
 
@@ -48,5 +50,4 @@ trait InteractsWithTiptap
     {
         return filled($this->active) ? $this->evaluate($this->active) : ['extension' => $this->getExtension(), 'attrs' => []];
     }
-
 }

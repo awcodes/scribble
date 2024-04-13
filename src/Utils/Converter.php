@@ -79,7 +79,7 @@ class Converter
                 new ScribbleBlock(),
                 new MergeTag(),
                 ...$this->getExtensions(),
-            ]
+            ],
         ]);
     }
 

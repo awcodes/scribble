@@ -11,6 +11,7 @@ trait CanBeHidden
     public function hidden(bool | Closure $condition = true): static
     {
         $this->isHidden = $condition;
+
         return $this;
     }
 

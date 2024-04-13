@@ -74,7 +74,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
 
             FilamentView::registerRenderHook(
                 name: 'panels::body.end',
-                hook: fn(): string => Blade::render('@livewire("scribble.modals")'),
+                hook: fn (): string => Blade::render('@livewire("scribble.modals")'),
             );
         }
 

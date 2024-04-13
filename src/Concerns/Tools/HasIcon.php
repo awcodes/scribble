@@ -4,11 +4,12 @@ namespace Awcodes\Scribble\Concerns\Tools;
 
 trait HasIcon
 {
-    protected string | null $icon = null;
+    protected ?string $icon = null;
 
     public function icon(string $icon): static
     {
         $this->icon = $icon;
+
         return $this;
     }
 
