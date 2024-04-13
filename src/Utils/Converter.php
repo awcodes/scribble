@@ -10,15 +10,19 @@ use Awcodes\Scribble\Tiptap\Extensions\IdExtension;
 use Awcodes\Scribble\Tiptap\Nodes\ListItem;
 use Awcodes\Scribble\Tiptap\Nodes\MergeTag;
 use Awcodes\Scribble\Tiptap\Nodes\ScribbleBlock;
+use Closure;
+use Filament\Support\Concerns\EvaluatesClosures;
 use League\HTMLToMarkdown\HtmlConverter;
 use stdClass;
 use Tiptap\Editor;
 
 class Converter
 {
+    use EvaluatesClosures;
+
     protected Editor $editor;
 
-    protected array $mergeTagsMap = [];
+    protected array | Closure | null $mergeTagsMap = null;
 
     public function __construct(
         public string | array | stdClass | null $content = null,
@@ -50,7 +54,7 @@ class Converter
         return $this;
     }
 
-    public function mergeTagsMap(array $mergeTagsMap): static
+    public function mergeTagsMap(array | Closure $mergeTagsMap): static
     {
         $this->mergeTagsMap = $mergeTagsMap;
 
@@ -109,7 +113,7 @@ class Converter
             $this->parseHeadings($editor, $maxDepth, $wrapHeadings);
         }
 
-        if (filled($this->mergeTagsMap)) {
+        if (filled($this->getMergeTagsMap())) {
             $this->parseMergeTags($editor);
         }
 
@@ -261,16 +265,23 @@ class Converter
                 return;
             }
 
-            if (filled($this->mergeTagsMap)) {
+            $map = $this->getMergeTagsMap();
+
+            if (filled($map)) {
                 $node->content = [
                     (object) [
                         'type' => 'text',
-                        'text' => $this->mergeTagsMap[$node->attrs->id] ?? null,
+                        'text' => $map[$node->attrs->id] ?? null,
                     ],
                 ];
             }
         });
 
         return $editor;
+    }
+
+    public function getMergeTagsMap(): array
+    {
+        return $this->evaluate($this->mergeTagsMap) ?? app(ScribbleManager::class)->getMergeTagsMap();
     }
 }

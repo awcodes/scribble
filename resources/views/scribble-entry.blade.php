@@ -7,6 +7,6 @@
         ></div>
     @endif
     <div class="scribble-entry">
-        {!! scribble($getState())->toHtml() !!}
+        {!! scribble($getState())->mergeTagsMap($getMergeTagsMap())->toHtml() !!}
     </div>
 </x-dynamic-component>
