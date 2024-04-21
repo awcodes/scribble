@@ -4,6 +4,7 @@
 return [
     'labels' => [
         'url' => 'URL',
+        'id' => 'ID',
         'language' => 'Language',
         'target' => [
             'default' => 'Default',
