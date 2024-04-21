@@ -5,6 +5,7 @@ namespace Awcodes\Scribble\Commands;
 use Filament\Support\Commands\Concerns\CanManipulateFiles;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
@@ -53,6 +54,11 @@ class MakeToolCommand extends Command
             ],
             default: 'node',
             required: true,
+        );
+
+        $editorView = confirm(
+            label: 'Do you want to create an editor view?',
+            default: true,
         );
 
         $namespace = config('scribble.generator.namespace') . '\\Tools';
@@ -128,14 +134,27 @@ class MakeToolCommand extends Command
         $files = [
             $classPath,
             $viewPath,
-            $editorViewPath,
             $modalPath,
             $extensionPath,
         ];
 
+        if ($editorView) {
+            $files[] = $editorViewPath;
+        }
+
         if (! $this->option('force') && $this->checkForCollision($files)) {
             return static::INVALID;
         }
+
+        $viewMethods = collect([
+            "->renderedView(view: '{$toolView}')" => true,
+            "->editorView(view: '{$toolEditorView}')" => $editorView,
+        ])->filter()->keys()->implode("\n" . str_repeat(' ', 12));
+
+        $imports = collect([
+            "use {$namespace}\\Modals\\{$className}Modal;" => true,
+            "use {$namespace}\\Extensions\\{$className}Extension;" => $extensionType !== 'none',
+        ])->filter()->keys()->implode("\n");
 
         $this->copyStubToApp('tool', $classPath, [
             'namespace' => $namespace,
@@ -148,8 +167,11 @@ class MakeToolCommand extends Command
                 'modal' => 'ToolType::Modal',
                 'static-block' => 'ToolType::StaticBlock',
             },
-            'editor_view' => $toolEditorView,
-            'rendered_view' => $toolView,
+            'views' => $viewMethods,
+            'imports' => $imports,
+            'extension' => $extensionType !== 'none'
+                ? "new {$className}Extension(),"
+                : '//',
         ]);
 
         if ($type === 'modal' || $type === 'block') {
