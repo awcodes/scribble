@@ -3,6 +3,8 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Profiles\DefaultProfile;
+use Awcodes\Scribble\ScribbleManager;
+use Awcodes\Scribble\ScribbleTool;
 use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Wrappers\Group;
 use Closure;
@@ -37,7 +39,11 @@ trait HasToolbarTools
                 $tools['link'] = Link::make()->hidden();
             }
 
-            return $tools;
+            $defaults = app(ScribbleManager::class)->getRegisteredTools()
+                ->filter(fn (ScribbleTool $tool) => $tool->getToolbarTool())
+                ->all();
+
+            return [...$tools, ...$defaults];
         }
 
         return [];

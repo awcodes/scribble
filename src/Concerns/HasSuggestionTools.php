@@ -3,6 +3,8 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Profiles\DefaultProfile;
+use Awcodes\Scribble\ScribbleManager;
+use Awcodes\Scribble\ScribbleTool;
 use Awcodes\Scribble\Wrappers\Group;
 use Exception;
 
@@ -16,7 +18,11 @@ trait HasSuggestionTools
             $tools = DefaultProfile::suggestionTools();
         }
 
-        return $tools;
+        $defaults = app(ScribbleManager::class)->getRegisteredTools()
+            ->filter(fn (ScribbleTool $tool) => $tool->getSuggestionTool())
+            ->all();
+
+        return [...$tools, ...$defaults];
     }
 
     /**
