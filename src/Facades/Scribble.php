@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @see ScribbleManager
  */
-class ScribbleFacade extends Facade
+class Scribble extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
