@@ -305,7 +305,7 @@
     @apply w-56 max-h-56 overflow-y-auto text-xs rounded-lg shadow-lg ring-1 ring-gray-950/5 transition dark:ring-white/10;
 
     .no-blocks {
-        @apply p-2 text-gray-200;
+        @apply p-2 text-gray-200 dark:text-gray-700;
     }
 
     .group-title {
