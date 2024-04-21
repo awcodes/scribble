@@ -38,7 +38,7 @@ class MakeToolCommand extends Command
                 'command' => 'Command',
                 'event' => 'Event',
                 'modal' => 'Modal',
-                'static' => 'Static Block',
+                'static-block' => 'Static Block',
             ],
             default: 'command',
             required: true,
