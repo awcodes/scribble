@@ -118,14 +118,14 @@ Manually, creating menu configurations for each instance of the editor can be cu
 ```php
 namespace App\ScribbleProfiles;
 
-use Awcodes\Scribble\Facades\ScribbleFacade;
+use Awcodes\Scribble\Facades\Scribble;
 use Awcodes\Scribble\ScribbleProfile;
 
 class Minimal extends ScribbleProfile
 {
     public static function bubbleTools(): array
     {
-        return ScribbleFacade::getTools([
+        return Scribble::getTools([
             'paragraph',
             'bold',
             'italic',
@@ -142,7 +142,7 @@ class Minimal extends ScribbleProfile
 
     public static function toolbarTools(): array
     {
-        return ScribbleFacade::getTools([
+        return Scribble::getTools([
             'paragraph',
             'bold',
             'italic',
@@ -510,16 +510,15 @@ class Highlight extends ScribbleTool
 Now you can register the tool and PHP parser with the plugin in a ServiceProvider's `register` method.
 
 ```php
-use Awcodes\Scribble\ScribbleManager;
+use Awcodes\Scribble\Facades\Scribble;
 use App\ScribbleTools\Highlight;
 use Tiptap\Marks\Highlight as TiptapHighlight;
 
 public function register(): void
 {
-    app(ScribbleManager::class)
-        ->registerTools([
-            Highlight::make(),
-        ]);
+    Scribble::registerTools([
+        Highlight::make(),
+    ]);
 }
 ```
 
