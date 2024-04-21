@@ -6,12 +6,16 @@ use Closure;
 use Filament\Support\Components\Component;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class ScribbleManager extends Component
 {
     protected ?array $tools = null;
 
     protected ?array $customTools = null;
+
+    protected ?array $registeredToolPaths = null;
 
     protected array | Closure | null $mergeTagsMap = null;
 
@@ -29,6 +33,30 @@ class ScribbleManager extends Component
         return $this;
     }
 
+    public function registerToolPath(string $path, string $namespace): static
+    {
+        if (! File::isDirectory($path) || in_array($path, $this->registeredToolPaths ?? [])) {
+            return $this;
+        }
+
+        $tools = collect(File::allFiles($path))
+            ->map(
+                fn ($file) => Str::of($file->getRelativePathname())
+                    ->trim('.php')
+                    ->replace('/', '\\')
+                    ->start($namespace . '\\')
+                    ->toString()
+            )
+            ->filter(fn ($tool) => is_subclass_of($tool, ScribbleTool::class))
+            ->map(fn ($tool) => $tool::make())
+            ->toArray();
+
+        $this->customTools = [...$this->customTools ?? [], ...$tools];
+        $this->registeredToolPaths = [...$this->registeredToolPaths ?? [], $path];
+
+        return $this;
+    }
+
     public function tools(array $tools): static
     {
         $this->tools = $tools;
@@ -38,10 +66,12 @@ class ScribbleManager extends Component
 
     public function getRegisteredTools(): Collection
     {
-        return collect([...$this->tools ?? $this->getDefaultTools(), ...$this->customTools ?? []])
-            ->mapWithKeys(function ($tool) {
-                return [$tool->getIdentifier() => $tool];
-            });
+        return collect([
+            ...$this->tools ?? $this->getDefaultTools(),
+            ...$this->customTools ?? [],
+        ])->mapWithKeys(function ($tool) {
+            return [$tool->getIdentifier() => $tool];
+        });
     }
 
     public function getTools(array | string $tools): Collection
