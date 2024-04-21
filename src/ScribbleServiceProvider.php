@@ -57,7 +57,14 @@ class ScribbleServiceProvider extends PackageServiceProvider
     {
         require_once __DIR__ . '/render-helpers.php';
 
-        foreach (app(ScribbleManager::class)->getRegisteredTools() as $tool) {
+        $scribble = app(ScribbleManager::class);
+
+        $scribble->registerToolPath(
+            path: app_path('Scribble/Tools'),
+            namespace: 'App\\Scribble\\Tools'
+        );
+
+        foreach ($scribble->getRegisteredTools() as $tool) {
             if ($tool->getOptionsModal()) {
                 Livewire::component($tool->getIdentifier(), $tool->getOptionsModal());
             }
