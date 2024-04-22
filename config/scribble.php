@@ -1,10 +1,32 @@
 <?php
 
 return [
+
+    /*
+    |-----------------------------------------------------------------
+    | Generator Settings
+    |-----------------------------------------------------------------
+    |
+    | The following options allow you to adjust the behavior of
+    | tool generation in your application.
+    |
+    */
+
     'generator' => [
         'namespace' => 'App\\Scribble',
         'views' => 'scribble-tools',
     ],
+
+    /*
+    |-----------------------------------------------------------------
+    | Media Settings
+    |-----------------------------------------------------------------
+    |
+    | The following options allow you to adjust the behavior of
+    | media uploads handled by Scribble.
+    |
+    */
+
     'media' => [
         'accepted_file_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'],
         'disk' => env('FILAMENT_FILESYSTEM_DISK', 'public'),
@@ -18,4 +40,5 @@ return [
         'image_resize_target_height' => null,
         'use_relative_paths' => true,
     ],
+
 ];
