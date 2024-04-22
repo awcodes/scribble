@@ -15,7 +15,7 @@ class ScribbleManager extends Component
 
     protected ?array $customTools = null;
 
-    protected ?array $registeredToolPaths = null;
+    protected array $registeredToolPaths = [];
 
     protected array | Closure | null $mergeTagsMap = null;
 
@@ -35,7 +35,7 @@ class ScribbleManager extends Component
 
     public function registerToolPath(string $path, string $namespace): static
     {
-        if (! File::isDirectory($path) || in_array($path, $this->registeredToolPaths ?? [])) {
+        if (! File::isDirectory($path) || in_array($path, $this->registeredToolPaths)) {
             return $this;
         }
 
@@ -49,10 +49,10 @@ class ScribbleManager extends Component
             )
             ->filter(fn ($tool) => is_subclass_of($tool, ScribbleTool::class))
             ->map(fn ($tool) => $tool::make())
-            ->toArray();
+            ->all();
 
         $this->customTools = [...$this->customTools ?? [], ...$tools];
-        $this->registeredToolPaths = [...$this->registeredToolPaths ?? [], $path];
+        $this->registeredToolPaths[] = $path;
 
         return $this;
     }
