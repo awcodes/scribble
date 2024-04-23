@@ -28,6 +28,8 @@
     import Controls from './components/Controls.svelte'
     import BubbleMenu from './components/BubbleMenu.svelte'
     import Toolbar from './components/Toolbar.svelte'
+    import BlockPanel from './components/BlockPanel.svelte'
+    import cx from 'clsx'
 
     let editor;
     let element;
@@ -251,10 +253,19 @@
     })
 </script>
 
-<div class="scribble-editor-wrapper">
+<div
+    class={cx(
+        `scribble-editor-wrapper`,
+        {
+            'has-empty-panel': ! ((suggestionTools && suggestionTools.length > 0) || (mergeTags && mergeTags.length > 0))
+        }
+    )}
+>
     <Controls {editor} {statePath} />
 
     <Toolbar {editor} tools={toolbarTools} {handleToolClick} {isActive} />
+
+    <BlockPanel {editor} tools={suggestionTools} mergeTags={mergeTags} {handleToolClick} {isActive} />
 
     <div class="scribble-editor" bind:this={element} />
 

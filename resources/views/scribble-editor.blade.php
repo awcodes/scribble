@@ -24,9 +24,16 @@
             @js($getPlaceholder()),
         )"
         x-on:toggle-fullscreen.window="toggleFullscreen($event)"
+        x-on:change-viewport.window="changeViewport($event)"
         x-on:keydown.esc.window="fullscreen = false"
         x-on:click.away="isFocused = false"
-        x-bind:class="{'fullscreen': fullscreen, 'focused': isFocused}"
+        x-bind:class="{
+            'fullscreen': fullscreen,
+            'focused': isFocused,
+            'display-mobile': viewport === 'mobile',
+            'display-tablet': viewport === 'tablet',
+            'display-desktop': viewport === 'desktop',
+        }"
         id="{{ 'scribble-wrapper-' . $statePath }}"
         @class([
             'scribble-wrapper',

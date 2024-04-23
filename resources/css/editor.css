@@ -11,13 +11,38 @@
     }
 
     &.fullscreen {
-        @apply overflow-hidden h-full fixed inset-0 z-50 ring-0;
+        @apply overflow-hidden h-full fixed inset-0 z-30 ring-0;
 
         .scribble-editor-wrapper {
-            @apply flex flex-col h-full overflow-hidden items-center justify-start bg-white dark:bg-gray-900;
+            @apply grid h-full w-full overflow-hidden bg-white dark:bg-gray-900;
+            grid-template-areas: "panel toolbar controls" "panel content content";
+            grid-template-columns: 15rem 1fr auto;
+            grid-template-rows: auto 1fr;
+
+            &.has-empty-panel {
+                grid-template-areas: "toolbar controls" "content content";
+                grid-template-columns: 1fr auto;
+            }
+
+            &:has(.scribble-panel.collapsed) {
+                grid-template-columns: 4rem 1fr auto;
+            }
+
+            &:focus-within .scribble-controls {
+                @apply opacity-100 pointer-events-auto top-0;
+            }
 
             .scribble-controls {
-                @apply relative !top-0 pointer-events-auto transition-none rounded-none opacity-100 z-0 py-2 px-4;
+                @apply relative pointer-events-auto transition-none rounded-none opacity-100 z-0 items-center px-2 bg-gray-100 dark:bg-gray-950 justify-end;
+                grid-area: controls;
+
+                .scribble-controls-panel {
+                    @apply rounded-none shadow-none border-0 bg-transparent text-gray-900 dark:text-white;
+
+                    .scribble-controls-viewport-controls {
+                        @apply mr-4 flex items-center;
+                    }
+                }
 
                 .scribble-enter-fullscreen {
                     @apply hidden;
@@ -28,16 +53,65 @@
                 }
             }
 
+            .scribble-toolbar {
+                @apply !rounded-none !border-b-0 bg-gray-100 dark:bg-gray-950 px-2;
+                grid-area: toolbar;
+            }
+
+            .scribble-panel {
+                @apply flex flex-col gap-2 overflow-hidden w-full h-full py-2 px-4 bg-gray-100 dark:bg-gray-950;
+                grid-area: panel;
+
+                .scribble-button {
+                    @apply w-full flex items-center justify-start gap-2 rounded p-2 text-sm bg-white dark:bg-gray-900;
+
+                    svg {
+                        @apply w-4 h-4;
+                    }
+                }
+
+                .scribble-panel-toggle .scribble-button {
+                    @apply w-auto;
+                }
+
+                .scribble-panel-tools {
+                    @apply flex flex-col flex-1 overflow-y-auto gap-2;
+                }
+
+                &.collapsed {
+                    .scribble-panel-toggle .scribble-button {
+                        @apply rotate-180;
+                    }
+
+                    .scribble-panel-tools {
+                        display: none;
+                    }
+                }
+            }
+
             .scribble-editor {
-                @apply flex-1 max-w-7xl mx-auto overflow-hidden;
+                @apply h-full overflow-y-auto pt-6 pb-12;
+                grid-area: content;
 
                 .tiptap {
-                    @apply h-full overflow-y-auto;
+                    @apply max-w-7xl mx-auto;
 
                     &:focus-visible {
                         @apply outline-none ring-0;
                     }
                 }
+            }
+        }
+
+        &.display-mobile {
+            .scribble-editor .tiptap {
+                max-width: 392px;
+            }
+        }
+
+        &.display-tablet {
+            .scribble-editor .tiptap {
+                @apply max-w-screen-md;
             }
         }
     }
@@ -64,6 +138,10 @@
 
             .scribble-controls-panel {
                 @apply inline-flex px-2 items-center rounded-full border border-gray-950/10 dark:border-white/20 shadow-md bg-gray-700 text-white;
+
+                .scribble-controls-viewport-controls {
+                    display: none;
+                }
             }
 
             .scribble-enter-fullscreen {
@@ -85,6 +163,10 @@
             &:hover {
                 @apply opacity-100;
             }
+        }
+
+        .scribble-panel {
+            display: none;
         }
 
         .scribble-editor {
