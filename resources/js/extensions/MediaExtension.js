@@ -51,15 +51,30 @@ export default Image.extend({
                         width: options?.width,
                         height: options?.height,
                         lazy: options?.lazy,
+                        coordinates: options?.coordinates,
                     })
                 } else {
                     commands.setDocument(options)
                 }
             },
             setDocument: options => ({ chain }) => {
+                if (! [null, undefined].includes(options.coordinates?.pos)) {
+                    return chain().focus().extendMarkRange('link').setLink({ href: options.src }).insertContentAt({from: options.coordinates.pos, to: options.coordinates.pos}, {
+                        type: this.name,
+                        attrs: options,
+                    }).run()
+                }
+
                 return chain().focus().extendMarkRange('link').setLink({ href: options.src }).insertContent(options?.link_text).run()
             },
             setImage: options => ({ chain }) => {
+                if (! [null, undefined].includes(options.coordinates?.pos)) {
+                    return chain().focus().insertContentAt({from: options.coordinates.pos, to: options.coordinates.pos}, {
+                        type: this.name,
+                        attrs: options,
+                    }).run()
+                }
+
                 return chain().focus().insertContent({
                     type: this.name,
                     attrs: options,

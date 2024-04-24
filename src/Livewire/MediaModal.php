@@ -36,6 +36,7 @@ class MediaModal extends ScribbleModal
         $this->data['loading'] = $this->data['loading'] ?? null;
         $this->data['link_text'] = $this->data['link_text'] ?? null;
         $this->data['type'] = $this->data['type'] ?? null;
+        $this->data['coordinates'] = $this->data['coordinates'] ?? null;
 
         $source = $this->data['src']
             ? $this->getDirectory() . Str::of($this->data['src'])->after($this->getDirectory())
@@ -161,7 +162,8 @@ class MediaModal extends ScribbleModal
             values: [
                 ...$data,
                 'src' => $source,
-            ]
+            ],
+            coordinates: $this->coordinates,
         );
 
         $this->closeScribbleModal();

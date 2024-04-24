@@ -76,6 +76,18 @@
 
                 .scribble-panel-tools {
                     @apply flex flex-col flex-1 overflow-y-auto gap-2;
+
+                    li {
+                        @apply flex items-center gap-2 rounded divide-x divide-gray-200 bg-gray-200 dark:divide-gray-800 dark:bg-gray-900;
+
+                        .scribble-button {
+                            @apply flex-1;
+                        }
+
+                        .drag-handle {
+                            @apply cursor-grab p-2 text-gray-700 dark:text-gray-500;
+                        }
+                    }
                 }
 
                 &.collapsed {

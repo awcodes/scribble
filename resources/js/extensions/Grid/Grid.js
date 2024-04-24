@@ -56,7 +56,7 @@ export default Node.create({
     addCommands() {
         return {
             insertGrid:
-                ({ columns = 2, stack_at, asymmetric, left_span = null, right_span = null } = {}) =>
+                ({ columns = 2, stack_at, asymmetric, left_span = null, right_span = null, coordinates = null } = {}) =>
                     ({ tr, dispatch, editor }) => {
                         const node = createGrid(editor.schema, columns, stack_at, asymmetric, left_span, right_span)
 
