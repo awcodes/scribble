@@ -1,12 +1,13 @@
 @php
     $statePath = $getStatePath();
+    $customStyles = $getCustomStyles();
 @endphp
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
-    @if ($getCustomStyles())
+    @if ($customStyles)
         <div
             wire:ignore
             x-data="{}"
-            x-load-css="[{{ \Illuminate\Support\Js::from($getCustomStyles()) }}]"
+            x-load-css="[@js($customStyles)]"
         ></div>
     @endif
     <div

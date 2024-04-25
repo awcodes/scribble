@@ -211,6 +211,19 @@
                     return
                 }
 
+                if (tool.type === 'modal' && data.detail.context === 'update') {
+                    window.dispatchEvent(new CustomEvent('updatedBlock', {
+                        detail: {
+                            statePath: statePath,
+                            identifier: tool.identifier,
+                            type: tool.type,
+                            blockId: data.detail.blockId,
+                            values: data.detail.values
+                        }
+                    }));
+                    return
+                }
+
                 commandRunner(editor, tool.commands, {...data.detail.values, coordinates: data.detail?.coordinates})
             })
         }

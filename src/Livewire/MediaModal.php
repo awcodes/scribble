@@ -24,6 +24,8 @@ class MediaModal extends ScribbleModal
 
     public ?string $header = 'Media';
 
+    public ?string $identifier = 'media';
+
     public static ?MaxWidth $maxWidth = MaxWidth::TwoExtraLarge;
 
     public function mount(): void
@@ -78,8 +80,10 @@ class MediaModal extends ScribbleModal
                             ->afterStateUpdated(function (TemporaryUploadedFile $state, Set $set): void {
                                 if (Str::contains($state->getMimeType(), 'image')) {
                                     $set('type', 'image');
-                                    $set('width', $state->dimensions()[0]);
-                                    $set('height', $state->dimensions()[1]);
+                                    if (! Str::contains($state->getMimeType(), 'svg')) {
+                                        $set('width', $state->dimensions()[0]);
+                                        $set('height', $state->dimensions()[1]);
+                                    }
                                 } else {
                                     $set('type', 'document');
                                 }

@@ -136,6 +136,10 @@
         .scribble-button.active {
             @apply text-primary-500;
         }
+
+        .scribble-editor-wrapper .scribble-editor .tiptap .ProseMirror-selectednode + .moveable-control-box {
+            display: block !important;
+        }
     }
 
     .scribble-editor-wrapper {
@@ -191,7 +195,7 @@
                     @apply outline-none ;
                 }
 
-                *:first-child {
+                *:first-child:not(.moveable-control) {
                     @apply mt-0;
                 }
 
@@ -222,6 +226,15 @@
 
                     .node-scribbleBlock + .ProseMirror-gapcursor + .node-scribbleBlock {
                         margin-top: 1rem;
+                    }
+                }
+
+                .moveable-control-box {
+                    display: none !important;
+                    z-index: 10;
+
+                    .moveable-line {
+                        height: 2px;
                     }
                 }
 
@@ -345,6 +358,8 @@
                         }
                     }
                 }
+
+
             }
         }
     }
