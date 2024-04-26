@@ -10,7 +10,6 @@
 {#if editor && !hidden}
 <button
     type="button"
-    class:active={active}
     on:click
     class={cx(
         `scribble-button scribble-${key}`,

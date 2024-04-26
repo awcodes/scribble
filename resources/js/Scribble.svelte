@@ -4,6 +4,7 @@
     import {BubbleMenu as TiptapBubbleMenu} from '@tiptap/extension-bubble-menu'
     import ClassExtension from './extensions/ClassExtension.js'
     import CommandsExtension from './extensions/CommandsExtension.js'
+    import DragAndDropExtension from './extensions/DragAndDropExtension.js'
     import Grid from './extensions/Grid/Grid.js'
     import GridColumn from './extensions/Grid/GridColumn.js'
     import Details from './extensions/Details/Details.js'
@@ -28,6 +29,8 @@
     import Controls from './components/Controls.svelte'
     import BubbleMenu from './components/BubbleMenu.svelte'
     import Toolbar from './components/Toolbar.svelte'
+    import BlockPanel from './components/BlockPanel.svelte'
+    import cx from 'clsx'
 
     let editor;
     let element;
@@ -49,6 +52,7 @@
                statePath: statePath
             }),
             StarterKit,
+            DragAndDropExtension,
             ClassExtension,
             CommandsExtension,
             LinkExtension,
@@ -190,7 +194,8 @@
                             identifier: tool.identifier,
                             type: tool.type,
                             blockId: data.detail.blockId,
-                            values: data.detail.values
+                            values: data.detail.values,
+                            coordinates: data.detail?.coordinates
                         }).focus().run();
                     } else {
                         window.dispatchEvent(new CustomEvent('updatedBlock', {
@@ -206,12 +211,25 @@
                     return
                 }
 
-                commandRunner(editor, tool.commands, data.detail.values)
+                if (tool.type === 'modal' && data.detail.context === 'update') {
+                    window.dispatchEvent(new CustomEvent('updatedBlock', {
+                        detail: {
+                            statePath: statePath,
+                            identifier: tool.identifier,
+                            type: tool.type,
+                            blockId: data.detail.blockId,
+                            values: data.detail.values
+                        }
+                    }));
+                    return
+                }
+
+                commandRunner(editor, tool.commands, {...data.detail.values, coordinates: data.detail?.coordinates})
             })
         }
     })
 
-    const handleToolClick = (tool, update = false) => {
+    const handleToolClick = (tool, update = false, coordinates = null) => {
         switch (tool.type) {
             case 'command':
                 commandRunner(editor, tool.commands);
@@ -225,14 +243,16 @@
                     statePath: statePath,
                     update: update,
                     identifier: tool.identifier,
-                    data: editor.getAttributes(tool.extension)
+                    data: editor.getAttributes(tool.extension),
+                    coordinates: coordinates
                 });
                 return
             case 'static':
                 editor.chain().insertScribbleBlock({
                     identifier: tool.identifier,
                     type: tool.type,
-                    values: {}
+                    values: {},
+                    coordinates: coordinates
                 }).focus().run();
                 return
             default:
@@ -240,6 +260,7 @@
                     statePath: statePath,
                     identifier: tool.identifier,
                     type: tool.type,
+                    coordinates: coordinates
                 })
         }
     }
@@ -251,10 +272,19 @@
     })
 </script>
 
-<div class="scribble-editor-wrapper">
+<div
+    class={cx(
+        `scribble-editor-wrapper`,
+        {
+            'has-empty-panel': ! ((suggestionTools && suggestionTools.length > 0) || (mergeTags && mergeTags.length > 0))
+        }
+    )}
+>
     <Controls {editor} {statePath} />
 
     <Toolbar {editor} tools={toolbarTools} {handleToolClick} {isActive} />
+
+    <BlockPanel {editor} tools={suggestionTools} mergeTags={mergeTags} {handleToolClick} {isActive} />
 
     <div class="scribble-editor" bind:this={element} />
 

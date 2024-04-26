@@ -28,6 +28,8 @@ abstract class ScribbleModal extends Modal implements HasActions, HasForms
 
     public ?string $identifier = null;
 
+    public ?array $coordinates = null;
+
     public ?array $data = [];
 
     public function mount(): void
@@ -71,7 +73,8 @@ abstract class ScribbleModal extends Modal implements HasActions, HasForms
             statePath: $this->statePath,
             blockId: $this->blockId,
             context: $this->update ? 'update' : 'insert',
-            values: $data
+            values: $data,
+            coordinates: $this->coordinates
         );
 
         $this->closeScribbleModal();
