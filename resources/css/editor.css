@@ -359,7 +359,62 @@
                     }
                 }
 
+                table {
+                    @apply border-collapse m-0 overflow-hidden w-full relative table-fixed;
+                }
 
+                table td,
+                table th {
+                    @apply border border-gray-400 py-2 px-3 align-top min-w-4 bg-clip-padding dark:border-gray-600;
+                }
+
+                table td > *,
+                table th > * {
+                    @apply mb-0;
+                }
+
+                table th {
+                    @apply font-bold text-left bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100;
+                }
+
+                table .selectedCell {
+                    position: relative;
+                }
+
+                table .selectedCell:after {
+                    background: rgba(200, 200, 255, 0.4);
+                    content: "";
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    pointer-events: none;
+                    position: absolute;
+                    z-index: 2;
+                }
+
+                table .column-resize-handle {
+                    background-color: #adf;
+                    bottom: -2px;
+                    position: absolute;
+                    right: -2px;
+                    pointer-events: none;
+                    top: 0;
+                    width: 4px;
+                }
+
+                table p {
+                    margin: 0;
+                }
+
+                .tableWrapper {
+                    padding: 1rem 0;
+                    overflow-x: auto;
+                }
+
+                &.resize-cursor {
+                    cursor: col-resize;
+                }
             }
         }
     }
