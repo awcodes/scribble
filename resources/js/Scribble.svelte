@@ -22,6 +22,10 @@
     import SlashExtension from './extensions/SlashExtension.js'
     import Subscript from '@tiptap/extension-subscript'
     import Superscript from '@tiptap/extension-superscript'
+    import Table from '@tiptap/extension-table'
+    import TableCell from '@tiptap/extension-table-cell'
+    import TableHeader from '@tiptap/extension-table-header'
+    import TableRow from '@tiptap/extension-table-row'
     import TextAlign from './extensions/TextAlignExtension.js'
     import TextStyle from '@tiptap/extension-text-style'
     import {Underline} from '@tiptap/extension-underline'
@@ -67,6 +71,12 @@
             Superscript,
             MediaExtension,
             Underline,
+            Table.configure({
+                resizable: true,
+            }),
+            TableRow,
+            TableHeader,
+            TableCell,
             TextAlign.configure({
                 types: ['heading', 'paragraph']
             }),
