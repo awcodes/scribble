@@ -93,6 +93,9 @@ class ScribbleServiceProvider extends PackageServiceProvider
             }
         }
 
+        // Blade Directive
+        Blade::directive('scribble', fn ($expression) => "<?php echo scribble({$expression})->toHtml(); ?>");
+
         // Testing
         Testable::mixin(new TestsScribble());
     }
