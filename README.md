@@ -113,26 +113,25 @@ ScribbleEditor::configureUsing(function (ScribbleEditor $scribble) {
 
 ## Editor Profiles
 
-Manually, creating menu configurations for each instance of the editor can be cumbersome. To alleviate this, you can create a profile class that defines the tools for the bubble, suggestion, and toolbar menus. You can then apply the profile to the editor using the `profile` method.
+Manually, creating menu configurations for each instance of the editor can be cumbersome. To alleviate this, you can create a profile class that defines the tools for the bubble, suggestion, and toolbar menus. You can then apply the profile to the editor using the `profile` method. You may use either the tool identifier for the tools class name.
 
 ```php
 namespace App\ScribbleProfiles;
 
-use Awcodes\Scribble\Facades\ScribbleFacade;
-use Awcodes\Scribble\ScribbleProfile;
+use Awcodes\Scribble\ScribbleProfile;use Awcodes\Scribble\Tools;
 
 class Minimal extends ScribbleProfile
 {
     public static function bubbleTools(): array
     {
-        return ScribbleFacade::getTools([
-            'paragraph',
-            'bold',
-            'italic',
-            'link',
-            'bullet-list',
-            'ordered-list',
-        ])->toArray();
+        return [
+            Tools\Paragraph::class,
+            Tools\Bold::class,
+            Tools\Italic::class,
+            Tools\Link::class,
+            Tools\BulletList::class,
+            Tools\OrderedList::class,
+        ];
     }
 
     public static function suggestionTools(): array
@@ -142,14 +141,14 @@ class Minimal extends ScribbleProfile
 
     public static function toolbarTools(): array
     {
-        return ScribbleFacade::getTools([
+        return [
             'paragraph',
             'bold',
             'italic',
             'link',
             'bullet-list',
             'ordered-list',
-        ])->toArray();
+        ];
     }
 }
 ```
