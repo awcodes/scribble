@@ -50,8 +50,16 @@ class ScribbleManager extends Component
 
         $tools = Arr::wrap($tools);
 
+        $toolClassNames = $this->getRegisteredTools()->mapWithKeys(function ($item) {
+            return [get_class($item) => $item];
+        });
+
         foreach ($tools as $tool) {
-            $tls->push($this->getRegisteredTools()->only($tool)->sole());
+            if ($toolClassNames->keys()->contains($tool)) {
+                $tls->push($toolClassNames->only($tool)->sole());
+            } else {
+                $tls->push($this->getRegisteredTools()->only($tool)->sole());
+            }
         }
 
         return $tls;
