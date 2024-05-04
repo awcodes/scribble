@@ -2,14 +2,13 @@
 
 namespace Awcodes\Scribble\Profiles;
 
-use Awcodes\Scribble\ScribbleManager;
 use Awcodes\Scribble\ScribbleProfile;
 
 class SimpleProfile extends ScribbleProfile
 {
     public static function bubbleTools(): array
     {
-        return app(ScribbleManager::class)->getTools([
+        return [
             'heading-two',
             'heading-three',
             'horizontal-rule',
@@ -22,22 +21,22 @@ class SimpleProfile extends ScribbleProfile
             'divider',
             'link',
             'media',
-        ])->toArray();
+        ];
     }
 
     public static function suggestionTools(): array
     {
-        return app(ScribbleManager::class)->getTools([
+        return [
             'media',
             'bullet-list',
             'ordered-list',
             'horizontal-rule',
-        ])->toArray();
+        ];
     }
 
     public static function toolbarTools(): array
     {
-        return app(ScribbleManager::class)->getTools([
+        return [
             'heading-two',
             'heading-three',
             'horizontal-rule',
@@ -50,6 +49,6 @@ class SimpleProfile extends ScribbleProfile
             'divider',
             'link',
             'media',
-        ])->toArray();
+        ];
     }
 }
