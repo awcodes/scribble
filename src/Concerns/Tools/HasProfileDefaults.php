@@ -2,49 +2,62 @@
 
 namespace Awcodes\Scribble\Concerns\Tools;
 
+use Awcodes\Scribble\Profiles\DefaultProfile;
 use Closure;
 
 trait HasProfileDefaults
 {
-    protected bool | Closure $bubbleTool = false;
+    protected array | Closure $bubbleTool = [];
 
-    protected bool | Closure $suggestionTool = false;
+    protected array | Closure $suggestionTool = [];
 
-    protected bool | Closure $toolbarTool = false;
+    protected array | Closure $toolbarTool = [];
 
-    public function bubbleTool(bool | Closure $condition = true): static
+    public function bubbleTool(string | array | Closure $profiles = []): static
     {
-        $this->bubbleTool = $condition;
+        if (is_string($profiles)) {
+            $profiles = [$profiles];
+        }
+
+        $this->bubbleTool = $profiles ?: [DefaultProfile::class];
 
         return $this;
     }
 
-    public function suggestionTool(bool | Closure $condition = true): static
+    public function suggestionTool(string | array | Closure $profiles = []): static
     {
-        $this->suggestionTool = $condition;
+        if (is_string($profiles)) {
+            $profiles = [$profiles];
+        }
+
+        $this->suggestionTool = $profiles ?: [DefaultProfile::class];
 
         return $this;
     }
 
-    public function toolbarTool(bool | Closure $condition = true): static
+    public function toolbarTool(string | array | Closure $profiles = []): static
     {
-        $this->toolbarTool = $condition;
+        if (is_string($profiles)) {
+            $profiles = [$profiles];
+        }
+
+        $this->toolbarTool = $profiles ?: [DefaultProfile::class];
 
         return $this;
     }
 
-    public function getBubbleTool(): bool
+    public function getBubbleTool(): array
     {
-        return $this->evaluate($this->bubbleTool) ?? false;
+        return $this->evaluate($this->bubbleTool) ?? [];
     }
 
-    public function getSuggestionTool(): bool
+    public function getSuggestionTool(): array
     {
-        return $this->evaluate($this->suggestionTool) ?? false;
+        return $this->evaluate($this->suggestionTool) ?? [];
     }
 
-    public function getToolbarTool(): bool
+    public function getToolbarTool(): array
     {
-        return $this->evaluate($this->toolbarTool) ?? false;
+        return $this->evaluate($this->toolbarTool) ?? [];
     }
 }

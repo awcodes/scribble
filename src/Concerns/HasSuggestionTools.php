@@ -12,14 +12,12 @@ trait HasSuggestionTools
 {
     public function getSuggestionTools(): array
     {
-        if ($this->getProfile()) {
-            $tools = app($this->getProfile())::suggestionTools() ?? [];
-        } else {
-            $tools = DefaultProfile::suggestionTools();
-        }
+        $tools = $this->getProfile()
+            ? app($this->getProfile())::suggestionTools() ?? []
+            : DefaultProfile::suggestionTools();
 
         $defaults = app(ScribbleManager::class)->getRegisteredTools()
-            ->filter(fn (ScribbleTool $tool) => $tool->getSuggestionTool())
+            ->filter(fn (ScribbleTool $tool) => in_array($this->getProfile() ?? DefaultProfile::class, $tool->getSuggestionTool()))
             ->all();
 
         return [...$tools, ...$defaults];

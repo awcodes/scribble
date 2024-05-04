@@ -28,25 +28,23 @@ trait HasToolbarTools
 
     public function getToolbarTools(): array
     {
-        if ($this->shouldRenderToolbar()) {
-            if ($this->getProfile()) {
-                $tools = app($this->getProfile())::toolbarTools() ?? [];
-            } else {
-                $tools = DefaultProfile::toolbarTools();
-            }
-
-            if (! isset($tools['link'])) {
-                $tools['link'] = Link::make()->hidden();
-            }
-
-            $defaults = app(ScribbleManager::class)->getRegisteredTools()
-                ->filter(fn (ScribbleTool $tool) => $tool->getToolbarTool())
-                ->all();
-
-            return [...$tools, ...$defaults];
+        if (! $this->shouldRenderToolbar()) {
+            return [];
         }
 
-        return [];
+        $tools = $this->getProfile()
+            ? app($this->getProfile())::toolbarTools() ?? []
+            : DefaultProfile::toolbarTools();
+
+        if (! isset($tools['link'])) {
+            $tools['link'] = Link::make()->hidden();
+        }
+
+        $defaults = app(ScribbleManager::class)->getRegisteredTools()
+            ->filter(fn (ScribbleTool $tool) => in_array($this->getProfile() ?? DefaultProfile::class, $tool->getToolbarTool()))
+            ->all();
+
+        return [...$tools, ...$defaults];
     }
 
     /**

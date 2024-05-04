@@ -13,18 +13,16 @@ trait HasBubbleTools
 {
     public function getBubbleTools(): array
     {
-        if ($this->getProfile()) {
-            $tools = app($this->getProfile())::bubbleTools() ?? [];
-        } else {
-            $tools = DefaultProfile::bubbleTools();
-        }
+        $tools = $this->getProfile()
+            ? app($this->getProfile())::bubbleTools() ?? []
+            : DefaultProfile::bubbleTools();
 
         if (! isset($tools['link'])) {
             $tools['link'] = Link::make()->hidden();
         }
 
         $defaults = app(ScribbleManager::class)->getRegisteredTools()
-            ->filter(fn (ScribbleTool $tool) => $tool->getBubbleTool())
+            ->filter(fn (ScribbleTool $tool) => in_array($this->getProfile() ?? DefaultProfile::class, $tool->getBubbleTool()))
             ->all();
 
         return [...$tools, ...$defaults];
