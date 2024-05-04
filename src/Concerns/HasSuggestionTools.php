@@ -16,7 +16,7 @@ trait HasSuggestionTools
         $tools = $this->getProfile()
             ? app($this->getProfile())::suggestionTools() ?? []
             : DefaultProfile::suggestionTools();
-      
+
         $tools = ScribbleFacade::getTools($tools)->toArray();
 
         $defaults = app(ScribbleManager::class)->getRegisteredTools()
