@@ -4,7 +4,6 @@ namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Facades\ScribbleFacade;
 use Awcodes\Scribble\Profiles\DefaultProfile;
-use Awcodes\Scribble\ScribbleManager;
 use Awcodes\Scribble\ScribbleTool;
 use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Wrappers\Group;
@@ -24,7 +23,7 @@ trait HasBubbleTools
             $tools['link'] = Link::make()->hidden();
         }
 
-        $defaults = app(ScribbleManager::class)->getRegisteredTools()
+        $defaults = ScribbleFacade::getRegisteredTools()
             ->filter(fn (ScribbleTool $tool) => in_array($this->getProfile() ?? DefaultProfile::class, $tool->getBubbleTool()))
             ->all();
 
