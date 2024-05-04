@@ -68,8 +68,12 @@ export default Node.create({
                     })
 
                     if (dispatch) {
-                        tr.replaceRangeWith(selection.from - selection.$anchor.parentOffset, selection.to, node)
-                        commands.setNodeSelection(tr.mapping.map(tr.steps[tr.steps.length - 1].from), 1)
+                        if (! [null, undefined].includes(options.coordinates?.pos)) {
+                            tr.replaceRangeWith(options.coordinates.pos, options.coordinates.pos, node)
+                        } else {
+                            tr.replaceRangeWith(selection.from - selection.$anchor.parentOffset, selection.to, node)
+                            commands.setNodeSelection(tr.mapping.map(tr.steps[tr.steps.length - 1].from), 1)
+                        }
                     }
 
                     return true

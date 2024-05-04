@@ -11,13 +11,38 @@
     }
 
     &.fullscreen {
-        @apply overflow-hidden h-full fixed inset-0 z-50 ring-0;
+        @apply overflow-hidden h-full fixed inset-0 z-30 ring-0;
 
         .scribble-editor-wrapper {
-            @apply flex flex-col h-full overflow-hidden items-center justify-start bg-white dark:bg-gray-900;
+            @apply grid h-full w-full overflow-hidden bg-white dark:bg-gray-900;
+            grid-template-areas: "panel toolbar controls" "panel content content";
+            grid-template-columns: 15rem 1fr auto;
+            grid-template-rows: auto 1fr;
+
+            &.has-empty-panel {
+                grid-template-areas: "toolbar controls" "content content";
+                grid-template-columns: 1fr auto;
+            }
+
+            &:has(.scribble-panel.collapsed) {
+                grid-template-columns: 4rem 1fr auto;
+            }
+
+            &:focus-within .scribble-controls {
+                @apply opacity-100 pointer-events-auto top-0;
+            }
 
             .scribble-controls {
-                @apply relative !top-0 pointer-events-auto transition-none rounded-none opacity-100 z-0 py-2 px-4;
+                @apply relative pointer-events-auto transition-none rounded-none opacity-100 z-0 items-center px-2 bg-gray-100 dark:bg-gray-950 justify-end;
+                grid-area: controls;
+
+                .scribble-controls-panel {
+                    @apply rounded-none shadow-none border-0 bg-transparent text-gray-900 dark:text-white;
+
+                    .scribble-controls-viewport-controls {
+                        @apply mr-4 flex items-center;
+                    }
+                }
 
                 .scribble-enter-fullscreen {
                     @apply hidden;
@@ -28,16 +53,77 @@
                 }
             }
 
+            .scribble-toolbar {
+                @apply !rounded-none !border-b-0 bg-gray-100 dark:bg-gray-950 px-2;
+                grid-area: toolbar;
+            }
+
+            .scribble-panel {
+                @apply flex flex-col gap-2 overflow-hidden w-full h-full py-2 px-4 bg-gray-100 dark:bg-gray-950;
+                grid-area: panel;
+
+                .scribble-button {
+                    @apply w-full flex items-center justify-start gap-2 rounded p-2 text-sm bg-white dark:bg-gray-900;
+
+                    svg {
+                        @apply w-4 h-4;
+                    }
+                }
+
+                .scribble-panel-toggle .scribble-button {
+                    @apply w-auto;
+                }
+
+                .scribble-panel-tools {
+                    @apply flex flex-col flex-1 overflow-y-auto gap-2;
+
+                    li {
+                        @apply flex items-center gap-2 rounded divide-x divide-gray-200 bg-gray-200 dark:divide-gray-800 dark:bg-gray-900;
+
+                        .scribble-button {
+                            @apply flex-1;
+                        }
+
+                        .drag-handle {
+                            @apply cursor-grab p-2 text-gray-700 dark:text-gray-500;
+                        }
+                    }
+                }
+
+                &.collapsed {
+                    .scribble-panel-toggle .scribble-button {
+                        @apply rotate-180;
+                    }
+
+                    .scribble-panel-tools {
+                        display: none;
+                    }
+                }
+            }
+
             .scribble-editor {
-                @apply flex-1 max-w-7xl mx-auto overflow-hidden;
+                @apply h-full overflow-y-auto pt-6 pb-12;
+                grid-area: content;
 
                 .tiptap {
-                    @apply h-full overflow-y-auto;
+                    @apply max-w-7xl mx-auto;
 
                     &:focus-visible {
                         @apply outline-none ring-0;
                     }
                 }
+            }
+        }
+
+        &.display-mobile {
+            .scribble-editor .tiptap {
+                max-width: 392px;
+            }
+        }
+
+        &.display-tablet {
+            .scribble-editor .tiptap {
+                @apply max-w-screen-md;
             }
         }
     }
@@ -49,6 +135,10 @@
 
         .scribble-button.active {
             @apply text-primary-500;
+        }
+
+        .scribble-editor-wrapper .scribble-editor .tiptap .ProseMirror-selectednode + .moveable-control-box {
+            display: block !important;
         }
     }
 
@@ -64,6 +154,10 @@
 
             .scribble-controls-panel {
                 @apply inline-flex px-2 items-center rounded-full border border-gray-950/10 dark:border-white/20 shadow-md bg-gray-700 text-white;
+
+                .scribble-controls-viewport-controls {
+                    display: none;
+                }
             }
 
             .scribble-enter-fullscreen {
@@ -87,6 +181,10 @@
             }
         }
 
+        .scribble-panel {
+            display: none;
+        }
+
         .scribble-editor {
             @apply w-full;
 
@@ -97,7 +195,7 @@
                     @apply outline-none ;
                 }
 
-                *:first-child {
+                *:first-child:not(.moveable-control) {
                     @apply mt-0;
                 }
 
@@ -128,6 +226,15 @@
 
                     .node-scribbleBlock + .ProseMirror-gapcursor + .node-scribbleBlock {
                         margin-top: 1rem;
+                    }
+                }
+
+                .moveable-control-box {
+                    display: none !important;
+                    z-index: 10;
+
+                    .moveable-line {
+                        height: 2px;
                     }
                 }
 
@@ -251,6 +358,63 @@
                         }
                     }
                 }
+
+                table {
+                    @apply border-collapse m-0 overflow-hidden w-full relative table-fixed;
+                }
+
+                table td,
+                table th {
+                    @apply border border-gray-400 py-2 px-3 align-top min-w-4 bg-clip-padding dark:border-gray-600;
+                }
+
+                table td > *,
+                table th > * {
+                    @apply mb-0;
+                }
+
+                table th {
+                    @apply font-bold text-left bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100;
+                }
+
+                table .selectedCell {
+                    position: relative;
+                }
+
+                table .selectedCell:after {
+                    background: rgba(200, 200, 255, 0.4);
+                    content: "";
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    pointer-events: none;
+                    position: absolute;
+                    z-index: 2;
+                }
+
+                table .column-resize-handle {
+                    background-color: #adf;
+                    bottom: -2px;
+                    position: absolute;
+                    right: -2px;
+                    pointer-events: none;
+                    top: 0;
+                    width: 4px;
+                }
+
+                table p {
+                    margin: 0;
+                }
+
+                .tableWrapper {
+                    padding: 1rem 0;
+                    overflow-x: auto;
+                }
+
+                &.resize-cursor {
+                    cursor: col-resize;
+                }
             }
         }
     }
@@ -305,7 +469,7 @@
     @apply w-56 max-h-56 overflow-y-auto text-xs rounded-lg shadow-lg ring-1 ring-gray-950/5 transition dark:ring-white/10;
 
     .no-blocks {
-        @apply p-2 text-gray-200;
+        @apply p-2 text-gray-200 dark:text-gray-700;
     }
 
     .group-title {

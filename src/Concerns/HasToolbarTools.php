@@ -2,6 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
+use Awcodes\Scribble\Facades\ScribbleFacade;
 use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\ScribbleManager;
 use Awcodes\Scribble\ScribbleTool;
@@ -35,6 +36,12 @@ trait HasToolbarTools
         $tools = $this->getProfile()
             ? app($this->getProfile())::toolbarTools() ?? []
             : DefaultProfile::toolbarTools();
+
+        $tools = ScribbleFacade::getTools($tools)->toArray();
+
+        if (! isset($tools['link'])) {
+            $tools['link'] = Link::make()->hidden();
+        }
 
         if (! isset($tools['link'])) {
             $tools['link'] = Link::make()->hidden();

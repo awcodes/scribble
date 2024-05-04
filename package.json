@@ -6,6 +6,7 @@
         "build": "node bin/build.js"
     },
     "devDependencies": {
+        "@svelte-put/resize": "^3.0.0",
         "@tiptap/core": "^2.2.0",
         "@tiptap/extension-blockquote": "^2.2.0",
         "@tiptap/extension-bold": "^2.2.0",
@@ -30,6 +31,10 @@
         "@tiptap/extension-strike": "^2.2.0",
         "@tiptap/extension-subscript": "^2.2.0",
         "@tiptap/extension-superscript": "^2.2.0",
+        "@tiptap/extension-table": "^2.3.0",
+        "@tiptap/extension-table-cell": "^2.3.0",
+        "@tiptap/extension-table-header": "^2.3.0",
+        "@tiptap/extension-table-row": "^2.3.0",
         "@tiptap/extension-text": "^2.2.0",
         "@tiptap/extension-text-style": "^2.2.0",
         "@tiptap/extension-underline": "^2.2.0",
@@ -44,5 +49,8 @@
         "svelte": "^4.2.8",
         "svelte-tiptap": "^1.1.2",
         "tippy.js": "^6.3.7"
+    },
+    "dependencies": {
+        "svelte-moveable": "^0.45.0"
     }
 }

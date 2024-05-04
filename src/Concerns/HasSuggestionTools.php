@@ -2,6 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
+use Awcodes\Scribble\Facades\ScribbleFacade;
 use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\ScribbleManager;
 use Awcodes\Scribble\ScribbleTool;
@@ -15,6 +16,8 @@ trait HasSuggestionTools
         $tools = $this->getProfile()
             ? app($this->getProfile())::suggestionTools() ?? []
             : DefaultProfile::suggestionTools();
+      
+        $tools = ScribbleFacade::getTools($tools)->toArray();
 
         $defaults = app(ScribbleManager::class)->getRegisteredTools()
             ->filter(fn (ScribbleTool $tool) => in_array($this->getProfile() ?? DefaultProfile::class, $tool->getSuggestionTool()))

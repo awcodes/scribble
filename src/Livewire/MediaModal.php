@@ -24,6 +24,8 @@ class MediaModal extends ScribbleModal
 
     public ?string $header = 'Media';
 
+    public ?string $identifier = 'media';
+
     public static ?MaxWidth $maxWidth = MaxWidth::TwoExtraLarge;
 
     public function mount(): void
@@ -36,6 +38,7 @@ class MediaModal extends ScribbleModal
         $this->data['loading'] = $this->data['loading'] ?? null;
         $this->data['link_text'] = $this->data['link_text'] ?? null;
         $this->data['type'] = $this->data['type'] ?? null;
+        $this->data['coordinates'] = $this->data['coordinates'] ?? null;
 
         $source = $this->data['src']
             ? $this->getDirectory() . Str::of($this->data['src'])->after($this->getDirectory())
@@ -77,8 +80,10 @@ class MediaModal extends ScribbleModal
                             ->afterStateUpdated(function (TemporaryUploadedFile $state, Set $set): void {
                                 if (Str::contains($state->getMimeType(), 'image')) {
                                     $set('type', 'image');
-                                    $set('width', $state->dimensions()[0]);
-                                    $set('height', $state->dimensions()[1]);
+                                    if (! Str::contains($state->getMimeType(), 'svg')) {
+                                        $set('width', $state->dimensions()[0]);
+                                        $set('height', $state->dimensions()[1]);
+                                    }
                                 } else {
                                     $set('type', 'document');
                                 }
@@ -161,7 +166,8 @@ class MediaModal extends ScribbleModal
             values: [
                 ...$data,
                 'src' => $source,
-            ]
+            ],
+            coordinates: $this->coordinates,
         );
 
         $this->closeScribbleModal();

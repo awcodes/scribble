@@ -10,6 +10,7 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, mer
         statePath,
         placeholder: placeholder ?? "press '/' for blocks",
         fullscreen: false,
+        viewport: 'desktop',
         updatedFromEditor: false,
         isFocused: false,
 
@@ -60,5 +61,10 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, mer
             if (event.detail.statePath !== this.statePath) return
             this.fullscreen = !this.fullscreen
         },
+
+        changeViewport(event) {
+            if (event.detail.statePath !== this.statePath) return
+            this.viewport = event.detail.viewport
+        }
     }
 }

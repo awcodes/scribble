@@ -18,7 +18,8 @@ class LinkModal extends ScribbleModal
                         ->columnSpan('full')
                         ->requiredWithout('id')
                         ->validationAttribute('URL'),
-                    Forms\Components\TextInput::make('id'),
+                    Forms\Components\TextInput::make('id')
+                        ->label(trans('scribble::link.labels.id')),
                     Forms\Components\Select::make('target')
                         ->selectablePlaceholder(false)
                         ->options([

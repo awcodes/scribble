@@ -63,7 +63,7 @@ protected $casts = [
 
 It is also recommended to make the column a`longText` type in your migration. However, this is not required and if you know you will not need a large amount of data you can use a `text` or `mediumText` type as well. Just be aware that the content can grow rather quickly.
 
-```php 
+```php
 $table->longText('content')->nullable();
 ```
 
@@ -102,37 +102,36 @@ In the `boot` method of a ServiceProvider you can set the default configuration 
 
 ```php
 use Awcodes\Scribble\ScribbleEditor;
-use Awcodes\Scribble\Pofiles\MinimalProfile;
+use Awcodes\Scribble\Profiles\MinimalProfile;
 
 ScribbleEditor::configureUsing(function (ScribbleEditor $scribble) {
     $scribble
         ->renderToolbar()
-        ->profile(MinimalProfile::class)
+        ->profile(MinimalProfile::class);
 });
 ```
 
 ## Editor Profiles
 
-Manually, creating menu configurations for each instance of the editor can be cumbersome. To alleviate this, you can create a profile class that defines the tools for the bubble, suggestion, and toolbar menus. You can then apply the profile to the editor using the `profile` method.
+Manually, creating menu configurations for each instance of the editor can be cumbersome. To alleviate this, you can create a profile class that defines the tools for the bubble, suggestion, and toolbar menus. You can then apply the profile to the editor using the `profile` method. You may use either the tool identifier for the tools class name.
 
 ```php
 namespace App\ScribbleProfiles;
 
-use Awcodes\Scribble\Facades\ScribbleFacade;
-use Awcodes\Scribble\ScribbleProfile;
+use Awcodes\Scribble\ScribbleProfile;use Awcodes\Scribble\Tools;
 
 class Minimal extends ScribbleProfile
 {
     public static function bubbleTools(): array
     {
-        return ScribbleFacade::getTools([
-            'paragraph',
-            'bold',
-            'italic',
-            'link',
-            'bullet-list',
-            'ordered-list',
-        ])->toArray();
+        return [
+            Tools\Paragraph::class,
+            Tools\Bold::class,
+            Tools\Italic::class,
+            Tools\Link::class,
+            Tools\BulletList::class,
+            Tools\OrderedList::class,
+        ];
     }
 
     public static function suggestionTools(): array
@@ -142,14 +141,14 @@ class Minimal extends ScribbleProfile
 
     public static function toolbarTools(): array
     {
-        return ScribbleFacade::getTools([
+        return [
             'paragraph',
             'bold',
             'italic',
             'link',
             'bullet-list',
             'ordered-list',
-        ])->toArray();
+        ];
     }
 }
 ```
@@ -290,7 +289,7 @@ use Filament\Forms\Components\Radio;
 class NoticeForm extends ScribbleModal
 {
     public ?string $header = 'Notice';
-    
+
     // this should match the identifier in the tool class
     public ?string $identifier = 'notice';
 
@@ -391,7 +390,7 @@ class MediaForm extends ScribbleModal
     public ?string $header = 'Media';
 
     // this should match the identifier in the tool class
-    public ?string $identifier = 'media'; 
+    public ?string $identifier = 'media';
 
     public function mount(): void
     {
@@ -569,11 +568,11 @@ Converter::from($content)->toTOC();
 If you are using Merge tags and outputting the content as HTML you can use the `mergeTagsMap` method to replace the merge tags with the appropriate values.
 
 ```blade
-{!! 
+{!!
     scribble($content)->mergeTagsMap([
         'brand_phone' => '1-800-555-1234',
         'brand_email' => 'webinquiries@titlemax.com',
-    ])->toHtml() 
+    ])->toHtml()
 !!}
 ```
 
