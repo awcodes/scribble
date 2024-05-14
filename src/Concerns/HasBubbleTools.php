@@ -24,9 +24,11 @@ trait HasBubbleTools
     {
         $tools = $this->evaluate($this->bubbleTools);
 
-        if (! is_null($tools) && empty($tools)) {
+        if (! is_null($tools) && $tools === false) {
             return [];
-        } else {
+        }
+
+        if (empty($tools)) {
             $tools = $this->getProfile()
                 ? app($this->getProfile())::bubbleTools()
                 : DefaultProfile::bubbleTools();

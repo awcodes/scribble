@@ -39,9 +39,11 @@ trait HasToolbarTools
         if ($this->shouldRenderToolbar()) {
             $tools = $this->evaluate($this->toolbarTools);
 
-            if (! is_null($tools) && empty($tools)) {
+            if (! is_null($tools) && $tools === false) {
                 return [];
-            } else {
+            }
+
+            if (empty($tools)) {
                 $tools = $this->getProfile()
                     ? app($this->getProfile())::toolbarTools()
                     : DefaultProfile::toolbarTools();
