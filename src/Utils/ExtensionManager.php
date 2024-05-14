@@ -2,7 +2,7 @@
 
 namespace Awcodes\Scribble\Utils;
 
-use Awcodes\Scribble\ScribbleManager;
+use Awcodes\Scribble\Facades\Scribble;
 use Awcodes\Scribble\Tiptap\Extensions as CoreExtensions;
 use Awcodes\Scribble\Tiptap\Marks as CoreMarks;
 use Awcodes\Scribble\Tiptap\Nodes as CoreNodes;
@@ -23,8 +23,7 @@ class ExtensionManager
 
     public function getCustomExtensions(): array
     {
-        return app(ScribbleManager::class)
-            ->getRegisteredConverterExtensions()
+        return Scribble::getRegisteredConverterExtensions()
             ->map(function ($extension) {
                 return new $extension();
             })

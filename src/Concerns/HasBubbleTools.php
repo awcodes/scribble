@@ -2,7 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
-use Awcodes\Scribble\Facades\ScribbleFacade;
+use Awcodes\Scribble\Facades\Scribble;
 use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Wrappers\Group;
@@ -18,7 +18,7 @@ trait HasBubbleTools
             $tools = DefaultProfile::bubbleTools();
         }
 
-        $tools = ScribbleFacade::getTools($tools)->toArray();
+        $tools = Scribble::getTools($tools)->toArray();
 
         if (! isset($tools['link'])) {
             $tools['link'] = Link::make()->hidden();

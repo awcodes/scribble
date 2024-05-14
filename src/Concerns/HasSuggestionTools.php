@@ -2,7 +2,7 @@
 
 namespace Awcodes\Scribble\Concerns;
 
-use Awcodes\Scribble\Facades\ScribbleFacade;
+use Awcodes\Scribble\Facades\Scribble;
 use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\Wrappers\Group;
 use Exception;
@@ -17,7 +17,7 @@ trait HasSuggestionTools
             $tools = DefaultProfile::suggestionTools();
         }
 
-        return ScribbleFacade::getTools($tools)->toArray();
+        return Scribble::getTools($tools)->toArray();
     }
 
     /**
