@@ -6,16 +6,30 @@ use Awcodes\Scribble\Facades\Scribble;
 use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Wrappers\Group;
+use Closure;
 use Exception;
 
 trait HasBubbleTools
 {
+    protected array | Closure | bool | null $bubbleTools = null;
+
+    public function bubbleTools(array | Closure | bool $tools): static
+    {
+        $this->bubbleTools = $tools;
+
+        return $this;
+    }
+
     public function getBubbleTools(): array
     {
-        if ($this->getProfile()) {
-            $tools = app($this->getProfile())::bubbleTools() ?? [];
+        $tools = $this->evaluate($this->bubbleTools);
+
+        if (! is_null($tools) && empty($tools)) {
+            return [];
         } else {
-            $tools = DefaultProfile::bubbleTools();
+            $tools = $this->getProfile()
+                ? app($this->getProfile())::bubbleTools()
+                : DefaultProfile::bubbleTools();
         }
 
         $tools = Scribble::getTools($tools)->toArray();

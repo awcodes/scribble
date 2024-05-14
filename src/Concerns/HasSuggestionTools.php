@@ -5,16 +5,30 @@ namespace Awcodes\Scribble\Concerns;
 use Awcodes\Scribble\Facades\Scribble;
 use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\Wrappers\Group;
+use Closure;
 use Exception;
 
 trait HasSuggestionTools
 {
+    protected array | Closure | bool | null $suggestionTools = null;
+
+    public function suggestionTools(array | Closure | bool $tools): static
+    {
+        $this->suggestionTools = $tools;
+
+        return $this;
+    }
+
     public function getSuggestionTools(): array
     {
-        if ($this->getProfile()) {
-            $tools = app($this->getProfile())::suggestionTools() ?? [];
+        $tools = $this->evaluate($this->suggestionTools);
+
+        if (! is_null($tools) && empty($tools)) {
+            return [];
         } else {
-            $tools = DefaultProfile::suggestionTools();
+            $tools = $this->getProfile()
+                ? app($this->getProfile())::suggestionTools()
+                : DefaultProfile::suggestionTools();
         }
 
         return Scribble::getTools($tools)->toArray();

@@ -13,6 +13,15 @@ trait HasToolbarTools
 {
     protected bool | Closure | null $renderToolbar = false;
 
+    protected array | Closure | bool | null $toolbarTools = null;
+
+    public function toolbarTools(array | Closure | bool $tools): static
+    {
+        $this->toolbarTools = $tools;
+
+        return $this;
+    }
+
     public function renderToolbar(bool | Closure | null $render = true): static
     {
         $this->renderToolbar = $render;
@@ -28,10 +37,14 @@ trait HasToolbarTools
     public function getToolbarTools(): array
     {
         if ($this->shouldRenderToolbar()) {
-            if ($this->getProfile()) {
-                $tools = app($this->getProfile())::toolbarTools() ?? [];
+            $tools = $this->evaluate($this->toolbarTools);
+
+            if (! is_null($tools) && empty($tools)) {
+                return [];
             } else {
-                $tools = DefaultProfile::toolbarTools();
+                $tools = $this->getProfile()
+                    ? app($this->getProfile())::toolbarTools()
+                    : DefaultProfile::toolbarTools();
             }
 
             $tools = Scribble::getTools($tools)->toArray();
