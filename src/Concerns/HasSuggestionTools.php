@@ -23,9 +23,11 @@ trait HasSuggestionTools
     {
         $tools = $this->evaluate($this->suggestionTools);
 
-        if (! is_null($tools) && empty($tools)) {
+        if (! is_null($tools) && $tools === false) {
             return [];
-        } else {
+        }
+
+        if (empty($tools)) {
             $tools = $this->getProfile()
                 ? app($this->getProfile())::suggestionTools()
                 : DefaultProfile::suggestionTools();
