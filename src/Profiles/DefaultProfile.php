@@ -23,6 +23,7 @@ use Awcodes\Scribble\Tools\Paragraph;
 use Awcodes\Scribble\Tools\Strike;
 use Awcodes\Scribble\Tools\Subscript;
 use Awcodes\Scribble\Tools\Superscript;
+use Awcodes\Scribble\Tools\Table;
 
 class DefaultProfile extends ScribbleProfile
 {
@@ -81,6 +82,7 @@ class DefaultProfile extends ScribbleProfile
             Grid::class,
             Blockquote::class,
             HorizontalRule::class,
+            Table::class,
             Divider::class,
             AlignStart::class,
             AlignCenter::class,
