@@ -15,6 +15,7 @@ class ScribbleTool extends Component
     use Concerns\Tools\HasLabel;
     use Concerns\Tools\HasName;
     use Concerns\Tools\HasOptions;
+    use Concerns\Tools\HasProfileDefaults;
     use Concerns\Tools\HasStatePath;
     use Concerns\Tools\HasType;
     use Concerns\Tools\HasViews;

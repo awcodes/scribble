@@ -22,7 +22,8 @@ class {{ class_name }} extends ScribbleTool
             ->optionsModal(component: {{ class_name }}Modal::class)
             ->converterExtensions([
                 {{ extension }}
-            ]);
+            ])
+            ->suggestionTool();
     }
 }
 

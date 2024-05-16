@@ -3,9 +3,10 @@
 namespace Awcodes\Scribble\Concerns;
 
 use Awcodes\Scribble\Facades\Scribble;
+use Awcodes\Scribble\Helpers;
 use Awcodes\Scribble\Profiles\DefaultProfile;
+use Awcodes\Scribble\ScribbleTool;
 use Awcodes\Scribble\Tools\Link;
-use Awcodes\Scribble\Wrappers\Group;
 use Closure;
 use Exception;
 
@@ -55,7 +56,11 @@ trait HasToolbarTools
                 $tools['link'] = Link::make()->hidden();
             }
 
-            return $tools;
+            $defaults = Scribble::getRegisteredTools()
+                ->filter(fn (ScribbleTool $tool) => in_array($this->getProfile() ?? DefaultProfile::class, $tool->getToolbarTool()))
+                ->all();
+
+            return [...$tools, ...$defaults];
         }
 
         return [];
@@ -66,32 +71,10 @@ trait HasToolbarTools
      */
     public function getToolbarToolsSchema(): array
     {
-        $tools = [];
-
         if ($this->shouldRenderToolbar()) {
-            foreach ($this->getToolbarTools() as $tool) {
-                if ($tool instanceof Group) {
-                    foreach ($tool->getTools() as $groupTool) {
-                        $groupTool->statePath($this->getStatePath());
-
-                        $tools[] = [
-                            ...$groupTool->toArray(),
-                            'group' => $tool->getLabel(),
-                            'groupLabel' => str($tool->getLabel())->title(),
-                        ];
-                    }
-                } else {
-                    $tool->statePath($this->getStatePath());
-
-                    $tools[] = [
-                        ...$tool->toArray(),
-                        'group' => '',
-                        'groupLabel' => '',
-                    ];
-                }
-            }
+            return Helpers::getToolsSchema($this->getToolbarTools(), $this->getStatePath());
         }
 
-        return $tools;
+        return [];
     }
 }
