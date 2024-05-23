@@ -10,7 +10,7 @@ export default Extension.create({
                     'heading',
                     'paragraph',
                     'link',
-                    'image',
+                    'media',
                     'listItem',
                     'bulletList',
                     'orderedList',

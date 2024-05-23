@@ -48,7 +48,7 @@ class ExtensionManager
             new CoreExtensions\ClassExtension(),
             new CoreExtensions\IdExtension(),
             new CoreNodes\ListItem(),
-            new CoreNodes\Image(),
+            new CoreNodes\Media(),
             new CoreNodes\Details(),
             new CoreNodes\DetailsSummary(),
             new CoreNodes\DetailsContent(),

@@ -100,7 +100,6 @@
 
                     return from !== to && ! (
                         bubbleTools.filter(tool => ! tool.isHidden).length === 0 ||
-                        editor.isActive('image') ||
                         editor.isActive('scribbleBlock') ||
                         editor.isActive('slashExtension')
                     )
@@ -231,7 +230,6 @@
                             values: data.detail.values
                         }
                     }));
-                    return
                 }
 
                 commandRunner(editor, tool.commands, {...data.detail.values, coordinates: data.detail?.coordinates})
@@ -239,7 +237,9 @@
         }
     })
 
-    const handleToolClick = (tool, update = false, coordinates = null) => {
+    const handleToolClick = (name, update = false, coordinates = null) => {
+        const tool = tools.find((t) => { return t.extension === name });
+
         switch (tool.type) {
             case 'command':
                 commandRunner(editor, tool.commands);
