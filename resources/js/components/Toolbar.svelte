@@ -34,7 +34,7 @@
                     <Button {editor}
                             key={tool.extension}
                             active={isActive(tool.active.extension, tool.active.attrs)}
-                            on:click={() => handleToolClick(tool)}
+                            on:click={() => handleToolClick(tool.extension)}
                             hidden={tool.isHidden}
                     >
                         {@html tool.icon}

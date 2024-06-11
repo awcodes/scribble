@@ -31,7 +31,7 @@
     onMount(() => {
         window.addEventListener('updatedBlock', (e) => {
             if (e.detail.statePath === editor.storage?.statePathExtension.statePath) {
-                updateAttributes(e.detail.values)
+                console.log(node.attrs)
             }
         })
     })

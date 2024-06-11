@@ -4,8 +4,10 @@ namespace Awcodes\Scribble\Tiptap\Nodes;
 
 use Tiptap\Nodes\Image as BaseImage;
 
-class Image extends BaseImage
+class Media extends BaseImage
 {
+    public static $name = 'media';
+
     public function addAttributes(): array
     {
         return [
@@ -33,6 +35,20 @@ class Image extends BaseImage
                     return $attributes->lazy
                         ? ['loading' => 'lazy']
                         : null;
+                },
+            ],
+            'alignment' => [
+                'default' => false,
+                'renderHTML' => function ($attributes) {
+                    $style = match ($attributes->alignment) {
+                        'center' => 'margin-inline: auto;',
+                        'end' => 'margin-inline-start: auto;',
+                        default => null,
+                    };
+
+                    return [
+                        'style' => $style
+                    ];
                 },
             ],
         ];

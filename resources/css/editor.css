@@ -281,7 +281,7 @@
                 }
 
                 .node-image {
-                    display: inline-block;
+                    display: block;
                 }
 
                 .node-scribbleBlock {

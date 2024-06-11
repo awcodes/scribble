@@ -11,6 +11,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Support\Enums\MaxWidth;
@@ -30,15 +31,18 @@ class MediaModal extends ScribbleModal
 
     public function mount(): void
     {
-        $this->data['src'] = $this->data['src'] ?? null;
-        $this->data['alt'] = $this->data['alt'] ?? null;
-        $this->data['title'] = $this->data['title'] ?? null;
-        $this->data['width'] = $this->data['width'] ?? null;
-        $this->data['height'] = $this->data['height'] ?? null;
-        $this->data['loading'] = $this->data['loading'] ?? null;
-        $this->data['link_text'] = $this->data['link_text'] ?? null;
-        $this->data['type'] = $this->data['type'] ?? null;
-        $this->data['coordinates'] = $this->data['coordinates'] ?? null;
+        $this->data = [
+            'src' => $this->data['src'] ?? null,
+            'alt' => $this->data['alt'] ?? null,
+            'title' => $this->data['title'] ?? null,
+            'width' => $this->data['width'] ?? null,
+            'height' => $this->data['height'] ?? null,
+            'loading' => $this->data['loading'] ?? null,
+            'alignment' => $this->data['alignment'] ?? 'start',
+            'link_text' => $this->data['link_text'] ?? null,
+            'type' => $this->data['type'] ?? null,
+            'coordinates' => $this->data['coordinates'] ?? null,
+        ];
 
         $source = $this->data['src']
             ? $this->getDirectory() . Str::of($this->data['src'])->after($this->getDirectory())
@@ -51,6 +55,7 @@ class MediaModal extends ScribbleModal
             'width' => $this->data['width'],
             'height' => $this->data['height'],
             'loading' => $this->data['loading'],
+            'alignment' => $this->data['alignment'],
             'link_text' => $this->data['link_text'],
             'type' => $this->data['type'],
         ]);
@@ -83,6 +88,9 @@ class MediaModal extends ScribbleModal
                                     if (! Str::contains($state->getMimeType(), 'svg')) {
                                         $set('width', $state->dimensions()[0]);
                                         $set('height', $state->dimensions()[1]);
+                                    } else {
+                                        $set('width', 50);
+                                        $set('height', 50);
                                     }
                                 } else {
                                     $set('type', 'document');
@@ -126,6 +134,14 @@ class MediaModal extends ScribbleModal
                             TextInput::make('width'),
                             TextInput::make('height'),
                         ])->columns()->hidden(fn (Get $get) => $get('type') == 'document'),
+                        ToggleButtons::make('alignment')
+                            ->options([
+                                'start' => 'Start',
+                                'center' => 'Center',
+                                'end' => 'End',
+                            ])
+                            ->grouped()
+                            ->default('start'),
                         Checkbox::make('loading')
                             ->label(trans('scribble::media.labels.lazy'))
                             ->dehydrateStateUsing(function ($state): ?string {
