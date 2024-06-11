@@ -7,6 +7,7 @@ use Awcodes\Scribble\Helpers;
 use Awcodes\Scribble\Profiles\DefaultProfile;
 use Awcodes\Scribble\ScribbleTool;
 use Awcodes\Scribble\Tools\Link;
+use Awcodes\Scribble\Tools\Media;
 use Closure;
 use Exception;
 
@@ -40,6 +41,10 @@ trait HasBubbleTools
 
         if (! isset($tools['link'])) {
             $tools['link'] = Link::make()->hidden();
+        }
+
+        if (! isset($tools['media'])) {
+            $tools['media'] = Media::make()->hidden();
         }
 
         $defaults = Scribble::getRegisteredTools()
