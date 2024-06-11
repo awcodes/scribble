@@ -94,16 +94,10 @@ export default Image.extend({
                     }).run()
                 }
 
-                let currentChain = chain().focus().insertContent({
+                return chain().focus().insertContent({
                     type: this.name,
                     attrs: options,
-                })
-
-                if (! commands.selectNodeForward()) {
-                    currentChain.createParagraphNear()
-                }
-
-                return currentChain.run()
+                }).run()
             },
         }
     },
