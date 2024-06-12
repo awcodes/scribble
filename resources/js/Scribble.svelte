@@ -232,6 +232,11 @@
                     }));
                 }
 
+                if (typeof data.detail.values === 'string') {
+                    commandRunner(editor, tool.commands, data.detail.values)
+                    return
+                }
+
                 commandRunner(editor, tool.commands, {...data.detail.values, coordinates: data.detail?.coordinates})
             })
         }
