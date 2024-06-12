@@ -77,6 +77,7 @@ class Converter
                 new \Tiptap\Nodes\Document(),
                 new \Tiptap\Nodes\Text(),
                 new \Tiptap\Nodes\HardBreak(),
+                new \Tiptap\Marks\TextStyle(),
                 new ClassExtension(),
                 new IdExtension(),
                 new ListItem(),
