@@ -35,6 +35,11 @@
     import Toolbar from './components/Toolbar.svelte'
     import BlockPanel from './components/BlockPanel.svelte'
     import cx from 'clsx'
+    import { lowlight } from "lowlight/lib/common";
+    import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
+    import { SvelteNodeViewRenderer } from 'svelte-tiptap'
+    import ScribbleBlockView from './components/ScribbleBlock.svelte'
+    import CodeBlockView from './components/CodeBlockView.svelte'
 
     let editor;
     let element;
@@ -55,7 +60,9 @@
             StatePathExtension.configure({
                statePath: statePath
             }),
-            StarterKit,
+            StarterKit.configure({
+                codeBlock: false
+            }),
             DragAndDropExtension,
             ClassExtension,
             CommandsExtension,
@@ -103,6 +110,17 @@
                         editor.isActive('scribbleBlock') ||
                         editor.isActive('slashExtension')
                     )
+                },
+            }),
+            CodeBlockLowlight.extend({
+                addNodeView() {
+                    return SvelteNodeViewRenderer(CodeBlockView)
+                },
+            }).configure({
+                lowlight,
+                defaultLanguage: 'javascript',
+                HTMLAttributes: {
+                    class: 'hljs'
                 },
             }),
             ...customExtensions,

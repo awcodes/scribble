@@ -42,6 +42,7 @@ class ExtensionManager
             new Nodes\OrderedList(),
             new Nodes\Paragraph(),
             new Nodes\Text(),
+            new Nodes\CodeBlockHighlight(),
             new CoreExtensions\TextAlignExtension([
                 'types' => ['heading', 'paragraph'],
             ]),

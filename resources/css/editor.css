@@ -1,3 +1,6 @@
+@import 'themes/github.css';
+@import 'themes/github-dark.css';
+
 :root {
     --scribble-enter-duration: 300ms;
     --scribble-leave-duration: 200ms;
@@ -129,7 +132,8 @@
     }
 
     &.focused {
-        .scribble-block .scribble-block-actions {
+        .scribble-block .scribble-block-actions,
+        .scribble-code-block .scribble-block-actions {
             @apply !opacity-100 !pointer-events-auto;
         }
 
@@ -235,6 +239,23 @@
 
                     .moveable-line {
                         height: 2px;
+                    }
+                }
+
+                .scribble-code-block {
+                    @apply relative;
+
+                    code div {
+                        display: inline;
+                    }
+
+                    .scribble-block-actions {
+                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
+                        z-index: 1;
+
+                        select {
+                            @apply text-sm rounded-sm py-1 px-3 bg-transparent border-none ring-1 outline-none focus:ring-primary-600 ring-gray-950/10 dark:ring-white/20 dark:focus-within:ring-primary-500;
+                        }
                     }
                 }
 
