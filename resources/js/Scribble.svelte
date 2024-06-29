@@ -3,6 +3,8 @@
     import {Editor} from '@tiptap/core'
     import {BubbleMenu as TiptapBubbleMenu} from '@tiptap/extension-bubble-menu'
     import ClassExtension from './extensions/ClassExtension.js'
+    import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+    import Color from '@tiptap/extension-color'
     import CommandsExtension from './extensions/CommandsExtension.js'
     import DragAndDropExtension from './extensions/DragAndDropExtension.js'
     import Grid from './extensions/Grid/Grid.js'
@@ -36,9 +38,7 @@
     import BlockPanel from './components/BlockPanel.svelte'
     import cx from 'clsx'
     import { lowlight } from "lowlight/lib/common";
-    import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
     import { SvelteNodeViewRenderer } from 'svelte-tiptap'
-    import ScribbleBlockView from './components/ScribbleBlock.svelte'
     import CodeBlockView from './components/CodeBlockView.svelte'
 
     let editor;
@@ -57,27 +57,51 @@
     onMount(() => {
         let customExtensions = window?.scribbleExtensions || [];
         let extensions = [
+            ClassExtension,
+            CodeBlockLowlight.extend({
+                addNodeView() {
+                    return SvelteNodeViewRenderer(CodeBlockView)
+                },
+                addKeyboardShortcuts() {
+                    return {
+                        Tab: ({editor}) => {
+                            if (editor.isActive('codeBlock')) {
+                                return editor.commands.insertContent('\t')
+                            }
+                        },
+                        'Shift-Tab': ({editor}) => {
+                            if (editor.isActive('codeBlock')) {
+                                const pos = editor.view.state.selection.$head.pos
+                                return editor.commands.deleteRange({from: pos - 1, to: pos})
+                            }
+                        }
+                    }
+                }
+            }).configure({
+                lowlight,
+                defaultLanguage: 'javascript',
+                languageClassPrefix: 'hljs language-',
+            }),
+            Color,
+            CommandsExtension,
+            Details,
+            DetailsContent,
+            DetailsSummary,
+            DragAndDropExtension,
+            Grid,
+            GridColumn,
+            IdExtension,
+            LinkExtension,
+            MediaExtension,
+            ScribbleBlock,
+            Subscript,
+            Superscript,
             StatePathExtension.configure({
-               statePath: statePath
+                statePath: statePath
             }),
             StarterKit.configure({
                 codeBlock: false
             }),
-            DragAndDropExtension,
-            ClassExtension,
-            CommandsExtension,
-            LinkExtension,
-            IdExtension,
-            Grid,
-            GridColumn,
-            Details,
-            DetailsContent,
-            DetailsSummary,
-            ScribbleBlock,
-            Subscript,
-            Superscript,
-            MediaExtension,
-            Underline,
             Table.configure({
                 resizable: true,
             }),
@@ -112,17 +136,7 @@
                     )
                 },
             }),
-            CodeBlockLowlight.extend({
-                addNodeView() {
-                    return SvelteNodeViewRenderer(CodeBlockView)
-                },
-            }).configure({
-                lowlight,
-                defaultLanguage: 'javascript',
-                HTMLAttributes: {
-                    class: 'hljs'
-                },
-            }),
+            Underline,
             ...customExtensions,
         ]
 
@@ -308,9 +322,7 @@
 <div
     class={cx(
         `scribble-editor-wrapper`,
-        {
-            'has-empty-panel': ! ((suggestionTools && suggestionTools.length > 0) || (mergeTags && mergeTags.length > 0))
-        }
+        {'has-empty-panel': ! ((suggestionTools && suggestionTools.length > 0) || (mergeTags && mergeTags.length > 0))}
     )}
 >
     <Controls {editor} {statePath} />

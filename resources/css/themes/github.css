@@ -1,21 +1,84 @@
-/*!
-  Theme: GitHub
-  Description: Light theme as seen on github.com
-  Author: github.com
-  Maintainer: @Hirse
-  Updated: 2021-05-15
+:root {
+    --color-scribble-comment: #57606a;
+    --color-scribble-constant: #0550ae;
+    --color-scribble-constant-other-reference-link: #0a3069;
+    --color-scribble-entity: #6639ba;
+    --color-scribble-storage-modifier-import: #24292f;
+    --color-scribble-entity-tag: #0550ae;
+    --color-scribble-keyword: #cf222e;
+    --color-scribble-string: #0a3069;
+    --color-scribble-variable: #953800;
+    --color-scribble-brackethighlighter-unmatched: #82071e;
+    --color-scribble-brackethighlighter-angle: #57606a;
+    --color-scribble-invalid-illegal-text: #f6f8fa;
+    --color-scribble-invalid-illegal-bg: #82071e;
+    --color-scribble-carriage-return-text: #f6f8fa;
+    --color-scribble-carriage-return-bg: #cf222e;
+    --color-scribble-string-regexp: #116329;
+    --color-scribble-markup-list: #3b2300;
+    --color-scribble-markup-heading: #0550ae;
+    --color-scribble-markup-italic: #24292f;
+    --color-scribble-markup-bold: #24292f;
+    --color-scribble-markup-deleted-text: #82071e;
+    --color-scribble-markup-deleted-bg: #ffebe9;
+    --color-scribble-markup-inserted-text: #116329;
+    --color-scribble-markup-inserted-bg: #dafbe1;
+    --color-scribble-markup-changed-text: #953800;
+    --color-scribble-markup-changed-bg: #ffd8b5;
+    --color-scribble-markup-ignored-text: #eaeef2;
+    --color-scribble-markup-ignored-bg: #0550ae;
+    --color-scribble-meta-diff-range: #8250df;
+    --color-scribble-sublimelinter-gutter-mark: #8c959f;
+}
 
-  Outdated base version: https://github.com/primer/github-syntax-light
-  Current colors taken from GitHub's CSS
-*/
+.dark {
+    --color-scribble-comment: #8b949e;
+    --color-scribble-constant: #79c0ff;
+    --color-scribble-constant-other-reference-link: #0a3069;
+    --color-scribble-entity: #d2a8ff;
+    --color-scribble-storage-modifier-import: #c9d1d9;
+    --color-scribble-entity-tag: #7ee787;
+    --color-scribble-keyword: #ff7b72;
+    --color-scribble-string: #a5d6ff;
+    --color-scribble-variable: #ffa657;
+    --color-scribble-brackethighlighter-unmatched: #82071e;
+    --color-scribble-brackethighlighter-angle: #57606a;
+    --color-scribble-invalid-illegal-text: #f6f8fa;
+    --color-scribble-invalid-illegal-bg: #82071e;
+    --color-scribble-carriage-return-text: #f6f8fa;
+    --color-scribble-carriage-return-bg: #cf222e;
+    --color-scribble-string-regexp: #116329;
+    --color-scribble-markup-list: #f2cc60;
+    --color-scribble-markup-heading: #1f6feb;
+    --color-scribble-markup-italic: #c9d1d9;
+    --color-scribble-markup-bold: #c9d1d9;
+    --color-scribble-markup-deleted-text: #ffdcd7;
+    --color-scribble-markup-deleted-bg: #67060c;
+    --color-scribble-markup-inserted-text: #aff5b4;
+    --color-scribble-markup-inserted-bg: #033a16;
+    --color-scribble-markup-changed-text: #953800;
+    --color-scribble-markup-changed-bg: #ffd8b5;
+    --color-scribble-markup-ignored-text: #eaeef2;
+    --color-scribble-markup-ignored-bg: #0550ae;
+    --color-scribble-meta-diff-range: #8250df;
+    --color-scribble-sublimelinter-gutter-mark: #8c959f;
+}
 
-.scribble-editor .ProseMirror {
-    pre {
-        color: #24292e;
-        background: theme('colors.gray.100');
-        font-family: theme('fontFamily.mono'), monospace;
-    }
+pre.hljs,
+pre:has(code.hljs) {
+    color: #24292e;
+    background: theme('colors.gray.100');
+    font-family: theme('fontFamily.mono'), monospace;
+}
 
+.dark pre.hljs,
+.dark pre:has(code.hljs) {
+    color: #c9d1d9;
+    background: theme('colors.gray.800');
+    font-family: theme('fontFamily.mono'), monospace;
+}
+
+.hljs {
     .hljs-doctag,
     .hljs-keyword,
     .hljs-meta .hljs-keyword,
@@ -23,16 +86,14 @@
     .hljs-template-variable,
     .hljs-type,
     .hljs-variable.language_ {
-        /* prettylights-syntax-keyword */
-        color: #d73a49;
+        color: var(--color-scribble-keyword);
     }
 
     .hljs-title,
     .hljs-title.class_,
     .hljs-title.class_.inherited__,
     .hljs-title.function_ {
-        /* prettylights-syntax-entity */
-        color: #6f42c1;
+        color: var(--color-scribble-entity);
     }
 
     .hljs-attr,
@@ -45,76 +106,64 @@
     .hljs-selector-attr,
     .hljs-selector-class,
     .hljs-selector-id {
-        /* prettylights-syntax-constant */
-        color: #005cc5;
+        color: var(--color-scribble-constant);
     }
 
     .hljs-regexp,
     .hljs-string,
     .hljs-meta .hljs-string {
-        /* prettylights-syntax-string */
-        color: #032f62;
+        color: var(--color-scribble-string);
     }
 
     .hljs-built_in,
     .hljs-symbol {
-        /* prettylights-syntax-variable */
-        color: #e36209;
+        color: var(--color-scribble-variable);
     }
 
     .hljs-comment,
     .hljs-code,
     .hljs-formula {
-        /* prettylights-syntax-comment */
-        color: #6a737d;
+        color: var(--color-scribble-comment);
     }
 
     .hljs-name,
     .hljs-quote,
     .hljs-selector-tag,
     .hljs-selector-pseudo {
-        /* prettylights-syntax-entity-tag */
-        color: #22863a;
+        color: var(--color-scribble-entity-tag);
     }
 
     .hljs-subst {
-        /* prettylights-syntax-storage-modifier-import */
-        color: #24292e;
+        color: var(--color-scribble-storage-modifier-import);
     }
 
     .hljs-section {
-        /* prettylights-syntax-markup-heading */
-        color: #005cc5;
+        color: var(--color-scribble-markup-heading);
         font-weight: bold;
     }
 
     .hljs-bullet {
-        /* prettylights-syntax-markup-list */
-        color: #735c0f;
+        color: var(--color-scribble-markup-list);
     }
 
     .hljs-emphasis {
-        /* prettylights-syntax-markup-italic */
-        color: #24292e;
+        color: var(--color-scribble-markup-italic);
         font-style: italic;
     }
 
     .hljs-strong {
-        /* prettylights-syntax-markup-bold */
-        color: #24292e;
+        color: var(--color-scribble-markup-bold);
         font-weight: bold;
     }
 
     .hljs-addition {
-        /* prettylights-syntax-markup-inserted */
-        color: #22863a;
-        background-color: #f0fff4;
+        color: var(--color-scribble-markup-inserted-text);
+        background-color: var(--color-scribble-markup-inserted-bg);
     }
 
     .hljs-deletion {
-        /* prettylights-syntax-markup-deleted */
-        color: #b31d28;
-        background-color: #ffeef0;
+        color: var(--color-scribble-markup-deleted-text);
+        background-color: var(--color-scribble-markup-deleted-bg);
     }
 
     .hljs-char.escape_,

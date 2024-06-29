@@ -6,6 +6,7 @@
         "build": "node bin/build.js"
     },
     "devDependencies": {
+        "@simonwep/pickr": "^1.9.1",
         "@svelte-put/resize": "^3.0.0",
         "@tiptap/core": "^2.2.0",
         "@tiptap/extension-blockquote": "^2.2.0",
@@ -14,6 +15,7 @@
         "@tiptap/extension-bullet-list": "^2.2.0",
         "@tiptap/extension-code": "^2.2.0",
         "@tiptap/extension-code-block-lowlight": "^2.4.0",
+        "@tiptap/extension-color": "^2.4.0",
         "@tiptap/extension-document": "^2.2.0",
         "@tiptap/extension-dropcursor": "^2.2.0",
         "@tiptap/extension-floating-menu": "^2.2.0",
@@ -50,10 +52,9 @@
         "lowlight": "^2.7.0",
         "prettier": "^2.7.1",
         "svelte": "^4.2.8",
+        "svelte-moveable": "^0.45.0",
         "svelte-tiptap": "^1.1.2",
-        "tippy.js": "^6.3.7"
-    },
-    "dependencies": {
-        "svelte-moveable": "^0.45.0"
+        "tippy.js": "^6.3.7",
+        "vanilla-picker": "^2.12.3"
     }
 }

@@ -1,5 +1,6 @@
 <script>
     import Button from './Button.svelte'
+    import ColorPicker from './ColorPicker.svelte'
 
     export let editor
     export let isActive
@@ -30,12 +31,14 @@
             {#each tools as tool}
                 {#if tool.type === 'divider'}
                     <div class="divider" />
+                {:else if tool.identifier === 'color'}
+                    <ColorPicker {editor} {tool} {handleToolClick} />
                 {:else}
                     <Button {editor}
-                            key={tool.extension}
-                            active={isActive(tool.active.extension, tool.active.attrs)}
-                            on:click={() => handleToolClick(tool.extension)}
-                            hidden={tool.isHidden}
+                        key={tool.extension}
+                        active={isActive(tool.active.extension, tool.active.attrs)}
+                        on:click={() => handleToolClick(tool.extension)}
+                        hidden={tool.isHidden}
                     >
                         {@html tool.icon}
                     </Button>

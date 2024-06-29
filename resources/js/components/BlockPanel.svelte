@@ -49,7 +49,7 @@
     }
 
     window.addEventListener('dragged-block', e => {
-        handleToolClick(JSON.parse(e.detail.tool), false, e.detail.coordinates)
+        handleToolClick(JSON.parse(e.detail.tool).identifier, false, e.detail.coordinates)
     })
 
     window.addEventListener('dragged-merge-tag', e => {

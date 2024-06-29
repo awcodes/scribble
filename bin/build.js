@@ -28,7 +28,7 @@ const defaultOptions = {
     target: ['es2020'],
     minify: !isDev,
     plugins: [
-        sveltePlugin(),
+        sveltePlugin({compilerOptions: {css: true}}),
         {
             name: 'watchPlugin',
             setup: function (build) {

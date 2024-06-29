@@ -5,12 +5,12 @@ import { uuid, openScribbleModal } from "../utils.js"
 
 export default Node.create({
     name: 'scribbleBlock',
-    isBlock: true,
     inline: false,
     group: 'block',
     draggable: true,
+    atom: true,
+    marks: '',
     defining: true,
-    selectable: true,
 
     addStorage() {
         return {

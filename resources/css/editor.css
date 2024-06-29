@@ -1,5 +1,5 @@
 @import 'themes/github.css';
-@import 'themes/github-dark.css';
+@import '@simonwep/pickr/dist/themes/nano.min.css';
 
 :root {
     --scribble-enter-duration: 300ms;
@@ -187,6 +187,14 @@
 
         .scribble-panel {
             display: none;
+        }
+
+        .pickr {
+            @apply flex items-center p-1 gap-2;
+
+            .pcr-button {
+                @apply size-5 overflow-hidden rounded ring-1 ring-white/20;
+            }
         }
 
         .scribble-editor {
@@ -549,6 +557,14 @@
 
     .tippy-content {
         @apply p-0;
+    }
+}
+
+.pcr-app {
+    @apply rounded overflow-hidden shadow-md;
+
+    .pcr-interaction input {
+        @apply rounded;
     }
 }
 

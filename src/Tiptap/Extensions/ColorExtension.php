@@ -28,7 +28,10 @@ class ColorExtension extends Extension
                             return InlineStyle::getAttribute($DOMNode, 'color') ?? false;
                         },
                         'renderHTML' => function ($attributes) {
-                            if (! $attributes->color) {
+                            if (
+                                (property_exists($attributes, 'style') && str_contains($attributes->style, 'color')) ||
+                                (! property_exists($attributes, 'color') || ! $attributes->color)
+                            ) {
                                 return null;
                             }
 

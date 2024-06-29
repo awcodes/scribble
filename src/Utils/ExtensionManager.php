@@ -42,7 +42,12 @@ class ExtensionManager
             new Nodes\OrderedList(),
             new Nodes\Paragraph(),
             new Nodes\Text(),
-            new Nodes\CodeBlockHighlight(),
+            new Nodes\CodeBlockHighlight([
+                'languageClassPrefix' => 'language-',
+                'HTMLAttributes' => [
+                    'class' => 'hljs'
+                ]
+            ]),
             new CoreExtensions\TextAlignExtension([
                 'types' => ['heading', 'paragraph'],
             ]),

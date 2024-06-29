@@ -1,5 +1,4 @@
 @import 'themes/github.css';
-@import 'themes/github-dark.css';
 
 .scribble-entry {
     @apply prose dark:prose-invert max-w-none prose-a:text-blue-500 dark:prose-a:text-blue-400;

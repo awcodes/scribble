@@ -17,6 +17,11 @@ class CodeBlock extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleCodeBlock'),
             ])
-            ->converterExtensions(new CodeBlockExtension());
+            ->converterExtensions(new CodeBlockExtension([
+                'languageClassPrefix' => 'language-',
+                'HTMLAttributes' => [
+                    'class' => 'hljs'
+                ]
+            ]));
     }
 }
