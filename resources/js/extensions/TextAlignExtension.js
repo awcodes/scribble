@@ -5,7 +5,7 @@ export default Extension.create({
 
     addOptions() {
         return {
-            types: [],
+            types: ['heading', 'paragraph'],
             alignments: ['start', 'center', 'end', 'justify'],
             defaultAlignment: 'start',
         }

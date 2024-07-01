@@ -12,7 +12,7 @@ class CodeBlock extends ScribbleTool
         $this
             ->icon('scribble-code-block')
             ->label('Code Block')
-            ->extension('codeBlockLowlight')
+            ->extension('codeBlock')
             ->active(extension: 'codeBlock')
             ->commands([
                 $this->makeCommand(command: 'toggleCodeBlock'),

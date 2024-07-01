@@ -25,6 +25,8 @@ class ScribbleEditor extends Field
 
     protected string $view = 'scribble::scribble-editor';
 
+    protected ?array $headingLevels = null;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -44,5 +46,17 @@ class ScribbleEditor extends Field
 
             return $state;
         });
+    }
+
+    public function headingLevels(array $levels): static
+    {
+        $this->headingLevels = $levels;
+
+        return $this;
+    }
+
+    public function getHeadingLevels(): ?array
+    {
+        return $this->headingLevels ?? config('scribble.globals.heading_levels');
     }
 }

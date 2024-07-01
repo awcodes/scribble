@@ -17,6 +17,10 @@ return [
         'views' => 'scribble-tools',
     ],
 
+    'globals' => [
+        'heading_levels' => [1,2,3]
+    ],
+
     /*
     |-----------------------------------------------------------------
     | Media Settings

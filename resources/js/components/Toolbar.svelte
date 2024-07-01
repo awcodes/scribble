@@ -35,9 +35,9 @@
                     <ColorPicker {editor} {tool} {handleToolClick} />
                 {:else}
                     <Button {editor}
-                        key={tool.extension}
+                        key={tool.identifier}
                         active={isActive(tool.active.extension, tool.active.attrs)}
-                        on:click={() => handleToolClick(tool.extension)}
+                        on:click={() => handleToolClick(tool.identifier)}
                         hidden={tool.isHidden}
                     >
                         {@html tool.icon}

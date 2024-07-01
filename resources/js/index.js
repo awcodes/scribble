@@ -1,6 +1,15 @@
 import Scribble from './Scribble.svelte'
 
-export default function scribble(bubbleTools, suggestionTools, toolbarTools, mergeTags, state, statePath, placeholder) {
+export default function scribble(
+    bubbleTools,
+    suggestionTools,
+    toolbarTools,
+    mergeTags,
+    state,
+    statePath,
+    placeholder,
+    headingLevels
+) {
     return {
         bubbleTools,
         suggestionTools,
@@ -13,6 +22,7 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, mer
         viewport: 'desktop',
         updatedFromEditor: false,
         isFocused: false,
+        headingLevels: headingLevels ?? [1,2,3],
 
         init() {
             const _this = this
@@ -26,7 +36,8 @@ export default function scribble(bubbleTools, suggestionTools, toolbarTools, mer
                     mergeTags: _this.mergeTags,
                     content: _this.state,
                     statePath: _this.statePath,
-                    placeholder: _this.placeholder
+                    placeholder: _this.placeholder,
+                    headingLevels: _this.headingLevels,
                 }
             });
 

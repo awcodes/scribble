@@ -23,6 +23,7 @@
             $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')", isOptimisticallyLive: false) }},
             @js($statePath),
             @js($getPlaceholder()),
+            @js($getHeadingLevels()),
         )"
         x-on:toggle-fullscreen.window="toggleFullscreen($event)"
         x-on:change-viewport.window="changeViewport($event)"
