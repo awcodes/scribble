@@ -6,8 +6,12 @@
     --scribble-leave-duration: 200ms;
 }
 
+.sorting .scribble-wrapper {
+    pointer-events: none;
+}
+
 .scribble-wrapper {
-    @apply relative w-full rounded-md text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white focus-within:ring focus-within:ring-primary-600 prose max-w-none dark:prose-invert prose-a:text-blue-500 dark:prose-a:text-blue-400 ring-gray-950/10 dark:ring-white/20 dark:focus-within:ring-primary-500;
+    @apply relative min-h-[97px] w-full rounded-md text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white focus-within:ring focus-within:ring-primary-600 prose max-w-none dark:prose-invert prose-a:text-blue-500 dark:prose-a:text-blue-400 ring-gray-950/10 dark:ring-white/20 dark:focus-within:ring-primary-500;
 
     &.invalid {
         @apply ring-danger-600 dark:ring-danger-600;
@@ -62,7 +66,7 @@
             }
 
             .scribble-panel {
-                @apply flex flex-col gap-2 overflow-hidden w-full h-full py-2 px-4 bg-gray-100 dark:bg-gray-950;
+                @apply flex flex-col gap-2 overflow-y-hidden w-full h-full py-2 px-4 bg-gray-100 dark:bg-gray-950;
                 grid-area: panel;
 
                 .scribble-button {
@@ -78,7 +82,7 @@
                 }
 
                 .scribble-panel-tools {
-                    @apply flex flex-col flex-1 overflow-y-auto gap-2;
+                    @apply flex flex-col flex-1 overflow-y-auto overflow-x-visible gap-2;
 
                     li {
                         @apply flex items-center gap-2 rounded divide-x divide-gray-200 bg-gray-200 dark:divide-gray-800 dark:bg-gray-900;
@@ -104,15 +108,18 @@
                 }
             }
 
-            .scribble-editor {
-                @apply h-full overflow-y-auto pt-6 pb-12;
+            .scribble-content {
                 grid-area: content;
 
-                .tiptap {
-                    @apply max-w-7xl mx-auto;
+                .scribble-editor {
+                    @apply h-full overflow-y-auto pt-6 pb-12;
 
-                    &:focus-visible {
-                        @apply outline-none ring-0;
+                    .tiptap {
+                        @apply max-w-7xl mx-auto;
+
+                        &:focus-visible {
+                            @apply outline-none ring-0;
+                        }
                     }
                 }
             }
@@ -120,13 +127,13 @@
 
         &.display-mobile {
             .scribble-editor .tiptap {
-                max-width: 392px;
+                max-width: 392px !important;
             }
         }
 
         &.display-tablet {
             .scribble-editor .tiptap {
-                @apply max-w-screen-md;
+                @apply !max-w-screen-md;
             }
         }
     }
@@ -197,252 +204,256 @@
             }
         }
 
-        .scribble-editor {
-            @apply w-full;
+        .scribble-content {
+            @apply relative w-full min-h-full max-h-[40rem] overflow-y-auto;
 
-            .tiptap {
-                @apply p-4 rounded-lg;
+            .scribble-editor {
+                @apply w-full;
 
-                &:focus-visible {
-                    @apply outline-none ;
-                }
+                .tiptap {
+                    @apply p-4 rounded-lg;
 
-                *:first-child:not(.moveable-control) {
-                    @apply mt-0;
-                }
-
-                *:last-child {
-                    @apply mb-0;
-                }
-
-                p.is-empty::before {
-                    @apply text-gray-400 dark:text-gray-600;
-                    content: attr(data-placeholder);
-                    float: left;
-                    height: 0;
-                    pointer-events: none;
-                }
-
-                &.ProseMirror-focused {
-                    .ProseMirror-selectednode {
-                        @apply outline-2 outline-offset-2 outline-dashed outline-gray-900/50 dark:outline-white/80;
+                    &:focus-visible {
+                        @apply outline-none ;
                     }
 
-                    .ProseMirror-gapcursor:after {
-                        @apply border-gray-900/50 dark:border-white/80;
+                    *:first-child:not(.moveable-control) {
+                        @apply mt-0;
                     }
 
-                    .node-scribbleBlock + .ProseMirror-gapcursor {
-                        margin-top: 0.5rem;
+                    *:last-child {
+                        @apply mb-0;
                     }
 
-                    .node-scribbleBlock + .ProseMirror-gapcursor + .node-scribbleBlock {
-                        margin-top: 1rem;
-                    }
-                }
-
-                .moveable-control-box {
-                    display: none !important;
-                    z-index: 10;
-
-                    .moveable-line {
-                        height: 2px;
-                    }
-                }
-
-                .scribble-code-block {
-                    @apply relative;
-
-                    code div {
-                        display: inline;
+                    p.is-empty::before {
+                        @apply text-gray-400 dark:text-gray-600;
+                        content: attr(data-placeholder);
+                        float: left;
+                        height: 0;
+                        pointer-events: none;
                     }
 
-                    .scribble-block-actions {
-                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
-                        z-index: 1;
+                    &.ProseMirror-focused {
+                        .ProseMirror-selectednode {
+                            @apply outline-2 outline-offset-2 outline-dashed outline-gray-900/50 dark:outline-white/80;
+                        }
 
-                        select {
-                            @apply text-sm rounded-sm py-1 px-3 bg-transparent border-none ring-1 outline-none focus:ring-primary-600 ring-gray-950/10 dark:ring-white/20 dark:focus-within:ring-primary-500;
+                        .ProseMirror-gapcursor:after {
+                            @apply border-gray-900/50 dark:border-white/80;
+                        }
+
+                        .node-scribbleBlock + .ProseMirror-gapcursor {
+                            margin-top: 0.5rem;
+                        }
+
+                        .node-scribbleBlock + .ProseMirror-gapcursor + .node-scribbleBlock {
+                            margin-top: 1rem;
                         }
                     }
-                }
 
-                .scribble-block {
-                    @apply relative bg-gray-900/5 dark:bg-white/5;
-                    min-height: 2rem;
+                    .moveable-control-box {
+                        display: none !important;
+                        z-index: 10;
 
-                    .loading-block {
-                        @apply p-4 flex items-center justify-center gap-3;
+                        .moveable-line {
+                            height: 2px;
+                        }
+                    }
 
-                        svg {
-                            @apply animate-spin h-5 w-5;
+                    .scribble-code-block {
+                        @apply relative;
 
-                            circle {
-                                @apply opacity-25;
-                            }
+                        code div {
+                            display: inline;
+                        }
 
-                            path {
-                                @apply opacity-75;
+                        .scribble-block-actions {
+                            @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
+                            z-index: 1;
+
+                            select {
+                                @apply text-sm rounded-sm py-1 px-3 bg-transparent border-none ring-1 outline-none focus:ring-primary-600 ring-gray-950/10 dark:ring-white/20 dark:focus-within:ring-primary-500;
                             }
                         }
                     }
 
-                    .scribble-block-content {
-                        @apply transition overflow-hidden relative;
-                    }
+                    .scribble-block {
+                        @apply relative bg-gray-900/5 dark:bg-white/5;
+                        min-height: 2rem;
 
-                    .scribble-block-actions {
-                        @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
-                        z-index: 1;
-
-                        .scribble-block-action {
-                            @apply text-white block rounded p-1 hover:text-primary-500 hover:bg-gray-800;
+                        .loading-block {
+                            @apply p-4 flex items-center justify-center gap-3;
 
                             svg {
-                                @apply w-4 h-4;
+                                @apply animate-spin h-5 w-5;
+
+                                circle {
+                                    @apply opacity-25;
+                                }
+
+                                path {
+                                    @apply opacity-75;
+                                }
                             }
+                        }
 
-                            &.block-drag {
-                                @apply cursor-grab;
+                        .scribble-block-content {
+                            @apply transition overflow-hidden relative;
+                        }
+
+                        .scribble-block-actions {
+                            @apply transition opacity-0 absolute top-0 right-0 p-1 rounded-bl-lg flex items-center bg-gray-950 pointer-events-none;
+                            z-index: 1;
+
+                            .scribble-block-action {
+                                @apply text-white block rounded p-1 hover:text-primary-500 hover:bg-gray-800;
+
+                                svg {
+                                    @apply w-4 h-4;
+                                }
+
+                                &.block-drag {
+                                    @apply cursor-grab;
+                                }
                             }
                         }
                     }
-                }
 
-                .node-image {
-                    display: block;
-                }
-
-                .node-scribbleBlock {
-                    min-height: 3rem;
-                }
-
-                > div + div {
-                    margin-top: 1rem;
-                }
-
-                .scribble-grid {
-                    @apply grid gap-4;
-
-                    .scribble-grid-column {
-                        @apply border border-dashed border-gray-400 p-2 rounded-lg dark:border-gray-600;
-
-                        > * + * {
-                            margin-block-start: 1rem;
-                        }
+                    .node-image {
+                        display: block;
                     }
-                }
 
-                @media (max-width: theme('screens.sm')) {
-                    .scribble-grid[data-stack-at="sm"] {
-                        grid-template-columns: 1fr !important;
+                    .node-scribbleBlock {
+                        min-height: 3rem;
+                    }
+
+                    > div + div {
+                        margin-top: 1rem;
+                    }
+
+                    .scribble-grid {
+                        @apply grid gap-4;
 
                         .scribble-grid-column {
-                            grid-column: span 1 !important;
-                        }
-                    }
-                }
+                            @apply border border-dashed border-gray-400 p-2 rounded-lg dark:border-gray-600;
 
-                @media (max-width: theme('screens.md')) {
-                    .scribble-grid[data-stack-at="md"] {
-                        grid-template-columns: 1fr !important;
-
-                        .scribble-grid-column {
-                            grid-column: span 1 !important;
-                        }
-                    }
-                }
-
-                @media (max-width: theme('screens.lg')) {
-                    .scribble-grid[data-stack-at="lg"] {
-                        grid-template-columns: 1fr !important;
-
-                        .scribble-grid-column {
-                            grid-column: span 1 !important;
-                        }
-                    }
-                }
-
-                span[data-type="mergeTag"] {
-                    @apply bg-primary-500/30 dark:bg-primary-500/50;
-                }
-
-                div[data-type="details"] {
-                    @apply border border-dashed border-gray-400 rounded relative dark:border-gray-500;
-
-                    summary {
-                        @apply py-1 px-2 font-bold border-b border-gray-200 dark:border-gray-500;
-
-                        &::marker {
-                            content: "";
-                            display: none;
+                            > * + * {
+                                margin-block-start: 1rem;
+                            }
                         }
                     }
 
-                    div[data-type="details-content"] {
-                        @apply p-2 h-auto;
+                    @media (max-width: theme('screens.sm')) {
+                        .scribble-grid[data-stack-at="sm"] {
+                            grid-template-columns: 1fr !important;
 
-                        > * + * {
-                            margin-block-start: 1rem;
+                            .scribble-grid-column {
+                                grid-column: span 1 !important;
+                            }
                         }
                     }
-                }
 
-                table {
-                    @apply border-collapse m-0 overflow-hidden w-full relative table-fixed;
-                }
+                    @media (max-width: theme('screens.md')) {
+                        .scribble-grid[data-stack-at="md"] {
+                            grid-template-columns: 1fr !important;
 
-                table td,
-                table th {
-                    @apply border border-gray-400 py-2 px-3 align-top min-w-4 bg-clip-padding dark:border-gray-600;
-                }
+                            .scribble-grid-column {
+                                grid-column: span 1 !important;
+                            }
+                        }
+                    }
 
-                table td > *,
-                table th > * {
-                    @apply mb-0;
-                }
+                    @media (max-width: theme('screens.lg')) {
+                        .scribble-grid[data-stack-at="lg"] {
+                            grid-template-columns: 1fr !important;
 
-                table th {
-                    @apply font-bold text-left bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100;
-                }
+                            .scribble-grid-column {
+                                grid-column: span 1 !important;
+                            }
+                        }
+                    }
 
-                table .selectedCell {
-                    position: relative;
-                }
+                    span[data-type="mergeTag"] {
+                        @apply bg-primary-500/30 dark:bg-primary-500/50;
+                    }
 
-                table .selectedCell:after {
-                    background: rgba(200, 200, 255, 0.4);
-                    content: "";
-                    left: 0;
-                    right: 0;
-                    top: 0;
-                    bottom: 0;
-                    pointer-events: none;
-                    position: absolute;
-                    z-index: 2;
-                }
+                    div[data-type="details"] {
+                        @apply border border-dashed border-gray-400 rounded relative dark:border-gray-500;
 
-                table .column-resize-handle {
-                    background-color: #adf;
-                    bottom: -2px;
-                    position: absolute;
-                    right: -2px;
-                    pointer-events: none;
-                    top: 0;
-                    width: 4px;
-                }
+                        summary {
+                            @apply py-1 px-2 font-bold border-b border-gray-200 dark:border-gray-500;
 
-                table p {
-                    margin: 0;
-                }
+                            &::marker {
+                                content: "";
+                                display: none;
+                            }
+                        }
 
-                .tableWrapper {
-                    padding: 1rem 0;
-                    overflow-x: auto;
-                }
+                        div[data-type="details-content"] {
+                            @apply p-2 h-auto;
 
-                &.resize-cursor {
-                    cursor: col-resize;
+                            > * + * {
+                                margin-block-start: 1rem;
+                            }
+                        }
+                    }
+
+                    table {
+                        @apply border-collapse m-0 overflow-hidden w-full relative table-fixed;
+                    }
+
+                    table td,
+                    table th {
+                        @apply border border-gray-400 py-2 px-3 align-top min-w-4 bg-clip-padding dark:border-gray-600;
+                    }
+
+                    table td > *,
+                    table th > * {
+                        @apply mb-0;
+                    }
+
+                    table th {
+                        @apply font-bold text-left bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100;
+                    }
+
+                    table .selectedCell {
+                        position: relative;
+                    }
+
+                    table .selectedCell:after {
+                        background: rgba(200, 200, 255, 0.4);
+                        content: "";
+                        left: 0;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        pointer-events: none;
+                        position: absolute;
+                        z-index: 2;
+                    }
+
+                    table .column-resize-handle {
+                        background-color: #adf;
+                        bottom: -2px;
+                        position: absolute;
+                        right: -2px;
+                        pointer-events: none;
+                        top: 0;
+                        width: 4px;
+                    }
+
+                    table p {
+                        margin: 0;
+                    }
+
+                    .tableWrapper {
+                        padding: 1rem 0;
+                        overflow-x: auto;
+                    }
+
+                    &.resize-cursor {
+                        cursor: col-resize;
+                    }
                 }
             }
         }

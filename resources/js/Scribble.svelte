@@ -58,6 +58,7 @@
     let element;
     let bubbleMenuElement;
     let tools;
+    let extensionList = []
 
     export let content;
     export let statePath;
@@ -89,6 +90,7 @@
         'hardBreak': HardBreak,
         'history': History,
         'idExtension': IdExtension,
+        'listItem': ListItem,
         'paragraph': Paragraph,
         'scribbleBlock': ScribbleBlock,
         'statePathExtension': StatePathExtension.configure({ statePath: statePath }),
@@ -109,7 +111,6 @@
         'horizontalRule': HorizontalRule,
         'italic': Italic,
         'link': LinkExtension,
-        'listItem': ListItem,
         'media': MediaExtension,
         'orderedList': OrderedList,
         'strike': Strike,
@@ -123,13 +124,7 @@
     const customExtensions = window?.scribbleExtensions || {};
 
     tools.forEach(tool => {
-        if (! Object.keys(defaultExtensions).includes(tool.extension)) {
-            delete defaultExtensions[tool.extension]
-        }
-
-        if (! Object.keys(customExtensions).includes(tool.extension)) {
-            delete customExtensions[tool.extension]
-        }
+        extensionList.push(tool.extension)
 
         if (tool.options) {
             window.addEventListener(`handle-${tool.identifier}`, data => {
@@ -182,6 +177,18 @@
         }
     })
 
+    Object.keys(defaultExtensions).forEach((extension) => {
+        if (! extensionList.includes(extension)) {
+            delete defaultExtensions[extension]
+        }
+    })
+
+    Object.keys(customExtensions).forEach((extension) => {
+        if (! extensionList.includes(extension)) {
+            delete customExtensions[extension]
+        }
+    })
+
     onMount(() => {
         let extensions = Array.from(new Set([
             ...Object.values(coreExtensions).flat(),
@@ -198,6 +205,7 @@
                     placement: 'bottom-start',
                     theme: 'scribble-bubble',
                     interactive: true,
+                    zIndex: 1,
                 },
                 shouldShow: ({ editor, from, to }) => {
                     if (from === to && (
@@ -349,9 +357,10 @@
 
     <BlockPanel {editor} tools={suggestionTools} mergeTags={mergeTags} {handleToolClick} {isActive} />
 
-    <div class="scribble-editor" bind:this={element} />
-
-    <div bind:this={bubbleMenuElement}>
-        <BubbleMenu {editor} tools={bubbleTools} {handleToolClick} {isActive} />
+    <div class="scribble-content">
+        <div class="scribble-editor" bind:this={element} />
+        <div bind:this={bubbleMenuElement}>
+            <BubbleMenu {editor} tools={bubbleTools} {handleToolClick} {isActive} />
+        </div>
     </div>
 </div>

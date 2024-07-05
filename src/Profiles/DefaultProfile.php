@@ -9,6 +9,8 @@ use Awcodes\Scribble\Tools\AlignStart;
 use Awcodes\Scribble\Tools\Blockquote;
 use Awcodes\Scribble\Tools\Bold;
 use Awcodes\Scribble\Tools\BulletList;
+use Awcodes\Scribble\Tools\Code;
+use Awcodes\Scribble\Tools\CodeBlock;
 use Awcodes\Scribble\Tools\Details;
 use Awcodes\Scribble\Tools\Divider;
 use Awcodes\Scribble\Tools\Grid;
@@ -30,19 +32,12 @@ class DefaultProfile extends ScribbleProfile
     public static function bubbleTools(): array
     {
         return [
-            Paragraph::class,
-            HeadingTwo::class,
-            HeadingThree::class,
             Bold::class,
             Italic::class,
             Strike::class,
             Subscript::class,
             Superscript::class,
-            Divider::class,
             Link::class,
-            BulletList::class,
-            OrderedList::class,
-            Divider::class,
             AlignStart::class,
             AlignCenter::class,
             AlignEnd::class,
@@ -59,6 +54,7 @@ class DefaultProfile extends ScribbleProfile
             OrderedList::class,
             Blockquote::class,
             HorizontalRule::class,
+            CodeBlock::class,
         ];
     }
 
@@ -68,6 +64,7 @@ class DefaultProfile extends ScribbleProfile
             Paragraph::class,
             HeadingTwo::class,
             HeadingThree::class,
+            Divider::class,
             Bold::class,
             Italic::class,
             Strike::class,
@@ -83,6 +80,8 @@ class DefaultProfile extends ScribbleProfile
             Blockquote::class,
             HorizontalRule::class,
             Table::class,
+            Code::class,
+            CodeBlock::class,
             Divider::class,
             AlignStart::class,
             AlignCenter::class,

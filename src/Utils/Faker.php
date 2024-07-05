@@ -75,9 +75,13 @@ class Faker
         return $this;
     }
 
-    public function image(?int $width = 640, ?int $height = 480): static
+    public function image(?string $source = null, ?int $width = 640, ?int $height = 480): static
     {
-        $this->output .= '<p><img src="' . $this->faker->imageUrl($width, $height) . '" alt="' . $this->faker->sentence . '" title="' . $this->faker->sentence . '" width="' . $width . '" height="' . $height . '" /></p>';
+        if (! $source) {
+            $source = $this->faker->imageUrl($width, $height);
+        }
+
+        $this->output .= '<img src="' . $source . '" alt="' . $this->faker->sentence . '" title="' . $this->faker->sentence . '" width="' . $width . '" height="' . $height . '" />';
 
         return $this;
     }
@@ -119,7 +123,7 @@ class Faker
 
     public function codeBlock(?string $className = 'hljs'): static
     {
-        $this->output .= "<pre class=\"{$className}\"><code>export default function testComponent({\n\n\tstate,\n\n}) {\n\n\treturn {\n\n\t\tstate,\n\n\t\tinit: function () {\n\n\t\t\t// Initialise the Alpine component here, if you need to.\n\n\t\t},\n\n\t}\n\n}</code></pre>";
+        $this->output .= "<pre><code class=\"{$className}\">export default function testComponent({\n\n\tstate,\n\n}) {\n\n\treturn {\n\n\t\tstate,\n\n\t\tinit: function () {\n\n\t\t\t// Initialise the Alpine component here, if you need to.\n\n\t\t},\n\n\t}\n\n}</code></pre>";
 
         return $this;
     }

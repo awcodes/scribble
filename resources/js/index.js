@@ -27,19 +27,21 @@ export default function scribble(
         init() {
             const _this = this
 
-            new Scribble({
-                target: _this.$root,
-                props: {
-                    bubbleTools: _this.bubbleTools,
-                    suggestionTools: _this.suggestionTools,
-                    toolbarTools: _this.toolbarTools,
-                    mergeTags: _this.mergeTags,
-                    content: _this.state,
-                    statePath: _this.statePath,
-                    placeholder: _this.placeholder,
-                    headingLevels: _this.headingLevels,
-                }
-            });
+            if (! this.$el.querySelector('.tiptap')) {
+                new Scribble({
+                    target: _this.$root,
+                    props: {
+                        bubbleTools: _this.bubbleTools,
+                        suggestionTools: _this.suggestionTools,
+                        toolbarTools: _this.toolbarTools,
+                        mergeTags: _this.mergeTags,
+                        content: _this.state,
+                        statePath: _this.statePath,
+                        placeholder: _this.placeholder,
+                        headingLevels: _this.headingLevels,
+                    }
+                });
+            }
 
             this.$watch('state', (newState, oldState) => {
                 if (! _this.updatedFromEditor && JSON.stringify(newState) !== JSON.stringify(oldState)) {
@@ -66,6 +68,17 @@ export default function scribble(
                     _this.isFocused = true
                 }
             })
+
+            let sortableEl = this.$el.parentElement.closest("[x-sortable]");
+            if (sortableEl) {
+                window.Sortable.utils.on(sortableEl, "start", () => {
+                    sortableEl.classList.add('sorting')
+                });
+
+                window.Sortable.utils.on(sortableEl, "end", () => {
+                    sortableEl.classList.remove('sorting')
+                });
+            }
         },
 
         toggleFullscreen(event) {

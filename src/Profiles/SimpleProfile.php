@@ -20,10 +20,10 @@ class SimpleProfile extends ScribbleProfile
     public static function bubbleTools(): array
     {
         return [
+            Paragraph::class,
             HeadingTwo::class,
             HeadingThree::class,
             Divider::class,
-            Paragraph::class,
             Bold::class,
             Italic::class,
             HorizontalRule::class,
@@ -48,10 +48,10 @@ class SimpleProfile extends ScribbleProfile
     public static function toolbarTools(): array
     {
         return [
+            Paragraph::class,
             HeadingTwo::class,
             HeadingThree::class,
             Divider::class,
-            Paragraph::class,
             Bold::class,
             Italic::class,
             HorizontalRule::class,
