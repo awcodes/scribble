@@ -2,19 +2,17 @@
     import Button from './Button.svelte'
 
     export let editor
-    export let statePath
 
     let viewport = 'desktop'
 
     const toggleFullscreen = () => {
-        window.dispatchEvent(new CustomEvent('toggle-fullscreen', { detail: { statePath: statePath } }))
+        window.dispatchEvent(new CustomEvent('toggle-fullscreen', { detail: { statePath: editor.commands.getStatePath() } }))
         editor.commands.focus()
     }
 
     const changeViewPort = (view) => {
         viewport = view
-        window.dispatchEvent(new CustomEvent('change-viewport', { detail: { viewport: view, statePath: statePath
-        } }))
+        window.dispatchEvent(new CustomEvent('change-viewport', { detail: { viewport: view, statePath: editor.commands.getStatePath() } }))
     }
 </script>
 

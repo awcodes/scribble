@@ -19,6 +19,7 @@
     import Details from './extensions/Details/Details.js'
     import DetailsSummary from './extensions/Details/DetailsSummary.js'
     import DetailsContent from './extensions/Details/DetailsContent.js'
+    import Embed from './extensions/Embed.js'
     import Focus from '@tiptap/extension-focus'
     import HardBreak from '@tiptap/extension-hard-break'
     import Heading from '@tiptap/extension-heading'
@@ -47,6 +48,7 @@
     import TextAlign from './extensions/TextAlignExtension.js'
     import TextStyle from '@tiptap/extension-text-style'
     import Underline from '@tiptap/extension-underline'
+    import Video from './extensions/Video.js'
     import {openScribbleModal, commandRunner, replaceStatePath} from './utils.js'
     import Controls from './components/Controls.svelte'
     import BubbleMenu from './components/BubbleMenu.svelte'
@@ -90,7 +92,6 @@
         'hardBreak': HardBreak,
         'history': History,
         'idExtension': IdExtension,
-        'listItem': ListItem,
         'paragraph': Paragraph,
         'scribbleBlock': ScribbleBlock,
         'statePathExtension': StatePathExtension.configure({ statePath: statePath }),
@@ -106,6 +107,7 @@
         'codeBlock': CodeBlock,
         'color': Color,
         'details': [Details, DetailsContent, DetailsSummary],
+        'embed': Embed,
         'grid': [Grid, GridColumn],
         'heading': Heading.configure({levels: headingLevels}),
         'horizontalRule': HorizontalRule,
@@ -119,6 +121,7 @@
         'table': [Table.configure({ resizable: true, }), TableRow, TableHeader, TableCell],
         'textAlign': TextAlign,
         'underline': Underline,
+        'video': Video,
     }
 
     const customExtensions = window?.scribbleExtensions || {};
@@ -178,6 +181,10 @@
     })
 
     Object.keys(defaultExtensions).forEach((extension) => {
+        if (extensionList.includes('bulletList') || extensionList.includes('orderedList')) {
+            defaultExtensions['listItem'] = ListItem
+        }
+
         if (! extensionList.includes(extension)) {
             delete defaultExtensions[extension]
         }
@@ -222,7 +229,8 @@
                     return from !== to && ! (
                         bubbleTools.filter(tool => ! tool.isHidden).length === 0 ||
                         editor.isActive('scribbleBlock') ||
-                        editor.isActive('slashExtension')
+                        editor.isActive('slashExtension') ||
+                        editor.isActive('embed')
                     )
                 },
             }))
@@ -293,6 +301,11 @@
     const handleToolClick = (name, update = false, coordinates = null) => {
         const tool = tools.find((t) => { return t.identifier === name });
 
+        if (!tool) {
+            console.warn(`${name} not found in list of extensions.`)
+            return
+        }
+
         switch (tool.type) {
             case 'command':
                 commandRunner(editor, tool.commands);
@@ -351,7 +364,7 @@
         {'has-empty-panel': ! ((suggestionTools && suggestionTools.length > 0) || (mergeTags && mergeTags.length > 0))}
     )}
 >
-    <Controls {editor} {statePath} />
+    <Controls {editor} />
 
     <Toolbar {editor} tools={toolbarTools} {handleToolClick} {isActive} />
 

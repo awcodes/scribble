@@ -277,6 +277,21 @@
                         }
                     }
 
+                    .scribble-embed {
+                        border: dashed 1px transparent;
+
+                        &.ProseMirror-selectednode {
+                            border-radius: theme("borderRadius.DEFAULT");
+                            outline-offset: 2px;
+                            outline: theme("colors.gray.900") dashed 2px;
+                        }
+
+                        iframe,
+                        video {
+                            pointer-events: none;
+                        }
+                    }
+
                     .scribble-block {
                         @apply relative bg-gray-900/5 dark:bg-white/5;
                         min-height: 2rem;

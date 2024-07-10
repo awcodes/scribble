@@ -13,6 +13,7 @@ use Awcodes\Scribble\Tools\Code;
 use Awcodes\Scribble\Tools\CodeBlock;
 use Awcodes\Scribble\Tools\Details;
 use Awcodes\Scribble\Tools\Divider;
+use Awcodes\Scribble\Tools\Embed;
 use Awcodes\Scribble\Tools\Grid;
 use Awcodes\Scribble\Tools\HeadingThree;
 use Awcodes\Scribble\Tools\HeadingTwo;
@@ -50,6 +51,7 @@ class DefaultProfile extends ScribbleProfile
             Grid::class,
             Details::class,
             Media::class,
+            Embed::class,
             BulletList::class,
             OrderedList::class,
             Blockquote::class,
@@ -73,6 +75,7 @@ class DefaultProfile extends ScribbleProfile
             Divider::class,
             Link::class,
             Media::class,
+            Embed::class,
             BulletList::class,
             OrderedList::class,
             Details::class,

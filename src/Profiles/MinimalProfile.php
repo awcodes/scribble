@@ -18,9 +18,9 @@ class MinimalProfile extends ScribbleProfile
             Paragraph::class,
             Bold::class,
             Italic::class,
-            Link::class,
             BulletList::class,
             OrderedList::class,
+            Link::class,
         ];
     }
 
@@ -35,9 +35,9 @@ class MinimalProfile extends ScribbleProfile
             Paragraph::class,
             Bold::class,
             Italic::class,
-            Link::class,
             BulletList::class,
             OrderedList::class,
+            Link::class,
         ];
     }
 }
