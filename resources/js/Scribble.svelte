@@ -23,6 +23,7 @@
     import Focus from '@tiptap/extension-focus'
     import HardBreak from '@tiptap/extension-hard-break'
     import Heading from '@tiptap/extension-heading'
+    import Highlight from '@tiptap/extension-highlight'
     import HorizontalRule from '@tiptap/extension-horizontal-rule'
     import IdExtension from './extensions/IdExtension.js'
     import Italic from '@tiptap/extension-italic'
@@ -70,6 +71,7 @@
     export let toolbarTools;
     export let mergeTags;
     export let headingLevels = [1,2,3];
+    export let maxHeight;
 
     tools = Array.from(new Set([
         ...bubbleTools.flat(),
@@ -110,6 +112,7 @@
         'embed': Embed,
         'grid': [Grid, GridColumn],
         'heading': Heading.configure({levels: headingLevels}),
+        'highlight': Highlight,
         'horizontalRule': HorizontalRule,
         'italic': Italic,
         'link': LinkExtension,
@@ -370,7 +373,7 @@
 
     <BlockPanel {editor} tools={suggestionTools} mergeTags={mergeTags} {handleToolClick} {isActive} />
 
-    <div class="scribble-content">
+    <div class="scribble-content" style:max-height="{maxHeight}">
         <div class="scribble-editor" bind:this={element} />
         <div bind:this={bubbleMenuElement}>
             <BubbleMenu {editor} tools={bubbleTools} {handleToolClick} {isActive} />

@@ -9,6 +9,7 @@ use Awcodes\Scribble\Concerns\HasProfiles;
 use Awcodes\Scribble\Concerns\HasSuggestionTools;
 use Awcodes\Scribble\Concerns\HasToolbarTools;
 use Awcodes\Scribble\Utils\Converter;
+use Closure;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasPlaceholder;
 use Livewire\Component;
@@ -26,6 +27,8 @@ class ScribbleEditor extends Field
     protected string $view = 'scribble::scribble-editor';
 
     protected ?array $headingLevels = null;
+
+    protected string | Closure | null $maxHeight = null;
 
     protected function setUp(): void
     {
@@ -58,5 +61,17 @@ class ScribbleEditor extends Field
     public function getHeadingLevels(): ?array
     {
         return $this->headingLevels ?? config('scribble.globals.heading_levels');
+    }
+
+    public function maxHeight(string | Closure $height): static
+    {
+        $this->maxHeight = $height;
+
+        return $this;
+    }
+
+    public function getMaxHeight(): ?string
+    {
+        return $this->evaluate($this->maxHeight) ?? '40rem';
     }
 }

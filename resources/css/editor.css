@@ -205,7 +205,7 @@
         }
 
         .scribble-content {
-            @apply relative w-full min-h-full max-h-[40rem] overflow-y-auto;
+            @apply relative w-full min-h-full overflow-y-auto;
 
             .scribble-editor {
                 @apply w-full;

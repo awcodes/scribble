@@ -24,6 +24,7 @@
             @js($statePath),
             @js($getPlaceholder()),
             @js($getHeadingLevels()),
+            @js($getMaxHeight()),
         )"
         x-on:toggle-fullscreen.window="toggleFullscreen($event)"
         x-on:change-viewport.window="changeViewport($event)"
