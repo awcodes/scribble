@@ -200,7 +200,7 @@
             @apply flex items-center p-1 gap-2;
 
             .pcr-button {
-                @apply size-5 overflow-hidden rounded ring-1 ring-white/20;
+                @apply size-4 overflow-hidden rounded ring-1 ring-white/20;
             }
         }
 
