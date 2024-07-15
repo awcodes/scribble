@@ -39,9 +39,4 @@ class TableModal extends ScribbleModal
             Forms\Components\Checkbox::make('withHeaderRow'),
         ];
     }
-
-    public function render(): View
-    {
-        return view('scribble::components.form');
-    }
 }

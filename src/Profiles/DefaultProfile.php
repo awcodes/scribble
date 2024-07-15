@@ -23,6 +23,7 @@ use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Tools\Media;
 use Awcodes\Scribble\Tools\OrderedList;
 use Awcodes\Scribble\Tools\Paragraph;
+use Awcodes\Scribble\Tools\SourceCode;
 use Awcodes\Scribble\Tools\Strike;
 use Awcodes\Scribble\Tools\Subscript;
 use Awcodes\Scribble\Tools\Superscript;
@@ -85,6 +86,7 @@ class DefaultProfile extends ScribbleProfile
             Table::class,
             Code::class,
             CodeBlock::class,
+            SourceCode::class,
             Divider::class,
             AlignStart::class,
             AlignCenter::class,

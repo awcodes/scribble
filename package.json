@@ -49,6 +49,7 @@
         "@tiptap/suggestion": "^2.2.0",
         "clsx": "^2.1.0",
         "esbuild": "^0.19.2",
+        "esbuild-plugin-copy": "^2.1.1",
         "esbuild-svelte": "^0.8.0",
         "highlight.js": "^11.9.0",
         "lowlight": "^2.7.0",

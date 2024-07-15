@@ -18,7 +18,7 @@
     const handleOpen = () => {
         openScribbleModal(node.attrs.identifier, {
             update: true,
-            statePath: editor.storage?.statePathExtension.statePath ?? null,
+            statePath: editor.commands.getStatePath() ?? null,
             blockId: node.attrs.id,
             data: node.attrs.values
         })
@@ -52,7 +52,7 @@
         window.addEventListener('updatedBlock', (e) => {
             if (
                 e.detail.identifier === node.attrs.identifier
-                && e.detail.statePath === editor.storage?.statePathExtension.statePath
+                && e.detail.statePath === editor.commands.getStatePath()
                 && e.detail.blockId === node.attrs.id
             ) {
                 updateAttributes({ values: e.detail.values })

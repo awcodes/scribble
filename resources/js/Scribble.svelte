@@ -24,6 +24,7 @@
     import HardBreak from '@tiptap/extension-hard-break'
     import Heading from '@tiptap/extension-heading'
     import Highlight from '@tiptap/extension-highlight'
+    import History from '@tiptap/extension-history'
     import HorizontalRule from '@tiptap/extension-horizontal-rule'
     import IdExtension from './extensions/IdExtension.js'
     import Italic from '@tiptap/extension-italic'
@@ -318,11 +319,17 @@
                 window.Livewire.dispatch(tool.event.name, tool.event.data)
                 return
             case 'modal':
+                let modalData = editor.getAttributes(tool.extension)
+
+                if (tool.identifier === 'sourceCode') {
+                    modalData = {html: editor.getHTML()}
+                }
+
                 openScribbleModal(tool.identifier, {
                     statePath: statePath,
                     update: update,
                     identifier: tool.identifier,
-                    data: editor.getAttributes(tool.extension),
+                    data: modalData,
                     coordinates: coordinates
                 });
                 return

@@ -571,7 +571,7 @@ If you are using Merge tags and outputting the content as HTML you can use the `
 {!!
     scribble($content)->mergeTagsMap([
         'brand_phone' => '1-800-555-1234',
-        'brand_email' => 'webinquiries@titlemax.com',
+        'brand_email' => 'test@example.com',
     ])->toHtml()
 !!}
 ```

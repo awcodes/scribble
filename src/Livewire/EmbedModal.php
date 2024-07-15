@@ -15,6 +15,15 @@ class EmbedModal extends ScribbleModal
 {
     public ?string $header = 'Embed';
 
+    public function mount(): void
+    {
+        $this->form->fill([
+            'responsive' => true,
+            'width' => 16,
+            'height' => 9,
+        ]);
+    }
+
     public function getFormFields(): array
     {
         return [
