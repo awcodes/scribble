@@ -15,12 +15,11 @@ class MinimalProfile extends ScribbleProfile
     public static function bubbleTools(): array
     {
         return [
-            Paragraph::class,
             Bold::class,
             Italic::class,
-            Link::class,
             BulletList::class,
             OrderedList::class,
+            Link::class,
         ];
     }
 
@@ -32,12 +31,11 @@ class MinimalProfile extends ScribbleProfile
     public static function toolbarTools(): array
     {
         return [
-            Paragraph::class,
             Bold::class,
             Italic::class,
-            Link::class,
             BulletList::class,
             OrderedList::class,
+            Link::class,
         ];
     }
 }

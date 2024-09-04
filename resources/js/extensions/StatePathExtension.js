@@ -17,5 +17,13 @@ export default Extension.create({
 
     onCreate() {
         this.storage.statePath = this.options.statePath
+    },
+
+    addCommands() {
+        return {
+            getStatePath: () => () => {
+                return this.storage.statePath;
+            },
+        };
     }
 })

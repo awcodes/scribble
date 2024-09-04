@@ -1,7 +1,7 @@
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { SvelteNodeViewRenderer } from 'svelte-tiptap'
 import CodeBlockView from '../components/CodeBlockView.svelte'
-import { lowlight } from 'lowlight/lib/common'
+import { lowlight } from './lowlight.js'
 
 export default CodeBlockLowlight.extend({
     addOptions() {

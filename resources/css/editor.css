@@ -200,12 +200,12 @@
             @apply flex items-center p-1 gap-2;
 
             .pcr-button {
-                @apply size-5 overflow-hidden rounded ring-1 ring-white/20;
+                @apply size-4 overflow-hidden rounded ring-1 ring-white/20;
             }
         }
 
         .scribble-content {
-            @apply relative w-full min-h-full max-h-[40rem] overflow-y-auto;
+            @apply relative w-full min-h-full overflow-y-auto;
 
             .scribble-editor {
                 @apply w-full;
@@ -274,6 +274,21 @@
                             select {
                                 @apply text-sm rounded-sm py-1 px-3 bg-transparent border-none ring-1 outline-none focus:ring-primary-600 ring-gray-950/10 dark:ring-white/20 dark:focus-within:ring-primary-500;
                             }
+                        }
+                    }
+
+                    .scribble-embed {
+                        border: dashed 1px transparent;
+
+                        &.ProseMirror-selectednode {
+                            border-radius: theme("borderRadius.DEFAULT");
+                            outline-offset: 2px;
+                            outline: theme("colors.gray.900") dashed 2px;
+                        }
+
+                        iframe,
+                        video {
+                            pointer-events: none;
                         }
                     }
 

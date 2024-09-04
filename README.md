@@ -27,8 +27,9 @@ php artisan vendor:publish --tag="scribble-config"
 php artisan vendor:publish --tag="scribble-translations"
 ```
 
+### Setting up the plugin's styling
 > [!IMPORTANT]
-> If you have not set up a custom theme and are using a Panel follow the instructions in the [Filament Docs](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) first. The following applies to both the Panels Package and the standalone Forms package.
+> If you have not set up a custom theme and are using Filament Panels follow the instructions in the [Filament Docs](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) first. The following applies to both the Panels Package and the standalone Forms package.
 
 Import the plugin's stylesheet (if not already included) into your theme's css file.
 
@@ -113,7 +114,7 @@ ScribbleEditor::configureUsing(function (ScribbleEditor $scribble) {
 
 ## Editor Profiles
 
-Manually, creating menu configurations for each instance of the editor can be cumbersome. To alleviate this, you can create a profile class that defines the tools for the bubble, suggestion, and toolbar menus. You can then apply the profile to the editor using the `profile` method. You may use either the tool identifier for the tools class name.
+Manually, creating menu configurations for each instance of the editor can be cumbersome. To alleviate this, you can create a profile class that defines the tools for the bubble, suggestion, and toolbar menus. You can then apply the profile to the editor using the `profile` method. You may use either the tool identifier or the tool's class name.
 
 ```php
 namespace App\ScribbleProfiles;
@@ -253,16 +254,14 @@ Blocks are a tool type that interact with the editor's content through a modal f
 
 `$editorView` is optional but can be useful in the case that you need to provide a custom editor view for the block. And a different rendering view for the output.
 
-*See the [Pounce plugin docs](https://github.com/awcodes/pounce) for more information on the `Alignment`, `MaxWidth`, and `SlideDirection`.*
-
 ##### Tool class
 
 ```php
 use Awcodes\Scribble\ScribbleTool;
-use Awcodes\Pounce\Enums\MaxWidth;
-use Awcodes\Pounce\Enums\Alignment;
-use Awcodes\Pounce\Enums\SlideDirection;
+use Awcodes\Scribble\Enums\Alignment;
+use Awcodes\Scribble\Enums\SlideDirection;
 use Awcodes\Scribble\Enums\ToolType;
+use Filament\Support\Enums\MaxWidth;
 
 class Notice extends ScribbleTool
 {
@@ -571,7 +570,7 @@ If you are using Merge tags and outputting the content as HTML you can use the `
 {!!
     scribble($content)->mergeTagsMap([
         'brand_phone' => '1-800-555-1234',
-        'brand_email' => 'webinquiries@titlemax.com',
+        'brand_email' => 'test@example.com',
     ])->toHtml()
 !!}
 ```

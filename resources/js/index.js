@@ -8,7 +8,8 @@ export default function scribble(
     state,
     statePath,
     placeholder,
-    headingLevels
+    headingLevels,
+    maxHeight,
 ) {
     return {
         bubbleTools,
@@ -23,6 +24,7 @@ export default function scribble(
         updatedFromEditor: false,
         isFocused: false,
         headingLevels: headingLevels ?? [1,2,3],
+        maxHeight,
 
         init() {
             const _this = this
@@ -39,6 +41,7 @@ export default function scribble(
                         statePath: _this.statePath,
                         placeholder: _this.placeholder,
                         headingLevels: _this.headingLevels,
+                        maxHeight: _this.maxHeight,
                     }
                 });
             }
