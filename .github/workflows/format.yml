@@ -2,20 +2,17 @@ name: "Format PHP Code"
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
       - main
-    types:
-      - closed
     paths:
       - '**.php'
 
 permissions:
-  pull-requests: write
+  contents: write
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,9 +21,10 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Fix PHP code style issues
-        uses: aglipanci/laravel-pint-action@2.4
+        uses: aglipanci/laravel-pint-action@v2
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Chore: Format PHP Code"
+          commit_message: "Format Code"
+          commit_user_name: 'GitHub Actions'
