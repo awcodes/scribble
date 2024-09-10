@@ -15,6 +15,10 @@ use Filament\Support\Concerns\EvaluatesClosures;
 use League\HTMLToMarkdown\HtmlConverter;
 use stdClass;
 use Tiptap\Editor;
+use Tiptap\Marks\TextStyle;
+use Tiptap\Nodes\Document;
+use Tiptap\Nodes\HardBreak;
+use Tiptap\Nodes\Text;
 
 class Converter
 {
@@ -74,10 +78,10 @@ class Converter
     {
         return $this->editor ??= new Editor([
             'extensions' => [
-                new \Tiptap\Nodes\Document(),
-                new \Tiptap\Nodes\Text(),
-                new \Tiptap\Nodes\HardBreak(),
-                new \Tiptap\Marks\TextStyle(),
+                new Document(),
+                new Text(),
+                new HardBreak(),
+                new TextStyle(),
                 new ClassExtension(),
                 new IdExtension(),
                 new ListItem(),
@@ -129,6 +133,8 @@ class Converter
             $this->parseHeadings($editor, $maxDepth);
         }
 
+        $this->sanitizeBlocks($editor);
+
         return json_decode($editor->getJSON(), true);
     }
 
@@ -152,6 +158,19 @@ class Converter
         $headings = $this->parseTocHeadings($this->content['content'], $maxDepth);
 
         return $this->generateNestedTOC($headings, $headings[0]['level']);
+    }
+
+    public function sanitizeBlocks(Editor $editor): Editor
+    {
+        $editor->descendants(function (&$node) {
+            if ($node->type !== 'scribbleBlock') {
+                return;
+            }
+
+            unset($node->content);
+        });
+
+        return $editor;
     }
 
     public function parseHeadings(Editor $editor, int $maxDepth = 3, bool $wrapHeadings = false): Editor
