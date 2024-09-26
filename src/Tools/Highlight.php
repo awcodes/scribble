@@ -16,6 +16,6 @@ class Highlight extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleHighlight'),
             ])
-            ->converterExtensions(new HighlightExtension());
+            ->converterExtensions(new HighlightExtension);
     }
 }

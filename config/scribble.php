@@ -18,7 +18,7 @@ return [
     ],
 
     'globals' => [
-        'heading_levels' => [1,2,3]
+        'heading_levels' => [1, 2, 3],
     ],
 
     /*

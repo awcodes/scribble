@@ -16,6 +16,6 @@ class Paragraph extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setParagraph'),
             ])
-            ->converterExtensions(new ParagraphExtension());
+            ->converterExtensions(new ParagraphExtension);
     }
 }

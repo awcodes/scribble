@@ -17,6 +17,6 @@ class BulletList extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleBulletList'),
             ])
-            ->converterExtensions(new BulletListExtension());
+            ->converterExtensions(new BulletListExtension);
     }
 }

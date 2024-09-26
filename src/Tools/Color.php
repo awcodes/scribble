@@ -18,6 +18,6 @@ class Color extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setColor'),
             ])
-            ->converterExtensions(new ColorExtension());
+            ->converterExtensions(new ColorExtension);
     }
 }

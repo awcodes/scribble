@@ -36,7 +36,6 @@ trait HasBubbleTools
                 : DefaultProfile::bubbleTools();
         }
 
-
         $tools = Scribble::getTools($tools)->toArray();
 
         if (! isset($tools['link'])) {

@@ -3,7 +3,6 @@
 namespace Awcodes\Scribble\Tiptap\Nodes;
 
 use Tiptap\Core\Node;
-use Tiptap\Utils\HTML;
 
 class Embed extends Node
 {
@@ -14,7 +13,7 @@ class Embed extends Node
         return [
             'allowFullscreen' => true,
             'HTMLAttributes' => [
-                'class' => 'scribble-embed'
+                'class' => 'scribble-embed',
             ],
             'width' => 640,
             'height' => 480,

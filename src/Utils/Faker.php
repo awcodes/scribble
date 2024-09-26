@@ -14,7 +14,7 @@ class Faker
 
     public static function make(): static
     {
-        $static = new static();
+        $static = new static;
         $static->faker = Factory::create();
 
         return $static;

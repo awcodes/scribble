@@ -3,7 +3,6 @@
 namespace Awcodes\Scribble\Livewire;
 
 use Filament\Forms;
-use Illuminate\Contracts\View\View;
 
 class TableModal extends ScribbleModal
 {

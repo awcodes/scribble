@@ -17,6 +17,6 @@ class Italic extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleItalic'),
             ])
-            ->converterExtensions(new ItalicExtension());
+            ->converterExtensions(new ItalicExtension);
     }
 }

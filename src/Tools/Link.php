@@ -21,6 +21,6 @@ class Link extends ScribbleTool
                 $this->makeCommand(command: 'moveToEnd'),
             ])
             ->optionsModal(component: LinkModal::class)
-            ->converterExtensions(new LinkExtension());
+            ->converterExtensions(new LinkExtension);
     }
 }

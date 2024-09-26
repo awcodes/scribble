@@ -17,6 +17,6 @@ class Strike extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleStrike'),
             ])
-            ->converterExtensions(new StrikeExtension());
+            ->converterExtensions(new StrikeExtension);
     }
 }

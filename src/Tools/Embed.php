@@ -19,6 +19,6 @@ class Embed extends ScribbleTool
                 $this->makeCommand(command: 'setEmbed'),
             ])
             ->optionsModal(component: EmbedModal::class)
-            ->converterExtensions(new EmbedExtension());
+            ->converterExtensions(new EmbedExtension);
     }
 }

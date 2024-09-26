@@ -43,7 +43,7 @@ class Modals extends Component
         $id = md5($component . serialize($arguments));
 
         $arguments = collect($arguments)
-            ->merge($this->resolveComponentProps($arguments, new $componentClass()))
+            ->merge($this->resolveComponentProps($arguments, new $componentClass))
             ->all();
 
         $this->components[$id] = [
@@ -98,7 +98,7 @@ class Modals extends Component
         $instance = app()->make($parameterClassName);
 
         if (! $model = $instance->resolveRouteBinding($parameterValue)) {
-            throw (new ModelNotFoundException())->setModel(get_class($instance), [$parameterValue]);
+            throw (new ModelNotFoundException)->setModel(get_class($instance), [$parameterValue]);
         }
 
         return $model;

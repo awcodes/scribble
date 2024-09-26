@@ -18,7 +18,7 @@ class CuratorMedia extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setMedia'),
             ])
-            ->converterExtensions(new ImageExtension())
+            ->converterExtensions(new ImageExtension)
             ->event(
                 name: 'open-modal',
                 data: [

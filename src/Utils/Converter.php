@@ -78,15 +78,15 @@ class Converter
     {
         return $this->editor ??= new Editor([
             'extensions' => [
-                new Document(),
-                new Text(),
-                new HardBreak(),
-                new TextStyle(),
-                new ClassExtension(),
-                new IdExtension(),
-                new ListItem(),
-                new ScribbleBlock(),
-                new MergeTag(),
+                new Document,
+                new Text,
+                new HardBreak,
+                new TextStyle,
+                new ClassExtension,
+                new IdExtension,
+                new ListItem,
+                new ScribbleBlock,
+                new MergeTag,
                 ...$this->getExtensions(),
             ],
         ]);

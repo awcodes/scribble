@@ -17,6 +17,6 @@ class OrderedList extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleOrderedList'),
             ])
-            ->converterExtensions(new OrderedListExtension());
+            ->converterExtensions(new OrderedListExtension);
     }
 }

@@ -20,8 +20,8 @@ class CodeBlock extends ScribbleTool
             ->converterExtensions(new CodeBlockExtension([
                 'languageClassPrefix' => 'language-',
                 'HTMLAttributes' => [
-                    'class' => 'hljs'
-                ]
+                    'class' => 'hljs',
+                ],
             ]));
     }
 }

@@ -17,6 +17,6 @@ class Superscript extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleSuperscript'),
             ])
-            ->converterExtensions(new SuperscriptExtension());
+            ->converterExtensions(new SuperscriptExtension);
     }
 }

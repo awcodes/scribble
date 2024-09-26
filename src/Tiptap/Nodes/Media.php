@@ -47,7 +47,7 @@ class Media extends BaseImage
                     };
 
                     return [
-                        'style' => $style
+                        'style' => $style,
                     ];
                 },
             ],

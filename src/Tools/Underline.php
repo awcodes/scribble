@@ -17,6 +17,6 @@ class Underline extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleUnderline'),
             ])
-            ->converterExtensions(new UnderlineExtension());
+            ->converterExtensions(new UnderlineExtension);
     }
 }

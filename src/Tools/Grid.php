@@ -21,8 +21,8 @@ class Grid extends ScribbleTool
             ])
             ->optionsModal(GridModal::class)
             ->converterExtensions([
-                new GridExtension(),
-                new GridColumnExtension(),
+                new GridExtension,
+                new GridColumnExtension,
             ]);
     }
 }

@@ -25,10 +25,10 @@ class Table extends ScribbleTool
             ])
             ->optionsModal(TableModal::class)
             ->converterExtensions([
-                new TableExtension(),
-                new TableRow(),
-                new TableCell(),
-                new TableHeader(),
+                new TableExtension,
+                new TableRow,
+                new TableCell,
+                new TableHeader,
             ]);
     }
 }

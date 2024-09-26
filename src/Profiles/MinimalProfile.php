@@ -8,7 +8,6 @@ use Awcodes\Scribble\Tools\BulletList;
 use Awcodes\Scribble\Tools\Italic;
 use Awcodes\Scribble\Tools\Link;
 use Awcodes\Scribble\Tools\OrderedList;
-use Awcodes\Scribble\Tools\Paragraph;
 
 class MinimalProfile extends ScribbleProfile
 {

@@ -20,9 +20,9 @@ class Details extends ScribbleTool
                 $this->makeCommand(command: 'setDetails'),
             ])
             ->converterExtensions([
-                new DetailsExtension(),
-                new DetailsContentExtension(),
-                new DetailsSummaryExtension(),
+                new DetailsExtension,
+                new DetailsContentExtension,
+                new DetailsSummaryExtension,
             ]);
     }
 }

@@ -40,7 +40,7 @@ class ScribbleManager extends Component
                     ->start($namespace . '\\')
                     ->toString()
             )
-            ->filter(fn($tool) => is_subclass_of($tool, ScribbleTool::class))
+            ->filter(fn ($tool) => is_subclass_of($tool, ScribbleTool::class))
             ->map(fn ($tool) => $tool::make())
             ->all();
 

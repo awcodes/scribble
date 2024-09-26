@@ -17,6 +17,6 @@ class Subscript extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleSubscript'),
             ])
-            ->converterExtensions(new SubscriptExtension());
+            ->converterExtensions(new SubscriptExtension);
     }
 }

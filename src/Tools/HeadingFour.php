@@ -17,6 +17,6 @@ class HeadingFour extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleHeading', arguments: ['level' => 4]),
             ])
-            ->converterExtensions(new HeadingExtension());
+            ->converterExtensions(new HeadingExtension);
     }
 }

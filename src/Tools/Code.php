@@ -17,6 +17,6 @@ class Code extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleCode'),
             ])
-            ->converterExtensions(new CodeExtension());
+            ->converterExtensions(new CodeExtension);
     }
 }

@@ -46,7 +46,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
         });
 
         $this->app->singleton(ScribbleManager::class, function () {
-            return new ScribbleManager();
+            return new ScribbleManager;
         });
     }
 
@@ -107,7 +107,7 @@ class ScribbleServiceProvider extends PackageServiceProvider
         Blade::directive('scribble', fn ($expression) => "<?php echo scribble({$expression})->toHtml(); ?>");
 
         // Testing
-        Testable::mixin(new TestsScribble());
+        Testable::mixin(new TestsScribble);
     }
 
     protected function getAssets(): array

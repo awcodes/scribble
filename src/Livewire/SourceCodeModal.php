@@ -3,23 +3,8 @@
 namespace Awcodes\Scribble\Livewire;
 
 use Awcodes\Scribble\Concerns\InteractsWithMedia;
-use Awcodes\Scribble\Forms\Components\CodeInput;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\BaseFileUpload;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Support\Enums\MaxWidth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class SourceCodeModal extends ScribbleModal
 {

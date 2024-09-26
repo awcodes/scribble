@@ -19,6 +19,6 @@ class Media extends ScribbleTool
                 $this->makeCommand(command: 'setMedia'),
             ])
             ->optionsModal(MediaModal::class)
-            ->converterExtensions(new ImageExtension());
+            ->converterExtensions(new ImageExtension);
     }
 }

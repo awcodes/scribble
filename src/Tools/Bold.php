@@ -17,6 +17,6 @@ class Bold extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'toggleBold'),
             ])
-            ->converterExtensions(new BoldExtension());
+            ->converterExtensions(new BoldExtension);
     }
 }

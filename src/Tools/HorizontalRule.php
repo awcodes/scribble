@@ -16,6 +16,6 @@ class HorizontalRule extends ScribbleTool
             ->commands([
                 $this->makeCommand(command: 'setHorizontalRule'),
             ])
-            ->converterExtensions(new HorizontalRuleExtension());
+            ->converterExtensions(new HorizontalRuleExtension);
     }
 }
