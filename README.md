@@ -457,10 +457,10 @@ You can also provide custom Tiptap extensions or other Tiptap native extensions 
 import {Highlight} from "@tiptap/extension-highlight";
 import MyCustomExtension from "./MyCustomExtension";
 
-window.scribbleExtensions = [
-    Highlight,
-    MyCustomExtension,
-];
+window.scribbleExtensions = {
+    highlight: Highlight,
+    myCustomExtension: MyCustomExtension,
+};
 ```
 
 Next you will need to load your js file in your layout or view before Filament's scripts. This can be done in a way you see fit for you application.
@@ -468,11 +468,13 @@ Next you will need to load your js file in your layout or view before Filament's
 For example, with a Filament Panel you could do something like the following:
 
 ```php
+use Filament\View\PanelsRenderHook;
+
 public function panel(Panel $panel): Panel
 {
     return $panel
         ->renderHook(
-            name: 'panels::head.end',
+            name: PanelsRenderHook::STYLES_AFTER,
             hook: fn (): string => Blade::render('@vite("resources/js/scribble/extensions.js")')
         );
 }
