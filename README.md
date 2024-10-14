@@ -46,6 +46,12 @@ content: [
 ]
 ```
 
+Install the dependency.
+
+```sh
+npm install @simonwep/pickr
+```
+
 Rebuild your custom theme.
 
 ```sh
